@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Box model</title>
+    <style>
+body{
+    margin: 0px; padding: 0px; 
+}
+html,*{
+    margin: 0 px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+#main{
+    width: 940px;
+    height: 300px;
+    background-color: blanchedalmond;
+    margin: 0px auto;
+    border:5px solid #000;
+    display: flex;
+}
+#left{
+    width: 300px;
+    height:390px;
+    background-color:#FFF;
+    margin-right:50px;
+}
+#right{
+    width: 550px;
+    height:390px;
+}
+.rgt_box{
+    width: 300px;
+    height: 390px;
+    background-color: #fff;
+}
+.box:nth-child(2){
+    margin-bottom: 40px;
+}
+</style>
+</head>
+<div id="main">
+    <div class="box"></div>
+    <div class=""></div>
+</div>
+</body>
+</html>

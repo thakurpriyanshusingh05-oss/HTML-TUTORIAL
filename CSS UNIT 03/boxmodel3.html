@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML5 Semantic Layout</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f1f1f1;
+    }
+
+    .container {
+        width: 900px;
+        margin: 20px auto;
+        border: 4px solid #000;
+        padding: 10px;
+        background-color: #fff;
+    }
+
+    header {
+        background-color: #f78c6c;
+        height: 80px;
+        text-align: center;
+        line-height: 80px;
+        font-size: 24px;
+        font-weight: bold;
+        border: 2px solid #333;
+    }
+
+    nav {
+        background-color: #82aaff;
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        font-size: 20px;
+        border: 2px solid #333;
+        margin-top: 10px;
+    }
+
+    .main {
+        display: flex;
+        margin-top: 10px;
+    }
+
+    section {
+        flex: 2;
+        background-color: #cfd8dc;
+        height: 150px;
+        margin-right: 10px;
+        text-align: center;
+        line-height: 150px;
+        font-size: 20px;
+        border: 2px solid #333;
+    }
+
+    aside {
+        flex: 1;
+        background-color: #ffab91;
+        height: 310px;
+        text-align: center;
+        line-height: 310px;
+        font-size: 20px;
+        border: 2px solid #333;
+    }
+
+    article {
+        background-color: #4fc3f7;
+        height: 150px;
+        margin-top: 10px;
+        text-align: center;
+        line-height: 150px;
+        font-size: 20px;
+        border: 2px solid #333;
+    }
+
+    footer {
+        background-color: #3f51b5;
+        height: 60px;
+        margin-top: 10px;
+        text-align: center;
+        line-height: 60px;
+        color: white;
+        font-size: 20px;
+        border: 2px solid #333;
+    }
+</style>
+
+
+</head>
+
+<body>
+    <div class="container">
+        <header>&lt;header&gt;</header>
+        <nav>&lt;nav&gt;</nav>
+
+
+    <div class="main">
+        <div class="left">
+            <section>&lt;section&gt;</section>
+            <article>&lt;article&gt;</article>
+        </div>
+        <aside>&lt;aside&gt;</aside>
+    </div>
+
+    <footer>&lt;footer&gt;</footer>
+</div>
+
+
+</body>
+</html>
