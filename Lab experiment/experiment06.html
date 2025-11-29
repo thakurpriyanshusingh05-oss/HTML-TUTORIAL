@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>ecommerce</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    .shopesy {
+      background-color: black;
+      color: aliceblue;
+      font-size: 40px;
+      height: 60px;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .product-card {
+      border-radius: 10px;
+      width: 320px;
+      padding: 20px;
+      box-shadow: 0 4px 12px black;
+      text-align: center;
+      margin: 20px;
+    }
+    .product-image img{
+      height: 200px;
+      margin-bottom: 15px;
+    }
+
+    .product-title {
+      font-size: 22px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .product-description {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .product-price {
+      color: #000;
+      margin-bottom: 10px;
+    }
+
+    .product-price del {
+      color: #999;
+      margin-left: 8px;
+    }
+
+    .add-to-cart {
+      background-color: #007BFF;
+      color: white;
+      padding: 10px 20px;
+      font-size: 15px;
+      border-radius: 5px;
+    }
+    .add-to-cart:hover {
+      background-color: #0056b3;
+      font-size: 20px;
+    }
+  </style>
+  
+</head>
+
+<body>
+  <div class=" shopesy">SHOP ESAY</div>
+  <div class="container">
+
+    <div class="product-card">
+      <div class="product-image">
+        
+        <img src="https://chriscross.in/cdn/shop/files/ChrisCross100_CottonOliveGreenMensTShirt.jpg?v=1748250204&width=1000" alt="green t-shirt">
+      </div>
+      <div class="product-title">Classic Cotton T-shirt</div>
+      <div class="product-description">
+        Soft, breathable cotton. Regular fit. Available in multiple colors.
+      </div>
+      <div class="product-price">₹799 <del>₹1,499</del></div>
+      <button class="add-to-cart">Add to Cart</button>
+    </div>
+  </div>
+</body>
+
+</html>
