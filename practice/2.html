@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>grid</title>
+    <style>
+        .container {
+            border: 2px solid;
+            height: auto;
+            background-color: antiquewhite;
+        }
+
+        .gridd {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+
+        .product {
+            box-shadow: 0 2px 5px;
+            background-color: aliceblue;
+
+        }
+
+        .product img {
+            height: 100px;
+        }
+
+        h1 {
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .name {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        .description {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 12px;
+            color: rgb(62, 64, 64);
+        }
+
+        .price {
+            font-weight: bold;
+        }
+
+        @media (max-width:1024px) {
+            .gridd {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width:600px) {
+            .gridd {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>Responsive product grid</h1>
+
+        <div class="gridd">
+            <div class="product">
+                <img src="image.png" alt="">
+                <div class="name"> T-shirt</div>
+                <div class="description">high-quality item with good fabric</div>
+                <div class="price">RS-499</div>
+
+            </div>
+            <div class="product">
+                <img src="image copy.png" alt="">
+                <div class="name">Shoes </div>
+                <div class="description"> durable,comfortable and stylish for daily use</div>
+                <div class="price">RS-2,999</div>
+
+            </div>
+            <div class="product">
+                <img src="image copy 3.png" alt="">
+                <div class="name">Jacket </div>
+                <div class="description">lightweight and comfortable</div>
+                <div class="price">RS-4,999</div>
+
+            </div>
+            <div class="product">
+                <img src="image copy 2.png">
+                <div class="name"> Pants</div>
+                <div class="description"> trendy design with premium quality</div>
+                <div class="price">RS-799</div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+</body>
+</html>
