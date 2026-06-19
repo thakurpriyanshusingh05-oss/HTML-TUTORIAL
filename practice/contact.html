@@ -1,0 +1,96 @@
+contact :
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>contact</title>
+     <style>
+        html{
+             background-color: black;
+             color: white;
+        }
+
+        #navbar{
+            box-sizing: border-box;
+            display: grid;
+            grid-template-columns: repeat(5,1fr);
+            background-color: rgb(61, 59, 59);
+            font-size: larger;
+            margin-top: 0px;
+        }
+        .icon{
+            align-content: center;
+        }
+         a{
+            text-decoration: none;
+            color: white;
+        }
+        a:hover{
+            color: red;
+        }
+         p{
+            font-size: 40px;
+            font-style: oblique;
+            font-family: cursive;
+            margin: 100px;
+            margin-bottom: 20px;
+        }
+        h2{
+           font-size: xx-large;
+            font-style: oblique;
+            font-family: cursive;
+            color: red;
+            margin: 100px;
+            text-align: center; 
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        #contact{
+            box-sizing: border-box;
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+             margin: 150px;
+           text-align: center;
+             font-size: xx-large;
+             margin-bottom: 40px;
+        }
+          /* media..... */
+        
+        @media (max-width:1024px){
+            #contact{
+                grid-template-columns: repeat(1,1fr);
+                gap: 40px;
+            }
+        }
+         @media (max-width:700px){
+            #contact{
+                 grid-template-columns: repeat(1,1fr);
+            }
+         }
+        </style>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+     <div id="navbar">
+        <div class="icon"><a href=""><img src="https://thumbs.dreamstime.com/b/ps-initial-logo-company-name-colored-red-black-swoosh-design-isolated-white-background-vector-business-identity-199335889.jpg" width="60px" style="border-radius: 50%;"></a></div>
+        <div class="icon"><a href="index.html"><i class="fa-solid fa-house"></i>Home</a></div>
+        <div class="icon"><a href="about.html"><i class="fa-solid fa-user"></i>About</a></div>
+        <div class="icon"><a href="skills.html"><i class="fa-solid fa-briefcase"></i>Skill</a></div>
+        <div class="icon"><a href="contact.html"><i class="fa-solid fa-comments"></i>Contact</a></div>
+    </div>
+        <p>
+            Contact Me 
+        </p>
+        <h2>
+            Have Any Question?
+            <hr>
+        </h2>
+        <div id="contact">
+            <div><a><i class="fa-solid fa-phone"></i><br><br>Contact No. <br><br></a><span style="font-size: x-large;">+91 7678639005</span></div>
+            <div><a href=""><i class="fa-solid fa-location-dot"></i><br><br>Location<br><br></a><span style="font-size: x-large;">Ghaziabad</span></div>
+            <div><a href="https://www.instagram.com/priyanshu5836singh/" target="_blank"><i class="fa-brands fa-instagram"></i><br><br>Instagram<br><br></a><span style="font-size: x-large;"> priyanshu5836singh</span></div>
+            <div><a href="https://www.linkedin.com/in/priyanshu-singh-586712363?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank"><i class="fa-brands fa-linkedin"></i><br><br>LinkedIn<br><br></a><span style="font-size: x-large;">Priyanshu Singh</span></div>
+        </div>
+</body>
+</html>

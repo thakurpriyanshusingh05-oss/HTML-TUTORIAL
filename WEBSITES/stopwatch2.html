@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI IGNITED — Fire Poster</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fire-red: #ff1a00;
+    --fire-orange: #ff6600;
+    --fire-gold: #ffcc00;
+    --fire-deep: #8b0000;
+    --ash: #1a0a00;
+    --ember: #ff4500;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Rajdhani', sans-serif;
+  }
+
+  .poster {
+    position: relative;
+    width: 700px;
+    height: 980px;
+    background: #0a0200;
+    overflow: hidden;
+    box-shadow: 0 0 80px rgba(255, 80, 0, 0.6), 0 0 160px rgba(255, 30, 0, 0.3);
+  }
+
+  /* BACKGROUND LAYERS */
+  .bg-gradient {
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 60% at 50% 100%, rgba(180,20,0,0.9) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 40% at 30% 80%, rgba(255,80,0,0.5) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 70% 80%, rgba(255,150,0,0.4) 0%, transparent 60%),
+      linear-gradient(to top, #1a0300 0%, #0a0100 40%, #000 100%);
+  }
+
+  /* GRID OVERLAY */
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,80,0,0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,80,0,0.07) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse at 50% 50%, black 30%, transparent 80%);
+  }
+
+  /* CIRCUIT LINES */
+  .circuits {
+    position: absolute;
+    inset: 0;
+  }
+  .circuits svg {
+    width: 100%; height: 100%;
+    opacity: 0.18;
+  }
+
+  /* FIRE PARTICLES */
+  .particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    animation: rise linear infinite;
+    filter: blur(1px);
+  }
+  @keyframes rise {
+    0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0.9; }
+    50%  { transform: translateY(-40vh) translateX(var(--drift)) scale(0.6); opacity: 0.6; }
+    100% { transform: translateY(-85vh) translateX(calc(var(--drift) * 1.5)) scale(0.1); opacity: 0; }
+  }
+
+  /* FLAME SVG CENTER */
+  .flame-container {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 500px;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  .flame-container svg {
+    filter: drop-shadow(0 0 30px rgba(255,100,0,0.8)) drop-shadow(0 0 60px rgba(255,50,0,0.5));
+    animation: flamePulse 3s ease-in-out infinite;
+  }
+  @keyframes flamePulse {
+    0%, 100% { transform: scaleX(1) scaleY(1); filter: drop-shadow(0 0 30px rgba(255,100,0,0.8)) drop-shadow(0 0 60px rgba(255,50,0,0.5)); }
+    50% { transform: scaleX(1.04) scaleY(1.02); filter: drop-shadow(0 0 50px rgba(255,150,0,1)) drop-shadow(0 0 100px rgba(255,80,0,0.7)); }
+  }
+
+  /* BRAIN / AI SYMBOL inside flame */
+  .ai-core {
+    position: absolute;
+    bottom: 160px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 120px;
+    z-index: 10;
+  }
+  .ai-core svg {
+    animation: corePulse 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(255,220,0,1));
+  }
+  @keyframes corePulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.85; }
+  }
+
+  /* SCAN LINE */
+  .scanline {
+    position: absolute;
+    left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255,180,0,0.6), transparent);
+    animation: scan 4s linear infinite;
+    z-index: 5;
+  }
+  @keyframes scan {
+    0%   { top: 0; opacity: 0; }
+    5%   { opacity: 1; }
+    95%  { opacity: 0.5; }
+    100% { top: 100%; opacity: 0; }
+  }
+
+  /* CONTENT */
+  .content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 20;
+    padding: 50px 40px;
+  }
+
+  /* TOP TAG */
+  .top-tag {
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 6px;
+    color: var(--fire-gold);
+    text-transform: uppercase;
+    border: 1px solid rgba(255,200,0,0.3);
+    padding: 8px 20px;
+    background: rgba(255,120,0,0.08);
+    animation: fadeIn 1s ease forwards;
+  }
+
+  /* MAIN TITLE */
+  .main-title {
+    margin-top: 30px;
+    text-align: center;
+    line-height: 0.88;
+    animation: fadeUp 1s 0.3s ease forwards;
+    opacity: 0;
+  }
+  .main-title .line1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 130px;
+    color: #fff;
+    letter-spacing: 8px;
+    text-shadow: 0 0 40px rgba(255,100,0,0.8), 0 0 80px rgba(255,50,0,0.5);
+    display: block;
+  }
+  .main-title .line2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 96px;
+    background: linear-gradient(135deg, var(--fire-red), var(--fire-orange), var(--fire-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 20px;
+    display: block;
+    filter: drop-shadow(0 0 20px rgba(255,150,0,0.6));
+  }
+
+  /* SUBTITLE */
+  .subtitle {
+    margin-top: 18px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    letter-spacing: 4px;
+    color: rgba(255,180,100,0.7);
+    text-align: center;
+    animation: fadeUp 1s 0.6s ease forwards;
+    opacity: 0;
+    text-transform: uppercase;
+  }
+
+  /* DIVIDER */
+  .divider {
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 80%;
+    animation: fadeIn 1s 0.8s forwards;
+    opacity: 0;
+  }
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,150,0,0.6), transparent);
+  }
+  .divider-diamond {
+    width: 8px; height: 8px;
+    background: var(--fire-gold);
+    transform: rotate(45deg);
+    box-shadow: 0 0 10px var(--fire-gold);
+  }
+
+  /* STATS ROW */
+  .stats {
+    margin-top: 420px;
+    display: flex;
+    gap: 0;
+    width: 100%;
+    border-top: 1px solid rgba(255,100,0,0.2);
+    border-bottom: 1px solid rgba(255,100,0,0.2);
+    animation: fadeUp 1s 1s ease forwards;
+    opacity: 0;
+  }
+  .stat {
+    flex: 1;
+    padding: 18px 0;
+    text-align: center;
+    border-right: 1px solid rgba(255,100,0,0.2);
+    position: relative;
+  }
+  .stat:last-child { border-right: none; }
+  .stat-number {
+    font-family: 'Orbitron', monospace;
+    font-size: 26px;
+    font-weight: 900;
+    background: linear-gradient(180deg, var(--fire-gold), var(--fire-orange));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: block;
+  }
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: rgba(255,180,100,0.5);
+    text-transform: uppercase;
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* BOTTOM SECTION */
+  .bottom-row {
+    margin-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    animation: fadeUp 1s 1.2s ease forwards;
+    opacity: 0;
+  }
+  .bottom-tag {
+    font-family: 'Orbitron', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: rgba(255,120,0,0.5);
+    text-transform: uppercase;
+  }
+  .progress-bar {
+    width: 160px;
+    height: 3px;
+    background: rgba(255,100,0,0.15);
+    position: relative;
+    overflow: hidden;
+  }
+  .progress-fill {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 78%;
+    background: linear-gradient(90deg, var(--fire-red), var(--fire-gold));
+    box-shadow: 0 0 10px var(--fire-orange);
+    animation: progressGlow 2s ease-in-out infinite;
+  }
+  @keyframes progressGlow {
+    0%, 100% { box-shadow: 0 0 6px var(--fire-orange); }
+    50% { box-shadow: 0 0 18px var(--fire-gold); }
+  }
+
+  /* CORNER DECORATIONS */
+  .corner {
+    position: absolute;
+    width: 40px; height: 40px;
+    z-index: 25;
+  }
+  .corner svg { width: 100%; height: 100%; }
+  .corner.tl { top: 20px; left: 20px; }
+  .corner.tr { top: 20px; right: 20px; transform: scaleX(-1); }
+  .corner.bl { bottom: 20px; left: 20px; transform: scaleY(-1); }
+  .corner.br { bottom: 20px; right: 20px; transform: scale(-1); }
+
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* GLOW ORBS */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+  }
+  .orb1 { width: 300px; height: 300px; background: rgba(255,50,0,0.25); bottom: 100px; left: -60px; }
+  .orb2 { width: 300px; height: 300px; background: rgba(255,130,0,0.2); bottom: 100px; right: -60px; }
+  .orb3 { width: 200px; height: 200px; background: rgba(255,200,0,0.15); bottom: 250px; left: 50%; transform: translateX(-50%); }
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <!-- BACKGROUND -->
+  <div class="bg-gradient"></div>
+  <div class="grid"></div>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+
+  <!-- CIRCUITS -->
+  <div class="circuits">
+    <svg viewBox="0 0 700 980" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="rgba(255,100,0,1)" stroke-width="1" fill="none">
+        <path d="M0,200 L80,200 L80,280 L160,280"/>
+        <path d="M0,350 L60,350 L60,420 L120,420 L120,480"/>
+        <path d="M700,150 L620,150 L620,230 L540,230"/>
+        <path d="M700,400 L640,400 L640,350 L580,350 L580,300"/>
+        <path d="M200,0 L200,60 L260,60 L260,120"/>
+        <path d="M450,0 L450,80 L390,80 L390,140"/>
+        <path d="M150,980 L150,900 L210,900 L210,840"/>
+        <path d="M550,980 L550,910 L490,910 L490,860"/>
+        <circle cx="80" cy="200" r="4" fill="rgba(255,150,0,0.8)"/>
+        <circle cx="60" cy="350" r="4" fill="rgba(255,150,0,0.8)"/>
+        <circle cx="620" cy="150" r="4" fill="rgba(255,150,0,0.8)"/>
+        <circle cx="640" cy="400" r="4" fill="rgba(255,150,0,0.8)"/>
+        <circle cx="200" cy="60" r="3" fill="rgba(255,200,0,0.8)"/>
+        <circle cx="450" cy="80" r="3" fill="rgba(255,200,0,0.8)"/>
+        <circle cx="150" cy="900" r="3" fill="rgba(255,200,0,0.8)"/>
+        <circle cx="550" cy="910" r="3" fill="rgba(255,200,0,0.8)"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- SCANLINE -->
+  <div class="scanline"></div>
+
+  <!-- FLAME -->
+  <div class="flame-container">
+    <svg viewBox="0 0 400 580" xmlns="http://www.w3.org/2000/svg" width="400" height="580">
+      <defs>
+        <radialGradient id="flameCore" cx="50%" cy="80%" r="60%">
+          <stop offset="0%" stop-color="#fff9c4"/>
+          <stop offset="20%" stop-color="#ffcc00"/>
+          <stop offset="50%" stop-color="#ff6600"/>
+          <stop offset="80%" stop-color="#ff1a00"/>
+          <stop offset="100%" stop-color="#8b0000" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="flameMid" cx="50%" cy="70%" r="55%">
+          <stop offset="0%" stop-color="#ff8800" stop-opacity="0.8"/>
+          <stop offset="50%" stop-color="#ff3300" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#ff0000" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="flameOuter" cx="50%" cy="60%" r="60%">
+          <stop offset="0%" stop-color="#cc2200" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#330000" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="8" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <!-- Outer flame -->
+      <path d="M200,580 C60,580 20,480 40,380 C60,280 30,220 80,140 C90,120 100,160 110,180 C115,190 118,160 120,130 C125,80 140,40 160,10 C165,2 172,0 178,5 C190,15 195,60 200,90 C205,60 210,15 222,5 C228,0 235,2 240,10 C260,40 275,80 280,130 C282,160 285,190 290,180 C300,160 310,120 320,140 C370,220 340,280 360,380 C380,480 340,580 200,580 Z" fill="url(#flameOuter)" filter="url(#glow)"/>
+      <!-- Mid flame -->
+      <path d="M200,580 C90,580 60,500 75,410 C90,320 70,260 105,190 C112,176 118,195 122,210 C128,228 132,200 135,170 C140,120 155,70 170,40 C174,32 180,30 185,38 C192,52 196,80 200,105 C204,80 208,52 215,38 C220,30 226,32 230,40 C245,70 260,120 265,170 C268,200 272,228 278,210 C282,195 288,176 295,190 C330,260 310,320 325,410 C340,500 310,580 200,580 Z" fill="url(#flameMid)" filter="url(#glow)"/>
+      <!-- Core flame -->
+      <path d="M200,580 C120,580 100,520 112,450 C124,380 110,330 135,270 C140,258 145,270 148,282 C152,298 155,276 158,250 C163,210 172,170 182,148 C186,140 192,140 196,148 C198,154 199,170 200,185 C201,170 202,154 204,148 C208,140 214,140 218,148 C228,170 237,210 242,250 C245,276 248,298 252,282 C255,270 260,258 265,270 C290,330 276,380 288,450 C300,520 280,580 200,580 Z" fill="url(#flameCore)" filter="url(#glow)"/>
+    </svg>
+  </div>
+
+  <!-- AI CORE SYMBOL -->
+  <div class="ai-core">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#fff9c4"/>
+          <stop offset="40%" stop-color="#ffdd00"/>
+          <stop offset="100%" stop-color="#ff8800"/>
+        </radialGradient>
+      </defs>
+      <!-- Hexagon -->
+      <polygon points="60,8 103,33 103,87 60,112 17,87 17,33" fill="none" stroke="rgba(255,200,0,0.6)" stroke-width="1.5"/>
+      <polygon points="60,20 93,38 93,82 60,100 27,82 27,38" fill="none" stroke="rgba(255,150,0,0.3)" stroke-width="1"/>
+      <!-- Neural nodes -->
+      <circle cx="60" cy="60" r="14" fill="url(#coreGrad)" opacity="0.95"/>
+      <circle cx="60" cy="60" r="8" fill="#fff9c4"/>
+      <circle cx="60" cy="60" r="3" fill="white"/>
+      <!-- Connection lines -->
+      <line x1="60" y1="46" x2="60" y2="20" stroke="rgba(255,200,0,0.6)" stroke-width="1.5"/>
+      <line x1="72" y1="53" x2="93" y2="38" stroke="rgba(255,200,0,0.6)" stroke-width="1.5"/>
+      <line x1="72" y1="67" x2="93" y2="82" stroke="rgba(255,200,0,0.6)" stroke-width="1.5"/>
+      <line x1="60" y1="74" x2="60" y2="100" stroke="rgba(255,200,0,0.6)" stroke-width="1.5"/>
+      <line x1="48" y1="67" x2="27" y2="82" stroke="rgba(255,200,0,0.6)" stroke-width="1.5"/>
+      <line x1="48" y1="53" x2="27" y2="38" stroke="rgba(255,200,0,0.6)" stroke-width="1.5"/>
+      <!-- Outer nodes -->
+      <circle cx="60" cy="20" r="4" fill="#ffdd00"/>
+      <circle cx="93" cy="38" r="4" fill="#ffdd00"/>
+      <circle cx="93" cy="82" r="4" fill="#ffdd00"/>
+      <circle cx="60" cy="100" r="4" fill="#ffdd00"/>
+      <circle cx="27" cy="82" r="4" fill="#ffdd00"/>
+      <circle cx="27" cy="38" r="4" fill="#ffdd00"/>
+    </svg>
+  </div>
+
+  <!-- FIRE PARTICLES -->
+  <div class="particles" id="particles"></div>
+
+  <!-- CORNER DECORATIONS -->
+  <div class="corner tl">
+    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2,38 L2,2 L38,2" stroke="rgba(255,150,0,0.6)" stroke-width="2"/>
+      <path d="M2,22 L12,22 L12,12 L22,12" stroke="rgba(255,100,0,0.4)" stroke-width="1"/>
+    </svg>
+  </div>
+  <div class="corner tr">
+    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2,38 L2,2 L38,2" stroke="rgba(255,150,0,0.6)" stroke-width="2"/>
+      <path d="M2,22 L12,22 L12,12 L22,12" stroke="rgba(255,100,0,0.4)" stroke-width="1"/>
+    </svg>
+  </div>
+  <div class="corner bl">
+    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2,38 L2,2 L38,2" stroke="rgba(255,150,0,0.6)" stroke-width="2"/>
+      <path d="M2,22 L12,22 L12,12 L22,12" stroke="rgba(255,100,0,0.4)" stroke-width="1"/>
+    </svg>
+  </div>
+  <div class="corner br">
+    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2,38 L2,2 L38,2" stroke="rgba(255,150,0,0.6)" stroke-width="2"/>
+      <path d="M2,22 L12,22 L12,12 L22,12" stroke="rgba(255,100,0,0.4)" stroke-width="1"/>
+    </svg>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+    <div class="top-tag">NEURAL // SYSTEMS // 2025</div>
+
+    <div class="main-title">
+      <span class="line1">IGNITE</span>
+      <span class="line2">THE MIND</span>
+    </div>
+
+    <div class="subtitle">Where artificial intelligence meets raw power</div>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-diamond"></div>
+      <div class="divider-line"></div>
+    </div>
+
+    <!-- STATS pushed down by flame -->
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-number">∞</span>
+        <span class="stat-label">Parameters</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">10X</span>
+        <span class="stat-label">Faster</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">99%</span>
+        <span class="stat-label">Accuracy</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">24H</span>
+        <span class="stat-label">Always On</span>
+      </div>
+    </div>
+
+    <div class="bottom-row">
+      <span class="bottom-tag">AI.CORE // v3.0</span>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+      <span class="bottom-tag">SYSTEM ACTIVE</span>
+    </div>
+
+    <!-- STOPWATCH TIMER -->
+    <div class="stopwatch">
+      <div class="sw-label">RUNTIME</div>
+      <div class="sw-display" id="sw-display">00:00:00<span class="sw-ms" id="sw-ms">.000</span></div>
+      <div class="sw-controls">
+        <button class="sw-btn" id="sw-start">START</button>
+        <button class="sw-btn sw-btn-reset" id="sw-reset">RESET</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Generate fire particles
+  const container = document.getElementById('particles');
+  const colors = ['#ff1a00','#ff4500','#ff6600','#ff8800','#ffaa00','#ffcc00','#ffee44'];
+  
+  for (let i = 0; i < 60; i++) {
+    const p = document.createElement('div');
+    p.classList.add('particle');
+    const size = Math.random() * 6 + 2;
+    const x = 20 + Math.random() * 60; // center cluster
+    const delay = Math.random() * 5;
+    const duration = 3 + Math.random() * 5;
+    const drift = (Math.random() - 0.5) * 80;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    
+    p.style.cssText = `
+      width: ${size}px; height: ${size}px;
+      left: ${x}%; bottom: ${Math.random() * 15}%;
+      background: ${color};
+      --drift: ${drift}px;
+      animation-delay: -${delay}s;
+      animation-duration: ${duration}s;
+      box-shadow: 0 0 ${size * 2}px ${color};
+    `;
+    container.appendChild(p);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Student - Pro Stopwatch</title>
+    <style>
+        body { font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #121212;
+            color: white; }
+        .stopwatch { text-align: center;
+            background: #1e1e1e;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        #display { font-size: 4rem;
+            font-family: monospace;
+            margin-bottom: 1rem;
+            color: #00ff88; }
+        button { padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px; 
+            margin: 5px;
+                 transition: 0.2s; }
+        .start { background: #00ff88; color: black; }
+        .stop { background: #ff4444; color: white; }
+        .reset { background: #555; color: white; }
+        button:hover { opacity: 0.8; transform: scale(1.05); }
+    </style>
+</head>
+<body>
+
+<div class="stopwatch">
+    <div id="display">00:00:00.00</div>
+    <button class="start" onclick="start()">Start</button>
+    <button class="stop" onclick="stop()">Stop</button>
+    <button class="reset" onclick="reset()">Reset</button>
+</div>
+
+<script>
+    let startTime, elapsedTime = 0, timerInterval;
+
+    function timeToString(time) {
+        let diffInHrs = time / 3600000;
+        let hh = Math.floor(diffInHrs);
+
+        let diffInMin = (diffInHrs - hh) * 60;
+        let mm = Math.floor(diffInMin);
+
+        let diffInSec = (diffInMin - mm) * 60;
+        let ss = Math.floor(diffInSec);
+
+        let diffInMs = (diffInSec - ss) * 100;
+        let ms = Math.floor(diffInMs);
+
+        let formattedMM = mm.toString().padStart(2, "0");
+        let formattedSS = ss.toString().padStart(2, "0");
+        let formattedMS = ms.toString().padStart(2, "0");
+
+        return `${formattedMM}:${formattedSS}.${formattedMS}`;
+    }
+
+    function start() {
+        startTime = Date.now() - elapsedTime;
+        timerInterval = setInterval(function printTime() {
+            elapsedTime = Date.now() - startTime;
+            document.getElementById("display").innerHTML = timeToString(elapsedTime);
+        }, 10);
+    }
+
+    function stop() { clearInterval(timerInterval); }
+
+    function reset() {
+        clearInterval(timerInterval);
+        document.getElementById("display").innerHTML = "00:00:00.00";
+        elapsedTime = 0;
+    }
+</script>
+
+</body>
+</html>

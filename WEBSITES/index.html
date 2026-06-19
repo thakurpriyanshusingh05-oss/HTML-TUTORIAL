@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABES CSE Time Table</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    background: linear-gradient(135deg,#1e3c72,#2a5298);
+    padding:20px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+header{
+    text-align:center;
+    color:white;
+    margin-bottom:30px;
+}
+
+header h1{
+    font-size:32px;
+    font-weight:700;
+}
+
+header p{
+    font-size:16px;
+    opacity:0.9;
+}
+
+.table-container{
+    overflow-x:auto;
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:1000px;
+}
+
+th, td{
+    border:1px solid #ddd;
+    padding:12px;
+    text-align:center;
+    font-size:14px;
+}
+
+th{
+    background:#2a5298;
+    color:white;
+    font-weight:600;
+}
+
+tr:nth-child(even){
+    background:#f2f6ff;
+}
+
+td:hover{
+    background:#e0ebff;
+    transition:0.3s;
+    cursor:pointer;
+}
+
+.lunch{
+    background:#ffb347;
+    font-weight:600;
+}
+
+.subject{
+    font-weight:600;
+    display:block;
+}
+
+.teacher{
+    font-size:12px;
+    opacity:0.7;
+}
+
+.footer{
+    text-align:center;
+    color:white;
+    margin-top:20px;
+    font-size:14px;
+}
+
+@media(max-width:768px){
+    header h1{
+        font-size:22px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+    <h1>ABES ENGINEERING COLLEGE</h1>
+    <p>Department of Computer Science & Engineering</p>
+    <p>B.Tech | CSE-29 | Room: RJ-201</p>
+</header>
+
+<div class="table-container">
+<table>
+
+<tr>
+    <th>Day</th>
+    <th>08:50-09:40</th>
+    <th>09:40-10:30</th>
+    <th>10:40-11:30</th>
+    <th>11:30-12:20</th>
+    <th>12:20-01:10</th>
+    <th>01:10-02:00</th>
+    <th>02:00-02:50</th>
+    <th>02:50-03:40</th>
+    <th>03:40-04:30</th>
+</tr>
+
+<tr>
+    <td><b>Monday</b></td>
+    <td><span class="subject">Applied Physics</span><span class="teacher">IM</span></td>
+    <td><span class="subject">Calculus</span><span class="teacher">RK</span></td>
+    <td><span class="subject">Applied Physics</span><span class="teacher">IM</span></td>
+    <td><span class="subject">Basic Electrical</span><span class="teacher">VT</span></td>
+    <td class="lunch">LUNCH</td>
+    <td colspan="2"><span class="subject">Physics Lab</span></td>
+    <td><span class="subject">Data Structure</span><span class="teacher">ARS</span></td>
+    <td><span class="subject">Essentials of AI</span><span class="teacher">RS</span></td>
+</tr>
+
+<tr>
+    <td><b>Tuesday</b></td>
+    <td colspan="2"><span class="subject">DS Lab</span></td>
+    <td><span class="subject">Basic Electrical</span></td>
+    <td><span class="subject">Calculus</span></td>
+    <td class="lunch">LUNCH</td>
+    <td><span class="subject">AI</span></td>
+    <td><span class="subject">Applied Physics</span></td>
+    <td><span class="subject">EVS</span></td>
+    <td><span class="subject">Calculus</span></td>
+</tr>
+
+<tr>
+    <td><b>Wednesday</b></td>
+    <td><span class="subject">Basic Electrical</span></td>
+    <td><span class="subject">Applied Physics</span></td>
+    <td><span class="subject">Calculus</span></td>
+    <td><span class="subject">Data Structure</span></td>
+    <td class="lunch">LUNCH</td>
+    <td colspan="2"><span class="subject">Web Workshop</span></td>
+    <td><span class="subject">Mentor Meet</span></td>
+    <td>-</td>
+</tr>
+
+<tr>
+    <td><b>Thursday</b></td>
+    <td><span class="subject">Calculus</span></td>
+    <td><span class="subject">Data Structure</span></td>
+    <td colspan="2"><span class="subject">CAD Lab</span></td>
+    <td class="lunch">LUNCH</td>
+    <td><span class="subject">Basic Electrical</span></td>
+    <td><span class="subject">Web Workshop</span></td>
+    <td><span class="subject">AI</span></td>
+    <td><span class="subject">Applied Physics</span></td>
+</tr>
+
+<tr>
+    <td><b>Friday</b></td>
+    <td><span class="subject">Applied Physics</span></td>
+    <td><span class="subject">Calculus</span></td>
+    <td colspan="2"><span class="subject">Electrical Lab</span></td>
+    <td class="lunch">LUNCH</td>
+    <td><span class="subject">Calculus</span></td>
+    <td><span class="subject">Data Structure</span></td>
+    <td><span class="subject">Basic Electrical</span></td>
+    <td><span class="subject">EVS</span></td>
+</tr>
+
+</table>
+</div>
+
+<div class="footer">
+    © 2026 ABES CSE Time Table | Designed by You 🚀
+</div>
+
+</div>
+
+</body>
+</html>

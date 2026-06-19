@@ -1,0 +1,30 @@
+@media only screen and(imn-width:200px) and (max-width:575px){
+    header{
+        flex-direction:column;
+        align-items: stretch;
+    }
+    .headerleft{
+        justify-content: center;
+    }
+    .logo{
+        padding:10px;
+    }
+    .headeraddress{
+        padding:10px;
+    }
+    .headeraddress h3{
+        font-size: 12px;
+    }
+    .headeraddress p{
+        padding: 15px;
+    }
+    .bannersection{
+        display:none;
+    }
+    .orderbanner{
+        flex-direction: coloumn;
+    }
+    .categoryitems{
+        flex-basis:25%;
+    }
+}

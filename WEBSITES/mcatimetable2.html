@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCA 1st Year Timetable | ABES Engineering College</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --neon-blue: #00d4ff;
+    --neon-purple: #b94fff;
+    --neon-green: #00ff9d;
+    --neon-orange: #ff6b35;
+    --dark-bg: #0a0f1e;
+    --card-bg: rgba(10, 15, 40, 0.85);
+    --grid-line: rgba(0, 212, 255, 0.12);
+    --text-dim: rgba(180, 200, 255, 0.6);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Rajdhani', sans-serif;
+    background: linear-gradient(160deg, #0a0f1e 0%, #0d1530 50%, #0a1020 100%);
+    color: #e0e8ff;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── STARFIELD ── */
+  #stars-canvas {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0; pointer-events: none;
+  }
+
+  /* ── SIMPLE GRADIENT BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.07) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: 0; pointer-events: none;
+  }
+
+  .content { position: relative; z-index: 1; }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    padding: 40px 20px 20px;
+    position: relative;
+  }
+
+  .college-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(0,212,255,0.15), rgba(185,79,255,0.15));
+    border: 1px solid rgba(0,212,255,0.3);
+    border-radius: 50px;
+    padding: 6px 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--neon-blue);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    box-shadow: 0 0 20px rgba(0,212,255,0.2);
+  }
+
+  h1 {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(28px, 5vw, 56px);
+    font-weight: 900;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #fff 0%, var(--neon-blue) 50%, var(--neon-purple) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    letter-spacing: 2px;
+  }
+
+  .subtitle {
+    color: var(--text-dim);
+    font-size: 15px;
+    margin-top: 8px;
+    letter-spacing: 2px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ── LIVE CLOCK ── */
+  .clock-section {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 24px 20px;
+    flex-wrap: wrap;
+    align-items: stretch;
+  }
+
+  .clock-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(0,212,255,0.25);
+    border-radius: 20px;
+    padding: 20px 30px;
+    text-align: center;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 40px rgba(0,212,255,0.08), inset 0 1px 0 rgba(255,255,255,0.05);
+    min-width: 200px;
+  }
+
+  .clock-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--neon-blue);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  #live-time {
+    font-family: 'Orbitron', monospace;
+    font-size: 42px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 20px var(--neon-blue), 0 0 40px rgba(0,212,255,0.4);
+    letter-spacing: 4px;
+  }
+
+  #live-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+
+  /* Current period display */
+  .current-period-card {
+    background: linear-gradient(135deg, rgba(0,255,157,0.08), rgba(0,212,255,0.08));
+    border: 1px solid rgba(0,255,157,0.3);
+    border-radius: 20px;
+    padding: 20px 28px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 30px rgba(0,255,157,0.1);
+    min-width: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .status-dot {
+    width: 8px; height: 8px;
+    background: var(--neon-green);
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+    box-shadow: 0 0 8px var(--neon-green);
+    animation: pulse-dot 1.5s infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  #current-status {
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--neon-green);
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+  }
+
+  #current-subject {
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  #next-class-info {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 6px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* Countdown to next class */
+  .countdown-card {
+    background: linear-gradient(135deg, rgba(185,79,255,0.08), rgba(255,107,53,0.08));
+    border: 1px solid rgba(185,79,255,0.3);
+    border-radius: 20px;
+    padding: 20px 28px;
+    text-align: center;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 30px rgba(185,79,255,0.1);
+    min-width: 200px;
+  }
+
+  #countdown-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--neon-purple);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  #countdown-timer {
+    font-family: 'Orbitron', monospace;
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 20px var(--neon-purple), 0 0 40px rgba(185,79,255,0.4);
+    letter-spacing: 2px;
+  }
+
+  #countdown-desc {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 6px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ── SECTION TABS ── */
+  .section-nav {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 10px 20px 0;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 10px 28px;
+    border-radius: 50px;
+    border: 2px solid rgba(0,212,255,0.3);
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+  }
+
+  .tab-btn:hover {
+    border-color: var(--neon-blue);
+    color: var(--neon-blue);
+    box-shadow: 0 0 20px rgba(0,212,255,0.3);
+  }
+
+  .tab-btn.active {
+    background: linear-gradient(135deg, rgba(0,212,255,0.2), rgba(185,79,255,0.2));
+    border-color: var(--neon-blue);
+    color: #fff;
+    box-shadow: 0 0 25px rgba(0,212,255,0.4);
+  }
+
+  /* ── TIMETABLE ── */
+  .timetable-container {
+    padding: 24px 16px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding: 0 4px;
+  }
+
+  .section-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 2px;
+  }
+
+  .section-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-left: auto;
+    letter-spacing: 1px;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 16px;
+    border: 1px solid rgba(0,212,255,0.2);
+    box-shadow: 0 0 60px rgba(0,212,255,0.05), 0 0 120px rgba(185,79,255,0.05);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    min-width: 900px;
+  }
+
+  thead th {
+    padding: 14px 10px;
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-bottom: 2px solid rgba(0,212,255,0.3);
+    position: relative;
+  }
+
+  th.day-header {
+    background: rgba(0, 212, 255, 0.05);
+    color: var(--neon-blue);
+    width: 80px;
+    text-align: left;
+    padding-left: 16px;
+  }
+
+  th.time-header {
+    color: var(--text-dim);
+    text-align: center;
+    font-size: 9px;
+  }
+
+  tbody tr {
+    transition: background 0.2s ease;
+  }
+
+  tbody tr:hover {
+    background: rgba(0,212,255,0.04);
+  }
+
+  tbody tr:not(:last-child) {
+    border-bottom: 1px solid rgba(0,212,255,0.08);
+  }
+
+  td {
+    padding: 0;
+    vertical-align: top;
+    border-right: 1px solid rgba(0,212,255,0.08);
+    position: relative;
+  }
+
+  td:last-child { border-right: none; }
+
+  td.day-cell {
+    padding: 12px 10px 12px 16px;
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--neon-blue);
+    letter-spacing: 1px;
+    background: rgba(0,212,255,0.03);
+    vertical-align: middle;
+    border-right: 2px solid rgba(0,212,255,0.2);
+    min-width: 90px;
+  }
+
+  .period-cell {
+    padding: 8px 6px;
+    min-height: 72px;
+    min-width: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .period-inner {
+    width: 100%;
+    border-radius: 10px;
+    padding: 8px 6px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.4;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: default;
+  }
+
+  .period-inner:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    z-index: 10;
+    position: relative;
+  }
+
+  /* Theory class */
+  .type-theory {
+    background: linear-gradient(135deg, rgba(0,212,255,0.15), rgba(0,212,255,0.06));
+    border: 1px solid rgba(0,212,255,0.35);
+    color: #b0eaff;
+  }
+
+  .type-theory .sub-code {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--neon-blue);
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .type-theory .sub-name { color: #fff; font-weight: 700; display: block; font-size: 12px; }
+  .type-theory .faculty { color: var(--text-dim); font-size: 9px; display: block; margin-top: 2px; font-family: 'Space Mono', monospace; }
+
+  /* Practical/Lab */
+  .type-lab {
+    background: linear-gradient(135deg, rgba(0,255,157,0.15), rgba(0,255,157,0.06));
+    border: 1px solid rgba(0,255,157,0.35);
+    color: #b0ffe0;
+  }
+
+  .type-lab .sub-code { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--neon-green); letter-spacing: 1px; display: block; margin-bottom: 2px; }
+  .type-lab .sub-name { color: #fff; font-weight: 700; display: block; font-size: 12px; }
+  .type-lab .faculty { color: var(--text-dim); font-size: 9px; display: block; margin-top: 2px; font-family: 'Space Mono', monospace; }
+
+  /* Elective */
+  .type-elective {
+    background: linear-gradient(135deg, rgba(185,79,255,0.15), rgba(185,79,255,0.06));
+    border: 1px solid rgba(185,79,255,0.35);
+    color: #e0b0ff;
+  }
+
+  .type-elective .sub-code { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--neon-purple); letter-spacing: 1px; display: block; margin-bottom: 2px; }
+  .type-elective .sub-name { color: #fff; font-weight: 700; display: block; font-size: 12px; }
+  .type-elective .faculty { color: var(--text-dim); font-size: 9px; display: block; margin-top: 2px; font-family: 'Space Mono', monospace; }
+
+  /* LUNCH */
+  .type-lunch {
+    background: linear-gradient(135deg, rgba(255,107,53,0.12), rgba(255,200,53,0.06));
+    border: 1px dashed rgba(255,107,53,0.4);
+    color: #ffb99a;
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+
+  /* Mentor-Mentee */
+  .type-mentor {
+    background: linear-gradient(135deg, rgba(255,200,50,0.12), rgba(255,150,50,0.06));
+    border: 1px solid rgba(255,200,50,0.35);
+    color: #ffe0a0;
+  }
+
+  .type-mentor .sub-name { color: #ffd080; font-weight: 700; display: block; font-size: 11px; }
+
+  /* Empty */
+  .type-empty { opacity: 0.2; border: 1px dashed rgba(255,255,255,0.1); }
+
+  /* CURRENT period highlight */
+  .current-period .period-inner {
+    animation: glow-current 2s infinite;
+    border-width: 2px !important;
+  }
+
+  @keyframes glow-current {
+    0%, 100% { box-shadow: 0 0 12px rgba(0,255,157,0.4); }
+    50% { box-shadow: 0 0 25px rgba(0,255,157,0.7), 0 0 40px rgba(0,255,157,0.2); }
+  }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 16px 20px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-family: 'Space Mono', monospace;
+    color: var(--text-dim);
+  }
+
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  /* ── SUBJECT LEGEND TABLE ── */
+  .subjects-section {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 16px 48px;
+    display: none;
+  }
+
+  .subjects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 12px;
+  }
+
+  .subject-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(0,212,255,0.15);
+    border-radius: 12px;
+    padding: 14px 16px;
+    backdrop-filter: blur(8px);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .subject-card:hover {
+    border-color: rgba(0,212,255,0.4);
+    box-shadow: 0 0 20px rgba(0,212,255,0.1);
+  }
+
+  .sub-card-code {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--neon-blue);
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+  }
+
+  .sub-card-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .sub-card-faculty {
+    font-size: 11px;
+    color: var(--text-dim);
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ── SECTION PANEL ── */
+  .section-panel { display: none; }
+  .section-panel.active { display: block; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: rgba(100,120,180,0.4);
+    letter-spacing: 2px;
+    border-top: 1px solid rgba(0,212,255,0.08);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-in {
+    animation: fadeInUp 0.5s ease forwards;
+  }
+
+  .scanline {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+    opacity: 0.4;
+    animation: scanline 4s linear infinite;
+    z-index: 2; pointer-events: none;
+  }
+
+  @keyframes scanline {
+    0% { top: 0; opacity: 0; }
+    10% { opacity: 0.4; }
+    90% { opacity: 0.4; }
+    100% { top: 100vh; opacity: 0; }
+  }
+
+  .corner-deco {
+    position: fixed;
+    width: 100px; height: 100px;
+    border: 2px solid rgba(0,212,255,0.2);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .corner-deco.tl { top: 16px; left: 16px; border-right: none; border-bottom: none; }
+  .corner-deco.tr { top: 16px; right: 16px; border-left: none; border-bottom: none; }
+  .corner-deco.bl { bottom: 16px; left: 16px; border-right: none; border-top: none; }
+  .corner-deco.br { bottom: 16px; right: 16px; border-left: none; border-top: none; }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .clock-section { gap: 12px; }
+    .clock-card, .current-period-card, .countdown-card { min-width: 140px; padding: 14px 18px; }
+    #live-time { font-size: 30px; }
+    #countdown-timer { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="stars-canvas"></canvas>
+<div class="scanline"></div>
+<div class="corner-deco tl"></div>
+<div class="corner-deco tr"></div>
+<div class="corner-deco bl"></div>
+<div class="corner-deco br"></div>
+
+<div class="content">
+
+  <!-- HEADER -->
+  <header class="animate-in">
+    <div class="college-badge">ABES Engineering College · Ghaziabad</div>
+    <h1>MCA 1ST YEAR</h1>
+    <h1 style="font-size:clamp(18px,3vw,32px); margin-top:4px;">CLASS TIMETABLE</h1>
+    <p class="subtitle">Department of Computer Applications · Session 2025-26 · Even Semester</p>
+    <p class="subtitle" style="margin-top:4px; font-size:12px;"></p>
+  </header>
+
+  <!-- CLOCKS -->
+  <div class="clock-section">
+    <div class="clock-card">
+      <div class="clock-label">⬡ Live Time</div>
+      <div id="live-time">00:00:00</div>
+      <div id="live-date">Loading...</div>
+    </div>
+
+    <div class="current-period-card">
+      <div><span class="status-dot"></span><span id="current-status">LOADING...</span></div>
+      <div id="current-subject" style="margin-top:6px;">—</div>
+      <div id="next-class-info">—</div>
+    </div>
+
+    <div class="countdown-card">
+      <div id="countdown-label">Next class in</div>
+      <div id="countdown-timer">--:--</div>
+      <div id="countdown-desc">—</div>
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(0,212,255,0.5);border:1px solid var(--neon-blue)"></div> Theory</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(0,255,157,0.5);border:1px solid var(--neon-green)"></div> Lab / Practical</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(185,79,255,0.5);border:1px solid var(--neon-purple)"></div> Elective</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(255,107,53,0.5);border:1px solid var(--neon-orange)"></div> Lunch / Break</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(255,200,50,0.5);border:1px solid #ffd080"></div> Mentor-Mentee</div>
+  </div>
+
+  <!-- SECTION TABS -->
+  <div class="section-nav">
+    <button class="tab-btn active" onclick="showSection('IIA')">Section IIA</button>
+    <button class="tab-btn" onclick="showSection('IIB')">Section IIB</button>
+    <button class="tab-btn" onclick="showSection('IIC')">Section IIC</button>
+  </div>
+
+  <!-- TIMETABLE PANELS -->
+  <div class="timetable-container">
+
+    <!-- ═══ SECTION IIA ═══ -->
+    <div id="panel-IIA" class="section-panel active animate-in">
+      <div class="section-header">
+        <div class="section-title">⬡ SECTION IIA</div>
+        <div class="section-meta">CLASS ROOM: AB206 · II FLOOR AB BLOCK</div>
+      </div>
+      <div class="table-wrap">
+        <table id="table-IIA">
+          <thead>
+            <tr>
+              <th class="day-header">DAY</th>
+              <th class="time-header">08:50<br>09:40</th>
+              <th class="time-header">09:40<br>10:30</th>
+              <th class="time-header">10:40<br>11:30</th>
+              <th class="time-header">11:30<br>12:20</th>
+              <th class="time-header">12:20<br>01:10</th>
+              <th class="time-header">01:10<br>02:00</th>
+              <th class="time-header">02:00<br>02:50</th>
+              <th class="time-header">02:50<br>03:40</th>
+              <th class="time-header">03:40<br>04:30</th>
+              <th class="time-header">04:30<br>05:20</th>
+            </tr>
+          </thead>
+          <tbody id="body-IIA"></tbody>
+        </table>
+      </div>
+
+      <!-- Subject Legend IIA -->
+      <div style="margin-top:24px;">
+        <div style="font-family:'Orbitron',monospace;font-size:13px;color:var(--neon-blue);letter-spacing:2px;margin-bottom:12px;">⬡ SUBJECTS · SECTION IIA</div>
+        <div class="subjects-grid" id="subjects-IIA"></div>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION IIB ═══ -->
+    <div id="panel-IIB" class="section-panel">
+      <div class="section-header">
+        <div class="section-title">⬡ SECTION IIB</div>
+        <div class="section-meta">CLASS ROOM: AB208 · II FLOOR AB BLOCK</div>
+      </div>
+      <div class="table-wrap">
+        <table id="table-IIB">
+          <thead>
+            <tr>
+              <th class="day-header">DAY</th>
+              <th class="time-header">08:50<br>09:40</th>
+              <th class="time-header">09:40<br>10:30</th>
+              <th class="time-header">10:40<br>11:30</th>
+              <th class="time-header">11:30<br>12:20</th>
+              <th class="time-header">12:20<br>01:10</th>
+              <th class="time-header">01:10<br>02:00</th>
+              <th class="time-header">02:00<br>02:50</th>
+              <th class="time-header">02:50<br>03:40</th>
+              <th class="time-header">03:40<br>04:30</th>
+              <th class="time-header">04:30<br>05:20</th>
+            </tr>
+          </thead>
+          <tbody id="body-IIB"></tbody>
+        </table>
+      </div>
+      <div style="margin-top:24px;">
+        <div style="font-family:'Orbitron',monospace;font-size:13px;color:var(--neon-blue);letter-spacing:2px;margin-bottom:12px;">⬡ SUBJECTS · SECTION IIB</div>
+        <div class="subjects-grid" id="subjects-IIB"></div>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION IIC ═══ -->
+    <div id="panel-IIC" class="section-panel">
+      <div class="section-header">
+        <div class="section-title">⬡ SECTION IIC</div>
+        <div class="section-meta">CLASS ROOM: AB209 · II FLOOR AB BLOCK</div>
+      </div>
+      <div class="table-wrap">
+        <table id="table-IIC">
+          <thead>
+            <tr>
+              <th class="day-header">DAY</th>
+              <th class="time-header">08:50<br>09:40</th>
+              <th class="time-header">09:40<br>10:30</th>
+              <th class="time-header">10:40<br>11:30</th>
+              <th class="time-header">11:30<br>12:20</th>
+              <th class="time-header">12:20<br>01:10</th>
+              <th class="time-header">01:10<br>02:00</th>
+              <th class="time-header">02:00<br>02:50</th>
+              <th class="time-header">02:50<br>03:40</th>
+              <th class="time-header">03:40<br>04:30</th>
+              <th class="time-header">04:30<br>05:20</th>
+            </tr>
+          </thead>
+          <tbody id="body-IIC"></tbody>
+        </table>
+      </div>
+      <div style="margin-top:24px;">
+        <div style="font-family:'Orbitron',monospace;font-size:13px;color:var(--neon-blue);letter-spacing:2px;margin-bottom:12px;">⬡ SUBJECTS · SECTION IIC</div>
+        <div class="subjects-grid" id="subjects-IIC"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>ABES ENGINEERING COLLEGE · MCA DEPARTMENT · SESSION 2025-26 · BUILT WITH ♥</footer>
+</div>
+
+<script>
+// ══════════════════════════════════
+// TIMETABLE DATA
+// ══════════════════════════════════
+
+const PERIODS = [
+  {slot:0, start:'08:50', end:'09:40'},
+  {slot:1, start:'09:40', end:'10:30'},
+  {slot:2, start:'10:40', end:'11:30'},
+  {slot:3, start:'11:30', end:'12:20'},
+  {slot:4, start:'12:20', end:'13:10'},
+  {slot:5, start:'13:10', end:'14:00'},
+  {slot:6, start:'14:00', end:'14:50'},
+  {slot:7, start:'14:50', end:'15:40'},
+  {slot:8, start:'15:40', end:'16:30'},
+  {slot:9, start:'16:30', end:'17:20'},
+];
+
+// type: T=theory, L=lab, E=elective, LUNCH, MENTOR, null=empty
+const schedules = {
+  IIA: {
+    MONDAY:    [
+      {type:'T', code:'25CA201', name:'Adv. Data Structures', faculty:'SS'},
+      {type:'T', code:'25CA203', name:'OOPs with Java', faculty:'NY'},
+      {type:'T', code:'25HM201', name:'Soft Skills-II', faculty:'SV'},
+      {type:'T', code:'25CA202', name:'DBMS', faculty:'SV'},
+      {type:'LUNCH'},
+      {type:'L', code:'25CA253', name:'OOPs Java Lab', faculty:'NY+ST'},
+      null,
+      {type:'L', code:'VACA201', name:'CISCO Training', faculty:'SV'},
+      {type:'T', code:'25CA201', name:'Adv. Data Structures', faculty:'SS'},
+      null
+    ],
+    TUESDAY:   [
+      {type:'T', code:'25CA203', name:'OOPs with Java', faculty:'NY'},
+      {type:'T', code:'25CA202', name:'DBMS', faculty:'SV'},
+      {type:'T', code:'25VC201', name:'Web Designing-II', faculty:'HJ'},
+      {type:'T', code:'25HM201', name:'Soft Skills-II', faculty:'SV'},
+      null,
+      {type:'T', code:'25CA201', name:'Adv. Data Structures', faculty:'SS'},
+      {type:'E', code:'25CA204', name:'DS AIML / Cloud Tech', faculty:'E1(ST)/E2-GA+KD'},
+      {type:'L', code:'25CA252', name:'DBMS Lab', faculty:'SV+ST'},
+      null, null
+    ],
+    WEDNESDAY: [
+      {type:'T', code:'25VC201', name:'Web Designing-II', faculty:'HJ'},
+      {type:'E', code:'25CA204', name:'DS AIML / Cloud Tech', faculty:'E1(ST)/E2-GA+KD'},
+      {type:'T', code:'25CA202', name:'DBMS', faculty:'SV'},
+      {type:'L', code:'25VC252', name:'Applied AI Lab', faculty:'PM+AL'},
+      null,
+      {type:'L', code:'25CA251', name:'Adv. DS Lab', faculty:'SS+AP'},
+      null,
+      {type:'T', code:'25CA203', name:'OOPs with Java', faculty:'NY'},
+      {type:'MENTOR', name:'Mentor Mentee', faculty:'KD+AL'},
+      null
+    ],
+    THURSDAY:  [
+      {type:'T', code:'25CA203', name:'OOPs with Java', faculty:'NY'},
+      {type:'T', code:'25CA203', name:'OOPs with Java', faculty:'NY'},
+      {type:'T', code:'25CA201', name:'Adv. Data Structures', faculty:'SS'},
+      {type:'T', code:'25HM201', name:'Soft Skills-II', faculty:'SV'},
+      null,
+      {type:'T', code:'25VC202', name:'Employability Skills-II', faculty:'HS'},
+      null,
+      {type:'L', code:'VACA201', name:'CISCO Training', faculty:'SV'},
+      {type:'E', code:'25CA204', name:'DS AIML / Cloud Tech', faculty:'E1(ST)/E2-GA+KD'},
+      null
+    ],
+    FRIDAY:    [
+      {type:'E', code:'25CA204', name:'DS AIML / Cloud Tech', faculty:'E1(ST)/E2-GA+KD'},
+      {type:'T', code:'25VC201', name:'Web Designing-II', faculty:'HJ'},
+      {type:'L', code:'25VC252', name:'Applied AI Lab', faculty:'PM+AL'},
+      {type:'T', code:'25CA201', name:'Adv. Data Structures', faculty:'SS'},
+      null,
+      {type:'T', code:'25HM201', name:'Soft Skills-II', faculty:'SV'},
+      {type:'T', code:'25CA202', name:'DBMS', faculty:'SV'},
+      {type:'L', code:'25VC251', name:'Web Designing-II Lab', faculty:'HJ+AL'},
+      null, null
+    ]
+  },
+
+  IIB: {
+    MONDAY:    [
+      {type:'T', code:'25CA201', name:'Adv. Data Structures', faculty:'MG'},
+      {type:'T', code:'25CA201', name:'Adv. Data Structures', faculty:'MG'},
+      {type:'T', code:'25HM201', name:'Soft Skills-II', faculty:'LS'},
+      {type:'T', code:'25CA203', name:'OOPs with Java', faculty:'TKS'},
+      {type:'LUNCH'},
+      {type:'T', code:'25CA202', name:'DBMS', faculty:'GA'},
+      {type:'T', code:'25CA203', name:'OOPs with Java', faculty:'TKS'},
+      {type:'L', code:'25VC251', name:'Web Designing-II Lab', faculty:'CJ+AL'},
+      null, null
+    ],
+    TUESDAY:   [
+      {type:'L', code:'25CA252', name:'DBMS Lab', faculty:'GA+KD'},
+      null,
+      {type:'T', code:'25CA203', name:'OOPs with Java', faculty:'TKS'},
+      {type:'T', code:'25HM201', name:'Soft Skills-II', faculty:'LS'},
+      null,
+      {type:'T', code:'25VC201', name:'Web Designing-II', faculty:'CJ'},
+      {type:'E', code:'25CA204', name:'DS AIML / Cloud Tech', faculty:'E1(ST)/E2-GA+KD'},
+      {type:'L', code:'25CA251', name:'Adv. DS Lab', faculty:'MG+SS'},
+      null, null
+    ],
+    WEDNESDAY: [
+      {type:'L', code:'25VC252', name:'Applied AI Lab', faculty:'PM+SSH'},
+      {type:'E', code:'25CA204', name:'DS AIML / Cloud Tech', faculty:'E1(ST)/E2-GA+KD'},
+      {type:'T', code:'25CA202', name:'DBMS', faculty:'GA'},
+      {type:'T', code:'25VC201', name:'Web Designing-II', faculty:'CJ'},
+      null,
+      {type:'L', code:'VACA201', name:'CISCO Training', faculty:'SV'},
+      {type:'T', code:'25CA203', name:'OOPs with Java', faculty:'TKS'},
+      {type:'T', code:'25CA201', name:'Adv. Data Structures', faculty:'MG'},
+      {type:'MENTOR', name:'Mentor Mentee', faculty:'GA+TY'},
+      null
+    ],
+    THURSDAY:  [
+      {type:'T', code:'25CA201', name:'Adv. Data Structures', faculty:'MG'},
+      {type:'T', code:'25VC201', name:'Web Designing-II', faculty:'CJ'},
+      {type:'T', code:'25CA203', name:'OOPs with Java', faculty:'TKS'},
+      {type:'T', code:'25CA202', name:'DBMS', faculty:'GA'},
+      null,
+      {type:'T', code:'25HM201', name:'Soft Skills-II', faculty:'LS'},
+      {type:'T', code:'25VC202', name:'Employability Skills-II', faculty:'HS'},
+      null,
+      {type:'E', code:'25CA204', name:'DS AIML / Cloud Tech', faculty:'E1(ST)/E2-GA+KD'},
+      null
+    ],
+    FRIDAY:    [
+      {type:'E', code:'25CA204', name:'DS AIML / Cloud Tech', faculty:'E1(ST)/E2-GA+KD'},
+      {type:'L', code:'VACA201', name:'CISCO Training', faculty:'SV'},
+      {type:'L', code:'25CA253', name:'OOPs Java Lab', faculty:'TKS+CJ'},
+      null, null,
+      {type:'T', code:'25CA202', name:'DBMS', faculty:'GA'},
+      {type:'T', code:'25HM201', name:'Soft Skills-II', faculty:'LS'},
+      {type:'L', code:'25VC252', name:'Applied AI Lab', faculty:'PM+SSH'},
+      {type:'T', code:'25CA201', name:'Adv. Data Structures', faculty:'MG'},
+      null
+    ]
+  },
+
+  IIC: {
+    MONDAY:    [
+      {type:'T', code:'25VC201', name:'Web Designing-II', faculty:'CJ'},
+      {type:'T', code:'25CA202', name:'DBMS', faculty:'SSH'},
+      {type:'T', code:'25HM201', name:'Soft Skills-II', faculty:'MJ'},
+      {type:'T', code:'25CA203', name:'OOPs with Java', faculty:'AK'},
+      {type:'LUNCH'},
+      {type:'L', code:'25VC252', name:'Applied AI Lab', faculty:'PM+TKS'},
+      {type:'T', code:'25CA201', name:'Adv. Data Structures', faculty:'AP'},
+      {type:'L', code:'25CA253', name:'OOPs Java Lab', faculty:'AK+HJ'},
+      null, null
+    ],
+    TUESDAY:   [
+      {type:'L', code:'25VC251', name:'Web Designing-II Lab', faculty:'CJ+AL'},
+      null,
+      {type:'L', code:'VACA201', name:'CISCO Training', faculty:'SV'},
+      {type:'T', code:'25CA201', name:'Adv. Data Structures', faculty:'AP'},
+      null,
+      {type:'T', code:'25CA202', name:'DBMS', faculty:'SSH'},
+      {type:'E', code:'25CA204', name:'DS AIML / Cloud Tech', faculty:'E1(ST)/E2-GA+KD'},
+      {type:'T', code:'25CA203', name:'OOPs with Java', faculty:'AK'},
+      {type:'L', code:'25VC252', name:'Applied AI Lab', faculty:'PM+TKS'},
+      null
+    ],
+    WEDNESDAY: [
+      {type:'T', code:'25CA201', name:'Adv. Data Structures', faculty:'AP'},
+      {type:'E', code:'25CA204', name:'DS AIML / Cloud Tech', faculty:'E1(ST)/E2-GA+KD'},
+      {type:'T', code:'25VC202', name:'Employability Skills-II', faculty:'HS'},
+      null, null,
+      {type:'T', code:'25HM201', name:'Soft Skills-II', faculty:'MJ'},
+      {type:'T', code:'25VC201', name:'Web Designing-II', faculty:'CJ'},
+      {type:'T', code:'25CA203', name:'OOPs with Java', faculty:'AK'},
+      {type:'MENTOR', name:'Mentor Mentee', faculty:'CJ+SSH'},
+      null
+    ],
+    THURSDAY:  [
+      {type:'L', code:'25CA252', name:'DBMS Lab', faculty:'SSH+ST'},
+      null,
+      {type:'T', code:'25HM201', name:'Soft Skills-II', faculty:'MJ'},
+      {type:'T', code:'25CA202', name:'DBMS', faculty:'SSH'},
+      null,
+      {type:'T', code:'25CA203', name:'OOPs with Java', faculty:'AK'},
+      {type:'T', code:'25CA201', name:'Adv. Data Structures', faculty:'AP'},
+      {type:'T', code:'25VC201', name:'Web Designing-II', faculty:'CJ'},
+      {type:'E', code:'25CA204', name:'DS AIML / Cloud Tech', faculty:'E1(ST)/E2-GA+KD'},
+      null
+    ],
+    FRIDAY:    [
+      {type:'E', code:'25CA204', name:'DS AIML / Cloud Tech', faculty:'E1(ST)/E2-GA+KD'},
+      {type:'T', code:'25HM201', name:'Soft Skills-II', faculty:'MJ'},
+      {type:'L', code:'VACA201', name:'CISCO Training', faculty:'SV'},
+      {type:'T', code:'25CA201', name:'Adv. Data Structures', faculty:'AP'},
+      null,
+      {type:'T', code:'25CA203', name:'OOPs with Java', faculty:'AK'},
+      {type:'T', code:'25CA202', name:'DBMS', faculty:'SSH'},
+      {type:'L', code:'25CA251', name:'Adv. DS Lab', faculty:'AP+GA'},
+      null, null
+    ]
+  }
+};
+
+const subjectMaster = {
+  IIA: [
+    {code:'25CA201', name:'Advance Data Structures', faculty:'Ms. Savita Singh (SS)'},
+    {code:'25CA202', name:'DBMS', faculty:'Dr. Shikha Verma (SV)'},
+    {code:'25CA203', name:'OOPs with Java', faculty:'Dr. Neelam Yadav (NY)'},
+    {code:'25CA204-E1', name:'DS AIML (Elective-1)', faculty:'Ms. Shilpa Tyagi (ST)'},
+    {code:'25CA204-E2', name:'Cloud Technology (Elective-2)', faculty:'Ms. Gunjan Agarwal (GA·G1) / Ms. Kalpna Dwivedi (KD·G2)'},
+    {code:'25HM201', name:'Soft Skills-II', faculty:'Dr. Seema Verma (SV)'},
+    {code:'25VC201', name:'Web Designing-II', faculty:'Dr. Himani Jain (HJ)'},
+    {code:'25VC202', name:'Employability Skills-II', faculty:'Mr. Harshit Sharmma (HS)'},
+    {code:'VACA201', name:'CISCO Training', faculty:'Dr. Shikha Verma (SV)'},
+    {code:'25VC251', name:'Web Designing-II Lab', faculty:'Dr. Himani Jain (HJ) + Ms. Alpna Lodhi (AL)'},
+    {code:'25VC252', name:'Applied AI Lab', faculty:'Ms. Priya Mishra (PM) + Ms. Alpna Lodhi (AL)'},
+    {code:'25CA251', name:'Adv. Data Structure Lab', faculty:'Ms. Savita Singh (SS) + Mr. Asheesh Pandey (AP)'},
+    {code:'25CA252', name:'DBMS Lab', faculty:'Dr. Shikha Verma (SV) + Ms. Shilpa Tyagi (ST)'},
+    {code:'25CA253', name:'OOPs with Java Lab', faculty:'Dr. Neelam Yadav (NY) + Ms. Shilpa Tyagi (ST)'},
+  ],
+  IIB: [
+    {code:'25CA201', name:'Advance Data Structures', faculty:'Ms. Meghna Gupta (MG)'},
+    {code:'25CA202', name:'DBMS', faculty:'Ms. Gunjan Agarwal (GA)'},
+    {code:'25CA203', name:'OOPs with Java', faculty:'Mr. Tarun Kr. Sharma (TKS)'},
+    {code:'25CA204-E1', name:'DS AIML (Elective-1)', faculty:'Ms. Shilpa Tyagi (ST)'},
+    {code:'25CA204-E2', name:'Cloud Technology (Elective-2)', faculty:'Ms. Gunjan Agarwal (GA·G1) / Ms. Kalpna Dwivedi (KD·G2)'},
+    {code:'25HM201', name:'Soft Skills-II', faculty:'Dr. Lata Singh (LS)'},
+    {code:'25VC201', name:'Web Designing-II', faculty:'Mr. Chirag Jain (CJ)'},
+    {code:'25VC202', name:'Employability Skills-II', faculty:'Mr. Harshit Sharmma (HS)'},
+    {code:'VACA201', name:'CISCO Training', faculty:'Dr. Shikha Verma (SV)'},
+    {code:'25VC251', name:'Web Designing-II Lab', faculty:'Mr. Chirag Jain (CJ) + Ms. Alpna Lodhi (AL)'},
+    {code:'25VC252', name:'Applied AI Lab', faculty:'Ms. Priya Mishra (PM) + Ms. Surbhi Sharma (SSH)'},
+    {code:'25CA251', name:'Adv. Data Structure Lab', faculty:'Ms. Meghna Gupta (MG) + Ms. Savita Singh (SS)'},
+    {code:'25CA252', name:'DBMS Lab', faculty:'Ms. Gunjan Agarwal (GA) + Ms. Kalpna Dwivedi (KD)'},
+    {code:'25CA253', name:'OOPs with Java Lab', faculty:'Mr. Tarun Kr. Sharma (TKS) + Mr. Chirag Jain (CJ)'},
+  ],
+  IIC: [
+    {code:'25CA201', name:'Advance Data Structures', faculty:'Mr. Asheesh Pandey (AP)'},
+    {code:'25CA202', name:'DBMS', faculty:'Ms. Surbhi Sharma (SSH)'},
+    {code:'25CA203', name:'OOPs with Java', faculty:'Mr. Ajay Kumar (AK)'},
+    {code:'25CA204-E1', name:'DS AIML (Elective-1)', faculty:'Ms. Shilpa Tyagi (ST)'},
+    {code:'25CA204-E2', name:'Cloud Technology (Elective-2)', faculty:'Ms. Gunjan Agarwal (GA·G1) / Ms. Kalpna Dwivedi (KD·G2)'},
+    {code:'25HM201', name:'Soft Skills-II', faculty:'Dr. Mokshi Juyal (MJ)'},
+    {code:'25VC201', name:'Web Designing-II', faculty:'Mr. Chirag Jain (CJ)'},
+    {code:'25VC202', name:'Employability Skills-II', faculty:'Mr. Harshit Sharmma (HS)'},
+    {code:'VACA201', name:'CISCO Training', faculty:'Dr. Shikha Verma (SV)'},
+    {code:'25VC251', name:'Web Designing-II Lab', faculty:'Mr. Chirag Jain (CJ) + Ms. Alpna Lodhi (AL)'},
+    {code:'25VC252', name:'Applied AI Lab', faculty:'Ms. Priya Mishra (PM) + Mr. Tarun Kumar Sharma (TKS)'},
+    {code:'25CA251', name:'Adv. Data Structure Lab', faculty:'Mr. Asheesh Pandey (AP) + Ms. Gunjan Agarwal (GA)'},
+    {code:'25CA252', name:'DBMS Lab', faculty:'Ms. Surbhi Sharma (SSH) + Ms. Shilpa Tyagi (ST)'},
+    {code:'25CA253', name:'OOPs with Java Lab', faculty:'Mr. Ajay Kumar (AK) + Dr. Himani Jain (HJ)'},
+  ]
+};
+
+const DAYS = ['MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY'];
+
+// ══════ BUILD TABLES ══════
+function cellHTML(period, dayIdx, periodIdx) {
+  if (!period) return `<td><div class="period-cell"><div class="period-inner type-empty">—</div></div></td>`;
+
+  if (period.type === 'LUNCH') {
+    return `<td><div class="period-cell"><div class="period-inner type-lunch">🍽 LUNCH</div></div></td>`;
+  }
+
+  if (period.type === 'MENTOR') {
+    return `<td><div class="period-cell"><div class="period-inner type-mentor">
+      <span class="sub-name">👥 ${period.name}</span>
+      <span class="faculty">${period.faculty}</span>
+    </div></div></td>`;
+  }
+
+  const cls = period.type === 'L' ? 'type-lab' : period.type === 'E' ? 'type-elective' : 'type-theory';
+  const icon = period.type === 'L' ? '⚗' : period.type === 'E' ? '◈' : '📡';
+
+  return `<td data-day="${dayIdx}" data-slot="${periodIdx}">
+    <div class="period-cell">
+      <div class="period-inner ${cls}">
+        <span class="sub-code">${icon} ${period.code}</span>
+        <span class="sub-name">${period.name}</span>
+        <span class="faculty">${period.faculty}</span>
+      </div>
+    </div>
+  </td>`;
+}
+
+function buildTable(section) {
+  const tbody = document.getElementById(`body-${section}`);
+  const sched = schedules[section];
+
+  DAYS.forEach((day, di) => {
+    const row = document.createElement('tr');
+    row.setAttribute('data-day', di);
+    let html = `<td class="day-cell">${day}</td>`;
+    const periods = sched[day];
+    periods.forEach((p, pi) => {
+      html += cellHTML(p, di, pi);
+    });
+    row.innerHTML = html;
+    tbody.appendChild(row);
+  });
+
+  // Build subject cards
+  const grid = document.getElementById(`subjects-${section}`);
+  subjectMaster[section].forEach(s => {
+    const isLab = s.code.includes('25CA25') || s.code.includes('25VC25') || s.code === 'VACA201';
+    const isElec = s.code.includes('E1') || s.code.includes('E2');
+    const borderColor = isLab ? 'rgba(0,255,157,0.3)' : isElec ? 'rgba(185,79,255,0.3)' : 'rgba(0,212,255,0.15)';
+    grid.innerHTML += `
+      <div class="subject-card" style="border-color:${borderColor}">
+        <div class="sub-card-code">${s.code}</div>
+        <div class="sub-card-name">${s.name}</div>
+        <div class="sub-card-faculty">${s.faculty}</div>
+      </div>`;
+  });
+}
+
+buildTable('IIA');
+buildTable('IIB');
+buildTable('IIC');
+
+// ══════ TAB SWITCHING ══════
+function showSection(sec) {
+  document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`panel-${sec}`).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ══════ CLOCK & COUNTDOWN ══════
+function toMinutes(timeStr) {
+  const [h, m] = timeStr.split(':').map(Number);
+  return h * 60 + m;
+}
+
+const periodTimes = [
+  {start:'08:50', end:'09:40'},
+  {start:'09:40', end:'10:30'},
+  {start:'10:40', end:'11:30'},
+  {start:'11:30', end:'12:20'},
+  {start:'12:20', end:'13:10'},
+  {start:'13:10', end:'14:00'},
+  {start:'14:00', end:'14:50'},
+  {start:'14:50', end:'15:40'},
+  {start:'15:40', end:'16:30'},
+  {start:'16:30', end:'17:20'},
+];
+
+function getCurrentAndNext(now) {
+  const mins = now.getHours() * 60 + now.getMinutes();
+  const dayIdx = now.getDay() - 1; // 0=Mon, 4=Fri
+
+  if (dayIdx < 0 || dayIdx > 4) {
+    return { current: null, next: null, dayOff: true };
+  }
+
+  // Check lunch
+  if (mins >= toMinutes('12:20') && mins < toMinutes('13:10')) {
+    return { current: {name: '🍽 LUNCH BREAK', type:'LUNCH'}, next: null };
+  }
+
+  let currentPeriod = null;
+  let nextPeriod = null;
+  let nextStartMin = null;
+
+  const daySchedule = schedules['IIA'][DAYS[dayIdx]];
+
+  for (let i = 0; i < periodTimes.length; i++) {
+    const {start, end} = periodTimes[i];
+    const startMin = toMinutes(start);
+    const endMin = toMinutes(end);
+
+    if (mins >= startMin && mins < endMin) {
+      const p = daySchedule[i];
+      if (p && p.type !== 'LUNCH') {
+        currentPeriod = {slot: i, data: p, endMin};
+      }
+    } else if (mins < startMin && !nextPeriod) {
+      const p = daySchedule[i];
+      if (p && p.type !== 'LUNCH') {
+        nextPeriod = {slot: i, data: p, startMin};
+        nextStartMin = startMin;
+      }
+    }
+  }
+
+  return { current: currentPeriod, next: nextPeriod, nextStartMin, dayIdx, dayOff: false };
+}
+
+function updateClock() {
+  const now = new Date();
+
+  // Time
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  document.getElementById('live-time').textContent = `${h}:${m}:${s}`;
+
+  // Date
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('live-date').textContent =
+    `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+
+  const { current, next, nextStartMin, dayOff } = getCurrentAndNext(now);
+
+  if (dayOff) {
+    document.getElementById('current-status').textContent = '🎉 WEEKEND';
+    document.getElementById('current-subject').textContent = 'Enjoy your day off!';
+    document.getElementById('next-class-info').textContent = 'Classes resume Monday';
+    document.getElementById('countdown-timer').textContent = '--:--';
+    document.getElementById('countdown-desc').textContent = 'No class today';
+    return;
+  }
+
+  if (current) {
+    document.getElementById('current-status').textContent = '▶ IN PROGRESS';
+    if (current.name === '🍽 LUNCH BREAK') {
+      document.getElementById('current-subject').textContent = '🍽 LUNCH BREAK';
+      document.getElementById('next-class-info').textContent = 'Classes resume at 13:10';
+    } else {
+      document.getElementById('current-subject').textContent = current.data.name || current.name;
+      document.getElementById('next-class-info').textContent = `Until ${periodTimes[current.slot].end} · ${current.data.faculty || ''}`;
+    }
+
+    if (current.endMin) {
+      const nowMins = now.getHours() * 60 + now.getMinutes();
+      const nowSecs = now.getSeconds();
+      const remaining = (current.endMin - nowMins) * 60 - nowSecs;
+      const rh = Math.floor(remaining / 3600);
+      const rm = Math.floor((remaining % 3600) / 60);
+      const rs = remaining % 60;
+      document.getElementById('countdown-label').textContent = 'Period ends in';
+      document.getElementById('countdown-timer').textContent =
+        rh > 0
+          ? `${String(rh).padStart(2,'0')}:${String(rm).padStart(2,'0')}:${String(rs).padStart(2,'0')}`
+          : `${String(rm).padStart(2,'0')}:${String(rs).padStart(2,'0')}`;
+      document.getElementById('countdown-desc').textContent = `Ends at ${periodTimes[current.slot].end}`;
+    }
+  } else if (next) {
+    document.getElementById('current-status').textContent = '⏸ BREAK TIME';
+    document.getElementById('current-subject').textContent = '—';
+    document.getElementById('next-class-info').textContent = `Next: ${next.data.name}`;
+
+    const nowMins = now.getHours() * 60 + now.getMinutes();
+    const nowSecs = now.getSeconds();
+    const remaining = (next.startMin - nowMins) * 60 - nowSecs;
+    const rh = Math.floor(remaining / 3600);
+    const rm = Math.floor((remaining % 3600) / 60);
+    const rs = remaining % 60;
+    document.getElementById('countdown-label').textContent = 'Next class in';
+    document.getElementById('countdown-timer').textContent =
+      rh > 0
+        ? `${String(rh).padStart(2,'0')}:${String(rm).padStart(2,'0')}:${String(rs).padStart(2,'0')}`
+        : `${String(rm).padStart(2,'0')}:${String(rs).padStart(2,'0')}`;
+    document.getElementById('countdown-desc').textContent = `${next.data.name} at ${periodTimes[next.slot].start}`;
+  } else {
+    document.getElementById('current-status').textContent = '✓ CLASSES DONE';
+    document.getElementById('current-subject').textContent = 'No more classes today';
+    document.getElementById('next-class-info').textContent = 'See you tomorrow!';
+    document.getElementById('countdown-timer').textContent = '--:--';
+    document.getElementById('countdown-desc').textContent = 'Enjoy your evening!';
+  }
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+
+// ══════ SIMPLE FLOATING PARTICLES ══════
+const canvas = document.getElementById('stars-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function initParticles() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  particles = [];
+  for (let i = 0; i < 80; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 2 + 0.5,
+      alpha: Math.random() * 0.5 + 0.1,
+      vy: -(Math.random() * 0.3 + 0.1),
+      vx: (Math.random() - 0.5) * 0.2,
+      phase: Math.random() * Math.PI * 2
+    });
+  }
+}
+
+function drawParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.y += p.vy;
+    p.x += p.vx;
+    p.phase += 0.01;
+    const a = p.alpha * (0.7 + 0.3 * Math.sin(p.phase));
+    if (p.y < -5) { p.y = canvas.height + 5; p.x = Math.random() * canvas.width; }
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(180, 220, 255, ${a})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(drawParticles);
+}
+
+window.addEventListener('resize', initParticles);
+initParticles();
+drawParticles();
+</script>
+</body>
+</html>

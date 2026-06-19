@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSE-29 · ABES Timetable</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* ── Navy & Gold Palette ── */
+  --bg:        #070d1a;
+  --s1:        #0b1425;
+  --s2:        #0f1d35;
+  --s3:        #142242;
+  --border:    #1e3055;
+  --border2:   #274070;
+  --text:      #e8edf8;
+  --sub:       #6a85b0;
+  --gold:      #f5c842;
+  --gold-dim:  #c9a230;
+  --gold-deep: #7a5e10;
+  --gold-glow: rgba(245,200,66,.18);
+  --navy:      #0b1425;
+  --accent:    #f5c842;
+  --accent2:   #ffd97a;
+  --green:     #a8ff78;
+  --red:       #ff6b6b;
+  --white:     #e8edf8;
+
+  /* subject bg/fg — deep navy tinted */
+  --physics-bg:#091a30; --physics:#7bbcff;
+  --elec-bg:   #071e10; --elec:   #5de89a;
+  --calc-bg:   #1e1004; --calc:   #fca55c;
+  --ds-bg:     #100820; --ds:     #cc96fc;
+  --env-bg:    #061408; --env:    #90f0b0;
+  --ai-bg:     #1e0606; --ai:     #ff8a8a;
+  --lab-bg:    #060a22; --lab:    #9aaafe;
+  --va-bg:     #191200; --va:     #ffd55a;
+  --me-bg:     #140618; --me:     #ec90fc;
+  --mentor-bg: #041412; --mentor: #40dcc8;
+  --lunch-bg:  #080e1e; --lunch:  #2a4070;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Space Grotesk',sans-serif;
+  min-height:100vh;
+  padding:24px 18px 72px;
+  /* subtle noise texture */
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(245,200,66,.06) 0%, transparent 60%);
+}
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px;}
+
+.wrap{max-width:900px;margin:0 auto;}
+
+/* ─────────────────────────
+   HEADER
+───────────────────────── */
+.header{
+  text-align:center;
+  background:var(--s1);
+  border:1px solid var(--border);
+  border-top:3px solid var(--gold);
+  border-radius:20px;
+  padding:32px 24px 26px;
+  margin-bottom:18px;
+  position:relative;overflow:hidden;
+}
+.header::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(245,200,66,.08) 0%, transparent 65%);
+  pointer-events:none;
+}
+/* decorative corner lines */
+.header::after{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent 0%,var(--gold) 30%,var(--gold) 70%,transparent 100%);
+  opacity:.5;
+}
+.abes-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(245,200,66,.1);
+  border:1px solid rgba(245,200,66,.3);
+  border-radius:50px;padding:4px 14px;
+  font-size:.7rem;font-family:'JetBrains Mono',monospace;
+  color:var(--gold);letter-spacing:.09em;text-transform:uppercase;
+  margin-bottom:14px;
+}
+.abes-badge::before{content:'✦';font-size:.55rem;color:var(--gold);}
+
+.college-name{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(1.45rem,3.5vw,2.1rem);
+  font-weight:800;letter-spacing:-.02em;
+  background:linear-gradient(130deg,#fff 10%,var(--accent2) 50%,var(--gold) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:6px;
+}
+.subtitle{font-size:.8rem;color:var(--sub);font-family:'JetBrains Mono',monospace;letter-spacing:.03em;}
+.meta-row{display:flex;justify-content:center;flex-wrap:wrap;gap:7px;margin-top:16px;}
+.mpill{
+  background:var(--s2);
+  border:1px solid var(--border2);
+  border-radius:50px;padding:5px 14px;
+  font-size:.72rem;color:var(--sub);font-family:'JetBrains Mono',monospace;
+  transition:border-color .2s;
+}
+.mpill:hover{border-color:var(--gold-dim);}
+.mpill b{color:var(--text);}
+
+/* ─────────────────────────
+   TOP ROW
+───────────────────────── */
+.top-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;}
+@media(max-width:600px){.top-row{grid-template-columns:1fr;}}
+
+.card{
+  background:var(--s1);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:22px;
+}
+
+/* Clock */
+.clock-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.clock-time{
+  font-family:'JetBrains Mono',monospace;
+  font-size:clamp(1.8rem,4vw,2.7rem);
+  font-weight:600;letter-spacing:-.02em;line-height:1;
+  background:linear-gradient(135deg,var(--white),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.day-chip{
+  background:rgba(245,200,66,.1);
+  border:1px solid rgba(245,200,66,.28);
+  border-radius:8px;padding:4px 11px;
+  font-size:.68rem;font-family:'JetBrains Mono',monospace;
+  color:var(--gold);white-space:nowrap;margin-top:3px;
+  letter-spacing:.04em;
+}
+.clock-date{font-size:.73rem;color:var(--sub);font-family:'JetBrains Mono',monospace;margin-top:6px;}
+
+.hr{height:1px;background:var(--border);margin:16px 0;}
+
+.now-chip{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:.62rem;font-family:'JetBrains Mono',monospace;
+  text-transform:uppercase;letter-spacing:.12em;color:var(--sub);margin-bottom:6px;
+}
+.live-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 8px var(--gold);
+  animation:blink 2s ease-in-out infinite;
+}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+
+.now-subject{font-size:.96rem;font-weight:700;line-height:1.3;color:var(--text);}
+.now-faculty{font-size:.73rem;color:var(--sub);margin-top:3px;}
+
+.cd-box{
+  margin-top:13px;
+  background:var(--bg);
+  border:1px solid var(--border2);
+  border-radius:11px;padding:11px 14px;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.cd-label{font-size:.62rem;color:var(--sub);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.08em;}
+.cd-val{font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:600;color:var(--gold);}
+
+.prog-wrap{margin-top:10px;}
+.prog-track{background:var(--border);border-radius:99px;height:5px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold-dim),var(--gold),var(--accent2));transition:width 1s linear;}
+.prog-labels{display:flex;justify-content:space-between;margin-top:4px;}
+.prog-lbl{font-size:.6rem;font-family:'JetBrains Mono',monospace;color:var(--sub);}
+
+/* Upcoming */
+.up-header{display:flex;align-items:center;gap:8px;margin-bottom:13px;}
+.up-title{font-family:'Syne',sans-serif;font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--sub);}
+.up-badge{
+  margin-left:auto;
+  background:var(--s2);border:1px solid var(--border2);
+  border-radius:20px;padding:2px 10px;
+  font-size:.64rem;color:var(--sub);font-family:'JetBrains Mono',monospace;
+}
+.up-badge.has-classes{
+  color:var(--gold);
+  border-color:rgba(245,200,66,.3);
+  background:rgba(245,200,66,.08);
+}
+.up-list{display:flex;flex-direction:column;gap:6px;overflow-y:auto;max-height:250px;padding-right:2px;}
+
+.up-item{
+  display:flex;align-items:center;gap:9px;
+  background:var(--s2);
+  border:1px solid var(--border);
+  border-left:3px solid var(--border2);
+  border-radius:10px;padding:9px 11px;
+  min-width:0;transition:border-color .2s;
+}
+.up-item.is-now{
+  border-left-color:var(--gold);
+  background:rgba(245,200,66,.04);
+  border-color:rgba(245,200,66,.2);
+}
+.up-time{font-family:'JetBrains Mono',monospace;font-size:.63rem;color:var(--sub);white-space:nowrap;min-width:72px;flex-shrink:0;line-height:1.7;}
+.up-divider{width:1px;height:28px;background:var(--border2);flex-shrink:0;}
+.up-info{flex:1;min-width:0;}
+.up-name{font-size:.78rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.up-fac{font-size:.66rem;color:var(--sub);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.up-num{font-family:'JetBrains Mono',monospace;font-size:.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:3px 7px;color:var(--sub);flex-shrink:0;white-space:nowrap;}
+.up-empty{color:var(--sub);font-size:.82rem;text-align:center;padding:28px 0;line-height:1.9;}
+
+/* upcoming subject accent colours */
+.uc-physics{border-left-color:var(--physics)!important;} .uc-physics .up-name{color:var(--physics);}
+.uc-elec   {border-left-color:var(--elec)!important;}    .uc-elec    .up-name{color:var(--elec);}
+.uc-calc   {border-left-color:var(--calc)!important;}    .uc-calc    .up-name{color:var(--calc);}
+.uc-ds     {border-left-color:var(--ds)!important;}      .uc-ds      .up-name{color:var(--ds);}
+.uc-env    {border-left-color:var(--env)!important;}     .uc-env     .up-name{color:var(--env);}
+.uc-ai     {border-left-color:var(--ai)!important;}      .uc-ai      .up-name{color:var(--ai);}
+.uc-lab    {border-left-color:var(--lab)!important;}     .uc-lab     .up-name{color:var(--lab);}
+.uc-va     {border-left-color:var(--va)!important;}      .uc-va      .up-name{color:var(--va);}
+.uc-me     {border-left-color:var(--me)!important;}      .uc-me      .up-name{color:var(--me);}
+.uc-mentor {border-left-color:var(--mentor)!important;}  .uc-mentor  .up-name{color:var(--mentor);}
+
+/* ─────────────────────────
+   DAY NAV
+───────────────────────── */
+.day-nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:20px;}
+.day-btn{
+  background:var(--s2);
+  border:1px solid var(--border);
+  color:var(--sub);
+  padding:9px 22px;border-radius:50px;cursor:pointer;
+  font-family:'Space Grotesk',sans-serif;font-size:.83rem;font-weight:500;
+  transition:all .2s;position:relative;white-space:nowrap;
+}
+.day-btn:hover{border-color:var(--gold-dim);color:var(--text);}
+.day-btn.active{
+  background:linear-gradient(135deg,var(--gold-dim),var(--gold));
+  border-color:var(--gold);
+  color:#0b1425;font-weight:700;
+  box-shadow:0 0 24px rgba(245,200,66,.3), 0 2px 8px rgba(0,0,0,.4);
+}
+.today-dot{
+  position:absolute;top:5px;right:8px;
+  width:6px;height:6px;
+  background:var(--gold);border-radius:50%;
+  box-shadow:0 0 8px var(--gold);
+}
+
+/* ─────────────────────────
+   DAY VIEW
+───────────────────────── */
+.day-view{display:none;}
+.day-view.active{display:block;animation:rise .3s cubic-bezier(.16,1,.3,1);}
+@keyframes rise{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+.day-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.day-header h2{
+  font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;
+  background:linear-gradient(120deg,var(--white),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.pc-badge{
+  background:var(--s2);border:1px solid var(--border2);
+  border-radius:20px;padding:3px 12px;
+  font-size:.7rem;color:var(--sub);font-family:'JetBrains Mono',monospace;
+}
+
+/* Timeline strip */
+.day-timeline{
+  display:flex;gap:0;margin-bottom:14px;
+  background:var(--s2);border:1px solid var(--border);
+  border-radius:10px;overflow:hidden;height:6px;
+}
+.tl-seg{height:100%;transition:opacity .3s;}
+.tl-seg.done{opacity:.2;}
+.tl-seg.active-seg{animation:tlglow 2s ease-in-out infinite;}
+@keyframes tlglow{0%,100%{opacity:1;}50%{opacity:.55;}}
+
+.periods-grid{display:flex;flex-direction:column;gap:9px;}
+
+.period-card{
+  background:var(--s1);
+  border:1px solid;
+  border-radius:14px;
+  padding:14px 18px;
+  display:flex;align-items:center;gap:16px;
+  transition:transform .15s,opacity .35s,filter .35s;
+  position:relative;overflow:hidden;
+}
+/* gold left accent bar */
+.period-card::after{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:3px;border-radius:3px 0 0 3px;
+  background:currentColor;opacity:.7;
+}
+.period-card:hover{transform:translateX(4px);}
+.period-card.done-period{opacity:.25;filter:grayscale(.6);}
+.period-card.current-period{animation:cardglow 2.5s ease-in-out infinite;}
+@keyframes cardglow{
+  0%,100%{box-shadow:0 0 0 1.5px rgba(245,200,66,.5),0 4px 24px rgba(245,200,66,.08);}
+  50%    {box-shadow:0 0 0 2.5px rgba(245,200,66,.9),0 6px 36px rgba(245,200,66,.18);}
+}
+
+.live-badge{
+  display:none;position:absolute;top:9px;right:11px;
+  background:rgba(245,200,66,.12);
+  border:1px solid rgba(245,200,66,.4);
+  color:var(--gold);
+  font-size:.58rem;font-family:'JetBrains Mono',monospace;
+  padding:2px 8px;border-radius:20px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;
+}
+.current-period .live-badge{display:block;}
+
+.p-num{
+  font-family:'JetBrains Mono',monospace;font-size:.66rem;
+  background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:8px;padding:4px 8px;min-width:44px;text-align:center;
+  color:var(--sub);flex-shrink:0;
+}
+.p-time{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--sub);min-width:108px;white-space:nowrap;flex-shrink:0;}
+.p-info{flex:1;min-width:0;}
+.p-code{font-size:.67rem;font-family:'JetBrains Mono',monospace;color:var(--sub);margin-bottom:2px;opacity:.8;}
+.p-name{font-size:.92rem;font-weight:600;line-height:1.3;}
+.p-fac{font-size:.73rem;color:var(--sub);margin-top:2px;}
+.p-room{
+  font-family:'JetBrains Mono',monospace;font-size:.7rem;
+  background:rgba(245,200,66,.07);
+  border:1px solid rgba(245,200,66,.15);
+  border-radius:8px;padding:6px 10px;
+  white-space:nowrap;color:var(--gold-dim);flex-shrink:0;
+}
+
+/* ── Subject colours — all tinted on navy ── */
+.c-physics{background:var(--physics-bg);border-color:rgba(123,188,255,.28);color:var(--physics);}
+.c-elec   {background:var(--elec-bg);   border-color:rgba(93,232,154,.28); color:var(--elec);}
+.c-calc   {background:var(--calc-bg);   border-color:rgba(252,165,92,.28); color:var(--calc);}
+.c-ds     {background:var(--ds-bg);     border-color:rgba(204,150,252,.28);color:var(--ds);}
+.c-env    {background:var(--env-bg);    border-color:rgba(144,240,176,.25);color:var(--env);}
+.c-ai     {background:var(--ai-bg);     border-color:rgba(255,138,138,.28);color:var(--ai);}
+.c-lab    {background:var(--lab-bg);    border-color:rgba(154,170,254,.28);color:var(--lab);}
+.c-va     {background:var(--va-bg);     border-color:rgba(255,213,90,.28); color:var(--va);}
+.c-me     {background:var(--me-bg);     border-color:rgba(236,144,252,.28);color:var(--me);}
+.c-mentor {background:var(--mentor-bg); border-color:rgba(64,220,200,.25); color:var(--mentor);}
+.c-lunch  {background:var(--lunch-bg);  border-color:var(--border);        color:var(--lunch);}
+
+/* ─────────────────────────
+   LEGEND
+───────────────────────── */
+.section-label{
+  font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.1em;
+  color:var(--gold-dim);
+  margin:34px 0 13px;
+  display:flex;align-items:center;gap:10px;
+}
+.section-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border2),transparent);}
+
+.legend-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:8px;}
+.legend-card{
+  background:var(--s1);border:1px solid var(--border);
+  border-radius:12px;padding:11px 15px;
+  display:flex;gap:11px;align-items:center;
+  transition:border-color .2s;
+}
+.legend-card:hover{border-color:var(--border2);}
+.l-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;box-shadow:0 0 6px currentColor;}
+.l-code{font-family:'JetBrains Mono',monospace;font-size:.67rem;color:var(--sub);}
+.l-name{font-size:.8rem;font-weight:600;margin-top:1px;color:var(--text);}
+.l-fac{font-size:.7rem;color:var(--sub);margin-top:1px;}
+
+/* ─────────────────────────
+   FULL GRID
+───────────────────────── */
+.toggle-btn{
+  display:block;margin:28px auto 0;
+  background:transparent;
+  border:1px solid var(--border2);
+  color:var(--sub);padding:10px 28px;border-radius:50px;
+  cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:.83rem;font-weight:500;
+  transition:all .2s;
+}
+.toggle-btn:hover{border-color:var(--gold-dim);color:var(--gold);}
+.grid-wrap{display:none;margin-top:18px;overflow-x:auto;border-radius:16px;}
+.grid-wrap.open{display:block;animation:rise .3s ease;}
+
+table.fg{width:100%;border-collapse:collapse;font-size:.73rem;min-width:880px;background:var(--s1);}
+table.fg th,table.fg td{border:1px solid var(--border);padding:8px 10px;text-align:center;vertical-align:middle;}
+table.fg thead th{
+  background:var(--s2);color:var(--gold-dim);
+  font-family:'JetBrains Mono',monospace;font-size:.62rem;
+  white-space:nowrap;letter-spacing:.04em;
+  border-bottom:2px solid var(--gold-deep);
+}
+table.fg .dc{
+  background:var(--s2);
+  font-family:'Syne',sans-serif;font-weight:700;font-size:.77rem;
+  white-space:nowrap;color:var(--gold);
+  border-right:2px solid var(--gold-deep);
+}
+table.fg .cc{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--sub);}
+table.fg .cn{font-size:.72rem;font-weight:600;line-height:1.3;}
+table.fg .cf{font-size:.6rem;color:var(--sub);}
+
+/* ─────────────────────────
+   FOOTER CARD
+───────────────────────── */
+.footer-card{
+  background:var(--s1);
+  border:1px solid var(--border);
+  border-bottom:3px solid var(--gold-deep);
+  border-radius:18px;
+  padding:22px 28px;
+  margin-top:36px;
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;
+  position:relative;overflow:hidden;
+}
+.footer-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 80% at 50% 120%,rgba(245,200,66,.05),transparent 65%);
+  pointer-events:none;
+}
+@media(max-width:540px){.footer-card{grid-template-columns:1fr;}}
+.footer-label{
+  font-size:.62rem;font-family:'JetBrains Mono',monospace;
+  text-transform:uppercase;letter-spacing:.1em;
+  color:var(--gold-dim);margin-bottom:5px;
+}
+.footer-val{font-size:.8rem;font-weight:500;color:var(--text);line-height:1.8;}
+.footer-bottom{
+  grid-column:1/-1;
+  margin-top:14px;padding-top:14px;
+  border-top:1px solid var(--border);
+  text-align:center;font-size:.67rem;
+  font-family:'JetBrains Mono',monospace;
+  color:var(--sub);letter-spacing:.04em;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="abes-badge">B.Tech &nbsp;·&nbsp; Even Semester 2025-26</div>
+  <div class="college-name">ABES Engineering College, Ghaziabad</div>
+  <div class="subtitle">Department of Computer Science &amp; Engineering &nbsp;·&nbsp; Section I/CSE-29</div>
+  <div class="meta-row">
+    <span class="mpill"><b>Room:</b> RJ-201</span>
+    <span class="mpill"><b>w.e.f.</b> 19.02.2026</span>
+    <span class="mpill"><b>TM-07</b></span>
+    <span class="mpill"><b>Session:</b> 2025-26</span>
+  </div>
+</div>
+
+<!-- TOP ROW -->
+<div class="top-row">
+
+  <!-- Clock Card -->
+  <div class="card">
+    <div class="clock-top">
+      <div>
+        <div class="clock-time" id="clock">00:00:00</div>
+        <div class="clock-date" id="clock-date">—</div>
+      </div>
+      <div class="day-chip" id="day-chip">—</div>
+    </div>
+    <div class="hr"></div>
+    <div class="now-chip"><span class="live-dot"></span>&nbsp;On Now</div>
+    <div class="now-subject" id="now-subject">Loading…</div>
+    <div class="now-faculty" id="now-faculty"></div>
+    <div class="cd-box">
+      <span class="cd-label" id="cd-label">Next in</span>
+      <span class="cd-val"   id="cd-val">—</span>
+    </div>
+    <div class="prog-wrap">
+      <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+      <div class="prog-labels">
+        <span class="prog-lbl" id="prog-start"></span>
+        <span class="prog-lbl" id="prog-end"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upcoming Card -->
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="up-header">
+      <span class="live-dot"></span>
+      <span class="up-title">Upcoming Today</span>
+      <span class="up-badge" id="up-badge">—</span>
+    </div>
+    <div class="up-list" id="up-list"><div class="up-empty">Loading…</div></div>
+  </div>
+
+</div>
+
+<!-- DAY NAV -->
+<div class="day-nav">
+  <button class="day-btn" data-day="mon" onclick="showDay('mon')">Monday</button>
+  <button class="day-btn" data-day="tue" onclick="showDay('tue')">Tuesday</button>
+  <button class="day-btn" data-day="wed" onclick="showDay('wed')">Wednesday</button>
+  <button class="day-btn" data-day="thu" onclick="showDay('thu')">Thursday</button>
+  <button class="day-btn" data-day="fri" onclick="showDay('fri')">Friday</button>
+</div>
+
+<!-- ══════ MONDAY ══════ -->
+<div class="day-view" id="day-mon">
+  <div class="day-header"><h2>Monday</h2><span class="pc-badge">8 Periods</span></div>
+  <div class="day-timeline" id="tl-mon"></div>
+  <div class="periods-grid" data-day="mon">
+    <div class="period-card c-env"     data-start="510" data-end="580" data-color="env"     data-label="I"       data-col="#90f0b0"><span class="live-badge">✦ LIVE</span><span class="p-num">I</span><span class="p-time">08:50 – 09:40</span><div class="p-info"><div class="p-code">25AS203</div><div class="p-name">Environment &amp; Sustainability</div><div class="p-fac">Dr. Divyanshi Sharma (DSH)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-calc"    data-start="580" data-end="630" data-color="calc"    data-label="II"      data-col="#fca55c"><span class="live-badge">✦ LIVE</span><span class="p-num">II</span><span class="p-time">09:40 – 10:30</span><div class="p-info"><div class="p-code">25AS202</div><div class="p-name">Applied Calculus &amp; Differential Equation</div><div class="p-fac">Dr. Ranjeet Kaur (RK)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-physics" data-start="640" data-end="690" data-color="physics" data-label="III"     data-col="#7bbcff"><span class="live-badge">✦ LIVE</span><span class="p-num">III</span><span class="p-time">10:40 – 11:30</span><div class="p-info"><div class="p-code">25AS201</div><div class="p-name">Applied Physics</div><div class="p-fac">Dr. Isha Mehra (IM)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-elec"    data-start="690" data-end="740" data-color="elec"    data-label="IV"      data-col="#5de89a"><span class="live-badge">✦ LIVE</span><span class="p-num">IV</span><span class="p-time">11:30 – 12:20</span><div class="p-info"><div class="p-code">25EL201</div><div class="p-name">Basics of Electrical Engg.</div><div class="p-fac">Mr. Vikash Tiwari (VT)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-lunch"   data-start="740" data-end="790" data-color="lunch"   data-label="V"       data-col="#2a4070"><span class="live-badge">✦ LIVE</span><span class="p-num">V</span><span class="p-time">12:20 – 01:10</span><div class="p-info"><div class="p-name">🍽&nbsp; Lunch Break</div></div><span class="p-room">—</span></div>
+    <div class="period-card c-lab"     data-start="790" data-end="890" data-color="lab"     data-label="VI–VII"  data-col="#9aaafe"><span class="live-badge">✦ LIVE</span><span class="p-num">VI–VII</span><span class="p-time">01:10 – 02:50</span><div class="p-info"><div class="p-code">25AS251</div><div class="p-name">Physics Lab</div><div class="p-fac">Dr. Isha Mehra (IM) &amp; Mr. Akhilesh Kumar Pandey (AKP)</div></div><span class="p-room">KC-310</span></div>
+    <div class="period-card c-ds"      data-start="890" data-end="940" data-color="ds"      data-label="VIII"    data-col="#cc96fc"><span class="live-badge">✦ LIVE</span><span class="p-num">VIII</span><span class="p-time">02:50 – 03:40</span><div class="p-info"><div class="p-code">25CS201</div><div class="p-name">Data Structure Using C++</div><div class="p-fac">Mr. Ankur Sharma (ARS)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-ai"      data-start="940" data-end="990" data-color="ai"      data-label="IX"      data-col="#ff8a8a"><span class="live-badge">✦ LIVE</span><span class="p-num">IX</span><span class="p-time">03:40 – 04:30</span><div class="p-info"><div class="p-code">25AI201</div><div class="p-name">Essentials of AI</div><div class="p-fac">Mr. Rahul Singh (RS)</div></div><span class="p-room">RJ-201</span></div>
+  </div>
+</div>
+
+<!-- ══════ TUESDAY ══════ -->
+<div class="day-view" id="day-tue">
+  <div class="day-header"><h2>Tuesday</h2><span class="pc-badge">8 Periods</span></div>
+  <div class="day-timeline" id="tl-tue"></div>
+  <div class="periods-grid" data-day="tue">
+    <div class="period-card c-lab"     data-start="510" data-end="630" data-color="lab"     data-label="I–II"    data-col="#9aaafe"><span class="live-badge">✦ LIVE</span><span class="p-num">I–II</span><span class="p-time">08:50 – 10:30</span><div class="p-info"><div class="p-code">25CS251</div><div class="p-name">Data Structure Lab using C++</div><div class="p-fac">Mr. Ankur Sharma (ARS)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-elec"    data-start="640" data-end="690" data-color="elec"    data-label="III"     data-col="#5de89a"><span class="live-badge">✦ LIVE</span><span class="p-num">III</span><span class="p-time">10:40 – 11:30</span><div class="p-info"><div class="p-code">25EL201</div><div class="p-name">Basics of Electrical Engg.</div><div class="p-fac">Mr. Vikash Tiwari (VT)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-calc"    data-start="690" data-end="740" data-color="calc"    data-label="IV"      data-col="#fca55c"><span class="live-badge">✦ LIVE</span><span class="p-num">IV</span><span class="p-time">11:30 – 12:20</span><div class="p-info"><div class="p-code">25AS202</div><div class="p-name">Applied Calculus &amp; Differential Equation</div><div class="p-fac">Dr. Ranjeet Kaur (RK)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-lunch"   data-start="740" data-end="790" data-color="lunch"   data-label="V"       data-col="#2a4070"><span class="live-badge">✦ LIVE</span><span class="p-num">V</span><span class="p-time">12:20 – 01:10</span><div class="p-info"><div class="p-name">🍽&nbsp; Lunch Break</div></div><span class="p-room">—</span></div>
+    <div class="period-card c-ai"      data-start="790" data-end="840" data-color="ai"      data-label="VI"      data-col="#ff8a8a"><span class="live-badge">✦ LIVE</span><span class="p-num">VI</span><span class="p-time">01:10 – 02:00</span><div class="p-info"><div class="p-code">25AI201</div><div class="p-name">Essentials of AI</div><div class="p-fac">Mr. Rahul Singh (RS)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-physics" data-start="840" data-end="890" data-color="physics" data-label="VII"     data-col="#7bbcff"><span class="live-badge">✦ LIVE</span><span class="p-num">VII</span><span class="p-time">02:00 – 02:50</span><div class="p-info"><div class="p-code">25AS201</div><div class="p-name">Applied Physics</div><div class="p-fac">Dr. Isha Mehra (IM)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-env"     data-start="890" data-end="940" data-color="env"     data-label="VIII"    data-col="#90f0b0"><span class="live-badge">✦ LIVE</span><span class="p-num">VIII</span><span class="p-time">02:50 – 03:40</span><div class="p-info"><div class="p-code">25AS203</div><div class="p-name">Environment &amp; Sustainability</div><div class="p-fac">Dr. Divyanshi Sharma (DSH)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-calc"    data-start="940" data-end="990" data-color="calc"    data-label="IX"      data-col="#fca55c"><span class="live-badge">✦ LIVE</span><span class="p-num">IX</span><span class="p-time">03:40 – 04:30</span><div class="p-info"><div class="p-code">25AS202</div><div class="p-name">Applied Calculus &amp; Differential Equation</div><div class="p-fac">Dr. Ranjeet Kaur (RK)</div></div><span class="p-room">RJ-201</span></div>
+  </div>
+</div>
+
+<!-- ══════ WEDNESDAY ══════ -->
+<div class="day-view" id="day-wed">
+  <div class="day-header"><h2>Wednesday</h2><span class="pc-badge">7 Periods + Mentor</span></div>
+  <div class="day-timeline" id="tl-wed"></div>
+  <div class="periods-grid" data-day="wed">
+    <div class="period-card c-elec"    data-start="510" data-end="580" data-color="elec"    data-label="I"       data-col="#5de89a"><span class="live-badge">✦ LIVE</span><span class="p-num">I</span><span class="p-time">08:50 – 09:40</span><div class="p-info"><div class="p-code">25EL201</div><div class="p-name">Basics of Electrical Engg.</div><div class="p-fac">Mr. Vikash Tiwari (VT)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-physics" data-start="580" data-end="630" data-color="physics" data-label="II"      data-col="#7bbcff"><span class="live-badge">✦ LIVE</span><span class="p-num">II</span><span class="p-time">09:40 – 10:30</span><div class="p-info"><div class="p-code">25AS201</div><div class="p-name">Applied Physics</div><div class="p-fac">Dr. Isha Mehra (IM)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-calc"    data-start="640" data-end="690" data-color="calc"    data-label="III"     data-col="#fca55c"><span class="live-badge">✦ LIVE</span><span class="p-num">III</span><span class="p-time">10:40 – 11:30</span><div class="p-info"><div class="p-code">25AS202</div><div class="p-name">Applied Calculus &amp; Differential Equation</div><div class="p-fac">Dr. Ranjeet Kaur (RK)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-ds"      data-start="690" data-end="740" data-color="ds"      data-label="IV"      data-col="#cc96fc"><span class="live-badge">✦ LIVE</span><span class="p-num">IV</span><span class="p-time">11:30 – 12:20</span><div class="p-info"><div class="p-code">25CS201</div><div class="p-name">Data Structure Using C++</div><div class="p-fac">Mr. Ankur Sharma (ARS)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-lunch"   data-start="740" data-end="790" data-color="lunch"   data-label="V"       data-col="#2a4070"><span class="live-badge">✦ LIVE</span><span class="p-num">V</span><span class="p-time">12:20 – 01:10</span><div class="p-info"><div class="p-name">🍽&nbsp; Lunch Break</div></div><span class="p-room">—</span></div>
+    <div class="period-card c-va"      data-start="790" data-end="890" data-color="va"      data-label="VI–VII"  data-col="#ffd55a"><span class="live-badge">✦ LIVE</span><span class="p-num">VI–VII</span><span class="p-time">01:10 – 02:50</span><div class="p-info"><div class="p-code">25VA151</div><div class="p-name">Web Designing Workshop II</div><div class="p-fac">Mr. Jitendra Kumar Chauhan (JKC)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-mentor"  data-start="890" data-end="990" data-color="mentor"  data-label="VIII–IX" data-col="#40dcc8"><span class="live-badge">✦ LIVE</span><span class="p-num">VIII–IX</span><span class="p-time">02:50 – 04:30</span><div class="p-info"><div class="p-name">Mentor-Mentee Session</div><div class="p-fac">Mr. Vikash Tiwari (VT) &amp; Dr. Ranjeet Kaur (RK)</div></div><span class="p-room">RJ-201</span></div>
+  </div>
+</div>
+
+<!-- ══════ THURSDAY ══════ -->
+<div class="day-view" id="day-thu">
+  <div class="day-header"><h2>Thursday</h2><span class="pc-badge">8 Periods</span></div>
+  <div class="day-timeline" id="tl-thu"></div>
+  <div class="periods-grid" data-day="thu">
+    <div class="period-card c-calc"    data-start="510" data-end="580" data-color="calc"    data-label="I"       data-col="#fca55c"><span class="live-badge">✦ LIVE</span><span class="p-num">I</span><span class="p-time">08:50 – 09:40</span><div class="p-info"><div class="p-code">25AS202</div><div class="p-name">Applied Calculus &amp; Differential Equation</div><div class="p-fac">Dr. Ranjeet Kaur (RK)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-ds"      data-start="580" data-end="630" data-color="ds"      data-label="II"      data-col="#cc96fc"><span class="live-badge">✦ LIVE</span><span class="p-num">II</span><span class="p-time">09:40 – 10:30</span><div class="p-info"><div class="p-code">25CS201</div><div class="p-name">Data Structure Using C++</div><div class="p-fac">Mr. Ankur Sharma (ARS)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-me"      data-start="640" data-end="740" data-color="me"      data-label="III–IV"  data-col="#ec90fc"><span class="live-badge">✦ LIVE</span><span class="p-num">III–IV</span><span class="p-time">10:40 – 12:20</span><div class="p-info"><div class="p-code">25ME252</div><div class="p-name">CAD Lab</div><div class="p-fac">Mr. Mohit Bansal (MB) &amp; Dr. Naman Jain (DNJ)</div></div><span class="p-room">RJ-109</span></div>
+    <div class="period-card c-lunch"   data-start="740" data-end="790" data-color="lunch"   data-label="V"       data-col="#2a4070"><span class="live-badge">✦ LIVE</span><span class="p-num">V</span><span class="p-time">12:20 – 01:10</span><div class="p-info"><div class="p-name">🍽&nbsp; Lunch Break</div></div><span class="p-room">—</span></div>
+    <div class="period-card c-elec"    data-start="790" data-end="840" data-color="elec"    data-label="VI"      data-col="#5de89a"><span class="live-badge">✦ LIVE</span><span class="p-num">VI</span><span class="p-time">01:10 – 02:00</span><div class="p-info"><div class="p-code">25EL201</div><div class="p-name">Basics of Electrical Engg.</div><div class="p-fac">Mr. Vikash Tiwari (VT)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-va"      data-start="840" data-end="890" data-color="va"      data-label="VII"     data-col="#ffd55a"><span class="live-badge">✦ LIVE</span><span class="p-num">VII</span><span class="p-time">02:00 – 02:50</span><div class="p-info"><div class="p-code">25VA251</div><div class="p-name">Web Designing Workshop II</div><div class="p-fac">Mr. Jitendra Kumar Chauhan (JKC)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-ai"      data-start="890" data-end="940" data-color="ai"      data-label="VIII"    data-col="#ff8a8a"><span class="live-badge">✦ LIVE</span><span class="p-num">VIII</span><span class="p-time">02:50 – 03:40</span><div class="p-info"><div class="p-code">25AI201</div><div class="p-name">Essentials of AI</div><div class="p-fac">Mr. Rahul Singh (RS)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-physics" data-start="940" data-end="990" data-color="physics" data-label="IX"      data-col="#7bbcff"><span class="live-badge">✦ LIVE</span><span class="p-num">IX</span><span class="p-time">03:40 – 04:30</span><div class="p-info"><div class="p-code">25AS201</div><div class="p-name">Applied Physics</div><div class="p-fac">Dr. Isha Mehra (IM)</div></div><span class="p-room">RJ-201</span></div>
+  </div>
+</div>
+
+<!-- ══════ FRIDAY ══════ -->
+<div class="day-view" id="day-fri">
+  <div class="day-header"><h2>Friday</h2><span class="pc-badge">8 Periods</span></div>
+  <div class="day-timeline" id="tl-fri"></div>
+  <div class="periods-grid" data-day="fri">
+    <div class="period-card c-physics" data-start="510" data-end="580" data-color="physics" data-label="I"       data-col="#7bbcff"><span class="live-badge">✦ LIVE</span><span class="p-num">I</span><span class="p-time">08:50 – 09:40</span><div class="p-info"><div class="p-code">25AS201</div><div class="p-name">Applied Physics</div><div class="p-fac">Dr. Isha Mehra (IM)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-calc"    data-start="580" data-end="630" data-color="calc"    data-label="II"      data-col="#fca55c"><span class="live-badge">✦ LIVE</span><span class="p-num">II</span><span class="p-time">09:40 – 10:30</span><div class="p-info"><div class="p-code">25AS202</div><div class="p-name">Applied Calculus &amp; Differential Equation</div><div class="p-fac">Dr. Ranjeet Kaur (RK)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-lab"     data-start="640" data-end="740" data-color="lab"     data-label="III–IV"  data-col="#9aaafe"><span class="live-badge">✦ LIVE</span><span class="p-num">III–IV</span><span class="p-time">10:40 – 12:20</span><div class="p-info"><div class="p-code">25EL151</div><div class="p-name">Basic Electrical Engg. Lab</div><div class="p-fac">Mr. Vikash Tiwari (VT) &amp; Mr. Manish Kumar Singh (MKS)</div></div><span class="p-room">Basement</span></div>
+    <div class="period-card c-lunch"   data-start="740" data-end="790" data-color="lunch"   data-label="V"       data-col="#2a4070"><span class="live-badge">✦ LIVE</span><span class="p-num">V</span><span class="p-time">12:20 – 01:10</span><div class="p-info"><div class="p-name">🍽&nbsp; Lunch Break</div></div><span class="p-room">—</span></div>
+    <div class="period-card c-calc"    data-start="790" data-end="840" data-color="calc"    data-label="VI"      data-col="#fca55c"><span class="live-badge">✦ LIVE</span><span class="p-num">VI</span><span class="p-time">01:10 – 02:00</span><div class="p-info"><div class="p-code">25AS202</div><div class="p-name">Applied Calculus &amp; Differential Equation</div><div class="p-fac">Dr. Ranjeet Kaur (RK)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-ds"      data-start="840" data-end="890" data-color="ds"      data-label="VII"     data-col="#cc96fc"><span class="live-badge">✦ LIVE</span><span class="p-num">VII</span><span class="p-time">02:00 – 02:50</span><div class="p-info"><div class="p-code">25CS201</div><div class="p-name">Data Structure Using C++</div><div class="p-fac">Mr. Ankur Sharma (ARS)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-elec"    data-start="890" data-end="940" data-color="elec"    data-label="VIII"    data-col="#5de89a"><span class="live-badge">✦ LIVE</span><span class="p-num">VIII</span><span class="p-time">02:50 – 03:40</span><div class="p-info"><div class="p-code">25EL201</div><div class="p-name">Basics of Electrical Engg.</div><div class="p-fac">Mr. Vikash Tiwari (VT)</div></div><span class="p-room">RJ-201</span></div>
+    <div class="period-card c-env"     data-start="940" data-end="990" data-color="env"     data-label="IX"      data-col="#90f0b0"><span class="live-badge">✦ LIVE</span><span class="p-num">IX</span><span class="p-time">03:40 – 04:30</span><div class="p-info"><div class="p-code">25AS203</div><div class="p-name">Environment &amp; Sustainability</div><div class="p-fac">Dr. Divyanshi Sharma (DSH)</div></div><span class="p-room">RJ-201</span></div>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="section-label">Subject Legend</div>
+<div class="legend-grid">
+  <div class="legend-card"><div class="l-dot" style="background:#7bbcff;color:#7bbcff"></div><div><div class="l-code">25AS201</div><div class="l-name">Applied Physics</div><div class="l-fac">Dr. Isha Mehra (IM)</div></div></div>
+  <div class="legend-card"><div class="l-dot" style="background:#5de89a;color:#5de89a"></div><div><div class="l-code">25EL201</div><div class="l-name">Basics of Electrical Engg.</div><div class="l-fac">Mr. Vikash Tiwari (VT)</div></div></div>
+  <div class="legend-card"><div class="l-dot" style="background:#fca55c;color:#fca55c"></div><div><div class="l-code">25AS202</div><div class="l-name">Applied Calculus &amp; D.E.</div><div class="l-fac">Dr. Ranjeet Kaur (RK)</div></div></div>
+  <div class="legend-card"><div class="l-dot" style="background:#cc96fc;color:#cc96fc"></div><div><div class="l-code">25CS201</div><div class="l-name">Data Structure Using C++</div><div class="l-fac">Mr. Ankur Sharma (ARS)</div></div></div>
+  <div class="legend-card"><div class="l-dot" style="background:#90f0b0;color:#90f0b0"></div><div><div class="l-code">25AS203</div><div class="l-name">Environment &amp; Sustainability</div><div class="l-fac">Dr. Divyanshi Sharma (DSH)</div></div></div>
+  <div class="legend-card"><div class="l-dot" style="background:#ff8a8a;color:#ff8a8a"></div><div><div class="l-code">25AI201</div><div class="l-name">Essentials of AI</div><div class="l-fac">Mr. Rahul Singh (RS)</div></div></div>
+  <div class="legend-card"><div class="l-dot" style="background:#9aaafe;color:#9aaafe"></div><div><div class="l-code">25CS251 / 25AS251 / 25EL151</div><div class="l-name">Lab Sessions</div><div class="l-fac">Various Faculty</div></div></div>
+  <div class="legend-card"><div class="l-dot" style="background:#ffd55a;color:#ffd55a"></div><div><div class="l-code">25VA151 / 25VA251</div><div class="l-name">Web Designing Workshop II</div><div class="l-fac">Mr. Jitendra Kumar Chauhan (JKC)</div></div></div>
+  <div class="legend-card"><div class="l-dot" style="background:#ec90fc;color:#ec90fc"></div><div><div class="l-code">25ME252</div><div class="l-name">CAD Lab</div><div class="l-fac">Mr. Mohit Bansal &amp; Dr. Naman Jain</div></div></div>
+  <div class="legend-card"><div class="l-dot" style="background:#40dcc8;color:#40dcc8"></div><div><div class="l-code">—</div><div class="l-name">Mentor-Mentee Session</div><div class="l-fac">Mr. Vikash Tiwari &amp; Dr. Ranjeet Kaur</div></div></div>
+</div>
+
+<!-- FULL GRID -->
+<button class="toggle-btn" onclick="toggleGrid()">⊞ View Full Week Grid</button>
+<div class="grid-wrap" id="full-grid">
+  <table class="fg">
+    <thead><tr>
+      <th>Day</th>
+      <th>I<br><small>08:50–09:40</small></th><th>II<br><small>09:40–10:30</small></th>
+      <th>III<br><small>10:40–11:30</small></th><th>IV<br><small>11:30–12:20</small></th>
+      <th>V<br><small>LUNCH</small></th>
+      <th>VI<br><small>01:10–02:00</small></th><th>VII<br><small>02:00–02:50</small></th>
+      <th>VIII<br><small>02:50–03:40</small></th><th>IX<br><small>03:40–04:30</small></th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="dc">Mon</td><td class="c-env"><div class="cc">25AS203</div><div class="cn">Env &amp; Sus.</div><div class="cf">DSH</div></td><td class="c-calc"><div class="cc">25AS202</div><div class="cn">Calculus</div><div class="cf">RK</div></td><td class="c-physics"><div class="cc">25AS201</div><div class="cn">Physics</div><div class="cf">IM</div></td><td class="c-elec"><div class="cc">25EL201</div><div class="cn">Elec.</div><div class="cf">VT</div></td><td class="c-lunch" style="color:var(--sub)">LUNCH</td><td class="c-lab" colspan="2"><div class="cc">25AS251</div><div class="cn">Physics Lab</div><div class="cf">IM,AKP · KC-310</div></td><td class="c-ds"><div class="cc">25CS201</div><div class="cn">DS C++</div><div class="cf">ARS</div></td><td class="c-ai"><div class="cc">25AI201</div><div class="cn">AI</div><div class="cf">RS</div></td></tr>
+      <tr><td class="dc">Tue</td><td class="c-lab" colspan="2"><div class="cc">25CS251</div><div class="cn">DS Lab</div><div class="cf">ARS</div></td><td class="c-elec"><div class="cc">25EL201</div><div class="cn">Elec.</div><div class="cf">VT</div></td><td class="c-calc"><div class="cc">25AS202</div><div class="cn">Calculus</div><div class="cf">RK</div></td><td class="c-lunch" style="color:var(--sub)">LUNCH</td><td class="c-ai"><div class="cc">25AI201</div><div class="cn">AI</div><div class="cf">RS</div></td><td class="c-physics"><div class="cc">25AS201</div><div class="cn">Physics</div><div class="cf">IM</div></td><td class="c-env"><div class="cc">25AS203</div><div class="cn">Env &amp; Sus.</div><div class="cf">DSH</div></td><td class="c-calc"><div class="cc">25AS202</div><div class="cn">Calculus</div><div class="cf">RK</div></td></tr>
+      <tr><td class="dc">Wed</td><td class="c-elec"><div class="cc">25EL201</div><div class="cn">Elec.</div><div class="cf">VT</div></td><td class="c-physics"><div class="cc">25AS201</div><div class="cn">Physics</div><div class="cf">IM</div></td><td class="c-calc"><div class="cc">25AS202</div><div class="cn">Calculus</div><div class="cf">RK</div></td><td class="c-ds"><div class="cc">25CS201</div><div class="cn">DS C++</div><div class="cf">ARS</div></td><td class="c-lunch" style="color:var(--sub)">LUNCH</td><td class="c-va" colspan="2"><div class="cc">25VA151</div><div class="cn">Web Design</div><div class="cf">JKC</div></td><td class="c-mentor" colspan="2"><div class="cn">Mentor-Mentee</div><div class="cf">VT, RK</div></td></tr>
+      <tr><td class="dc">Thu</td><td class="c-calc"><div class="cc">25AS202</div><div class="cn">Calculus</div><div class="cf">RK</div></td><td class="c-ds"><div class="cc">25CS201</div><div class="cn">DS C++</div><div class="cf">ARS</div></td><td class="c-me" colspan="2"><div class="cc">25ME252</div><div class="cn">CAD Lab</div><div class="cf">MB,DNJ · RJ-109</div></td><td class="c-lunch" style="color:var(--sub)">LUNCH</td><td class="c-elec"><div class="cc">25EL201</div><div class="cn">Elec.</div><div class="cf">VT</div></td><td class="c-va"><div class="cc">25VA251</div><div class="cn">Web Design</div><div class="cf">JKC</div></td><td class="c-ai"><div class="cc">25AI201</div><div class="cn">AI</div><div class="cf">RS</div></td><td class="c-physics"><div class="cc">25AS201</div><div class="cn">Physics</div><div class="cf">IM</div></td></tr>
+      <tr><td class="dc">Fri</td><td class="c-physics"><div class="cc">25AS201</div><div class="cn">Physics</div><div class="cf">IM</div></td><td class="c-calc"><div class="cc">25AS202</div><div class="cn">Calculus</div><div class="cf">RK</div></td><td class="c-lab" colspan="2"><div class="cc">25EL151</div><div class="cn">Elec. Lab</div><div class="cf">VT,MKS · Basement</div></td><td class="c-lunch" style="color:var(--sub)">LUNCH</td><td class="c-calc"><div class="cc">25AS202</div><div class="cn">Calculus</div><div class="cf">RK</div></td><td class="c-ds"><div class="cc">25CS201</div><div class="cn">DS C++</div><div class="cf">ARS</div></td><td class="c-elec"><div class="cc">25EL201</div><div class="cn">Elec.</div><div class="cf">VT</div></td><td class="c-env"><div class="cc">25AS203</div><div class="cn">Env &amp; Sus.</div><div class="cf">DSH</div></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- FOOTER -->
+<div class="footer-card">
+  <div>
+    <div class="footer-label">Academic Coordinator</div>
+    <div class="footer-val">Dr. Vivek Saxena</div>
+    <div class="footer-label" style="margin-top:14px">Class Mentors</div>
+    <div class="footer-val">Mr. Vikash Tiwari (VT)<br>Dr. Ranjeet Kaur (RK)</div>
+  </div>
+  <div>
+    <div class="footer-label">Time Table I/C</div>
+    <div class="footer-val">Dr. Nimisha<br>Dr. Vikash Singh</div>
+    <div class="footer-label" style="margin-top:14px">HOD</div>
+    <div class="footer-val">Dr. Jaya Singh</div>
+  </div>
+  <div class="footer-bottom">TM-07 &nbsp;✦&nbsp; w.e.f. 19.02.2026 &nbsp;✦&nbsp; Session 2025-26 Even Semester &nbsp;✦&nbsp; I/CSE-29</div>
+</div>
+
+</div>
+<script>
+const DAY_MAP={1:'mon',2:'tue',3:'wed',4:'thu',5:'fri'};
+const DAY_FULL=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTH=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function nm(){const n=new Date();return n.getHours()*60+n.getMinutes()+n.getSeconds()/60;}
+function ns(){const n=new Date();return n.getHours()*3600+n.getMinutes()*60+n.getSeconds();}
+function fmtS(s){s=Math.max(0,Math.round(s));const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;if(h>0)return`${h}h ${m}m ${sec}s`;if(m>0)return`${m}m ${sec}s`;return`${sec}s`;}
+function fmtM(m){const h=Math.floor(m/60),mm=m%60,ap=h>=12?'PM':'AM',hh=h>12?h-12:(h===0?12:h);return`${hh}:${String(mm).padStart(2,'0')} ${ap}`;}
+
+function showDay(d){
+  document.querySelectorAll('.day-view').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.day-btn').forEach(e=>e.classList.remove('active'));
+  document.getElementById('day-'+d).classList.add('active');
+  document.querySelector(`[data-day="${d}"]`).classList.add('active');
+}
+function toggleGrid(){
+  const el=document.getElementById('full-grid');
+  el.classList.toggle('open');
+  document.querySelector('.toggle-btn').textContent=el.classList.contains('open')?'✕ Hide Full Week Grid':'⊞ View Full Week Grid';
+}
+
+function buildTimeline(dayKey){
+  const tl=document.getElementById('tl-'+dayKey);
+  if(!tl||tl.dataset.built)return;
+  tl.dataset.built='1';
+  const cards=[...document.querySelectorAll(`.periods-grid[data-day="${dayKey}"] .period-card`)];
+  if(!cards.length)return;
+  const total=990-510;
+  cards.forEach(c=>{
+    const seg=document.createElement('div');
+    seg.className='tl-seg';
+    seg.dataset.start=c.dataset.start;
+    seg.dataset.end=c.dataset.end;
+    seg.style.width=((+c.dataset.end - +c.dataset.start)/total*100).toFixed(2)+'%';
+    seg.style.background=c.dataset.col||'#333';
+    tl.appendChild(seg);
+  });
+}
+
+function updateTimelines(todayKey){
+  const now=nm();
+  ['mon','tue','wed','thu','fri'].forEach(d=>{
+    const tl=document.getElementById('tl-'+d);
+    if(!tl)return;
+    tl.querySelectorAll('.tl-seg').forEach(s=>{
+      const st=+s.dataset.start,en=+s.dataset.end;
+      s.classList.remove('done','active-seg');
+      if(d===todayKey){
+        if(now>=en)s.classList.add('done');
+        else if(now>=st&&now<en)s.classList.add('active-seg');
+      }
+    });
+  });
+}
+
+function buildUpcoming(cards,now){
+  const rem=cards.filter(c=>+c.dataset.end>now);
+  const classLeft=rem.filter(c=>c.dataset.color!=='lunch').length;
+  const badge=document.getElementById('up-badge');
+  badge.textContent=classLeft>0?`${classLeft} left`:'Done ✓';
+  badge.className='up-badge'+(classLeft>0?' has-classes':'');
+  const list=document.getElementById('up-list');
+  if(!rem.length){list.innerHTML='<div class="up-empty">🎉 All done for today!<br><span style="font-size:.74rem">Great work — see you tomorrow</span></div>';return;}
+  list.innerHTML=rem.map(c=>{
+    const isnow=now>=+c.dataset.start&&now<+c.dataset.end;
+    const color=c.dataset.color||'lunch';
+    const name=c.querySelector('.p-name').textContent;
+    const fac=c.querySelector('.p-fac')?.textContent||'';
+    const label=c.dataset.label||'';
+    return`<div class="up-item uc-${color}${isnow?' is-now':''}">
+      <div class="up-time">${fmtM(+c.dataset.start)}<br>${fmtM(+c.dataset.end)}</div>
+      <div class="up-divider"></div>
+      <div class="up-info"><div class="up-name">${isnow?'▶ ':''}${name}</div>${fac?`<div class="up-fac">${fac}</div>`:''}</div>
+      <div class="up-num">${label}</div>
+    </div>`;
+  }).join('');
+}
+
+function tick(){
+  const now=new Date();
+  document.getElementById('clock').textContent=[now.getHours(),now.getMinutes(),now.getSeconds()].map(n=>String(n).padStart(2,'0')).join(':');
+  document.getElementById('clock-date').textContent=`${now.getDate()} ${MONTH[now.getMonth()]} ${now.getFullYear()}`;
+  const todayKey=DAY_MAP[now.getDay()];
+  document.getElementById('day-chip').textContent=todayKey?DAY_FULL[now.getDay()]:'Weekend';
+  const nowM=nm(),nowS=ns();
+  document.querySelectorAll('.period-card').forEach(c=>c.classList.remove('current-period','done-period'));
+
+  if(!todayKey){
+    document.getElementById('now-subject').textContent='🏖 Weekend — Enjoy your break!';
+    document.getElementById('now-faculty').textContent='No classes today';
+    document.getElementById('cd-label').textContent='STATUS';
+    document.getElementById('cd-val').textContent='FREE';
+    document.getElementById('prog-fill').style.width='0%';
+    document.getElementById('prog-start').textContent='';
+    document.getElementById('prog-end').textContent='';
+    document.getElementById('up-list').innerHTML='<div class="up-empty">🏖 No classes on weekends!<br><span style="font-size:.74rem">Come back Monday</span></div>';
+    document.getElementById('up-badge').textContent='—';
+    document.getElementById('up-badge').className='up-badge';
+    updateTimelines(null);
+    return;
+  }
+
+  const container=document.querySelector(`.periods-grid[data-day="${todayKey}"]`);
+  if(!container)return;
+  const cards=[...container.querySelectorAll('.period-card')];
+  cards.forEach(c=>{if(nowM>=+c.dataset.end)c.classList.add('done-period');});
+
+  let cur=null,nxt=null;
+  for(let i=0;i<cards.length;i++){
+    const st=+cards[i].dataset.start,en=+cards[i].dataset.end;
+    if(nowM>=st&&nowM<en){cur={el:cards[i],st,en};break;}
+    if(nowM<st&&!nxt)nxt={el:cards[i],st};
+  }
+
+  if(cur){
+    cur.el.classList.remove('done-period');cur.el.classList.add('current-period');
+    document.getElementById('now-subject').textContent=cur.el.querySelector('.p-name').textContent;
+    document.getElementById('now-faculty').textContent=cur.el.querySelector('.p-fac')?.textContent||'';
+    const es=cur.en*60,ss=cur.st*60;
+    document.getElementById('cd-label').textContent='ENDS IN';
+    document.getElementById('cd-val').textContent=fmtS(es-nowS);
+    document.getElementById('prog-fill').style.width=Math.min(100,(nowS-ss)/(es-ss)*100)+'%';
+    document.getElementById('prog-start').textContent=fmtM(cur.st);
+    document.getElementById('prog-end').textContent=fmtM(cur.en);
+  }else if(nxt){
+    document.getElementById('now-subject').textContent='⏸  Between Classes';
+    document.getElementById('now-faculty').textContent='Next class starts soon';
+    document.getElementById('cd-label').textContent='NEXT CLASS IN';
+    document.getElementById('cd-val').textContent=fmtS(nxt.st*60-nowS);
+    document.getElementById('prog-fill').style.width='0%';
+    document.getElementById('prog-start').textContent='';
+    document.getElementById('prog-end').textContent='';
+  }else{
+    document.getElementById('now-subject').textContent='✅  All classes done!';
+    document.getElementById('now-faculty').textContent='Great work today 🎓';
+    document.getElementById('cd-label').textContent='SEE YOU';
+    document.getElementById('cd-val').textContent='TOMORROW';
+    document.getElementById('prog-fill').style.width='100%';
+    document.getElementById('prog-start').textContent='';
+    document.getElementById('prog-end').textContent='';
+  }
+  buildUpcoming(cards,nowM);
+  updateTimelines(todayKey);
+}
+
+(function(){
+  ['mon','tue','wed','thu','fri'].forEach(buildTimeline);
+  const todayKey=DAY_MAP[new Date().getDay()];
+  if(todayKey){
+    const btn=document.querySelector(`[data-day="${todayKey}"]`);
+    if(btn){const d=document.createElement('span');d.className='today-dot';btn.appendChild(d);}
+    showDay(todayKey);
+  }else{showDay('mon');}
+  tick();
+  setInterval(tick,1000);
+})();
+</script>
+</body>
+</html>

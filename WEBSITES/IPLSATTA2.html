@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pro Money Pool</title>
+
+<style>
+body {
+  font-family: Arial;
+  margin: 0;
+  background: #020617;
+  color: white;
+}
+
+header {
+  background: #0f172a;
+  padding: 15px;
+  text-align: center;
+  font-size: 22px;
+  color: #38bdf8;
+}
+
+.container {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+input, button, select {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 8px;
+  border: none;
+}
+
+button {
+  background: #22c55e;
+  color: white;
+  cursor: pointer;
+}
+
+.card {
+  background: #0f172a;
+  padding: 15px;
+  margin-top: 15px;
+  border-radius: 10px;
+}
+
+.green { color: #22c55e; }
+.red { color: #ef4444; }
+
+</style>
+</head>
+
+<body>
+
+<header>💰 PRO Pool Manager</header>
+
+<div class="container">
+
+<!-- LOGIN -->
+<div class="card" id="loginBox">
+  <h3>Enter Your Name</h3>
+  <input id="username" placeholder="Your name">
+  <button onclick="login()">Enter</button>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" style="display:none;">
+
+<div class="card">
+  <h3>Add Friend</h3>
+  <input id="friendName" placeholder="Friend name">
+  <button onclick="addFriend()">Add</button>
+</div>
+
+<div class="card">
+  <h3>Add Money Entry</h3>
+  <select id="person"></select>
+  <input type="number" id="amount" placeholder="Amount">
+  <button onclick="addMoney()">Add</button>
+</div>
+
+<div class="card">
+  <h3>Session</h3>
+  <input id="sessionName" placeholder="Session name (e.g IPL Match 1)">
+  <button onclick="saveSession()">Save Session</button>
+</div>
+
+<div class="card">
+  <h3>Summary</h3>
+  <p>Total: ₹<span id="total">0</span></p>
+  <p>Per Person: ₹<span id="share">0</span></p>
+</div>
+
+<div class="card">
+  <h3>Balances</h3>
+  <div id="balances"></div>
+</div>
+
+</div>
+
+</div>
+
+<script>
+let user = localStorage.getItem("user");
+let friends = JSON.parse(localStorage.getItem("friends")) || [];
+let entries = JSON.parse(localStorage.getItem("entries")) || [];
+let sessions = JSON.parse(localStorage.getItem("sessions")) || [];
+
+if (user) showApp();
+
+function login() {
+  user = document.getElementById("username").value;
+  if (!user) return alert("Enter name");
+  localStorage.setItem("user", user);
+  showApp();
+}
+
+function showApp() {
+  document.getElementById("loginBox").style.display = "none";
+  document.getElementById("app").style.display = "block";
+  updateUI();
+}
+
+function addFriend() {
+  let name = document.getElementById("friendName").value;
+  if (!name) return;
+
+  if (!friends.includes(name)) friends.push(name);
+
+  localStorage.setItem("friends", JSON.stringify(friends));
+  updateUI();
+}
+
+function addMoney() {
+  let person = document.getElementById("person").value;
+  let amount = parseFloat(document.getElementById("amount").value);
+
+  if (!person || isNaN(amount)) return;
+
+  entries.push({ person, amount });
+  localStorage.setItem("entries", JSON.stringify(entries));
+
+  updateUI();
+}
+
+function updateUI() {
+  let select = document.getElementById("person");
+  select.innerHTML = "";
+
+  friends.forEach(f => {
+    select.innerHTML += `<option>${f}</option>`;
+  });
+
+  let total = entries.reduce((sum, e) => sum + e.amount, 0);
+  let share = friends.length ? total / friends.length : 0;
+
+  document.getElementById("total").innerText = total.toFixed(2);
+  document.getElementById("share").innerText = share.toFixed(2);
+
+  let balances = {};
+
+  friends.forEach(f => balances[f] = 0);
+  entries.forEach(e => balances[e.person] += e.amount);
+
+  let div = document.getElementById("balances");
+  div.innerHTML = "";
+
+  friends.forEach(f => {
+    let bal = balances[f] - share;
+    let cls = bal >= 0 ? "green" : "red";
+    let text = bal >= 0 
+      ? `Gets ₹${bal.toFixed(2)}`
+      : `Pays ₹${Math.abs(bal).toFixed(2)}`;
+
+    div.innerHTML += `<p class="${cls}">${f}: ${text}</p>`;
+  });
+}
+
+function saveSession() {
+  let name = document.getElementById("sessionName").value;
+  if (!name) return;
+
+  sessions.push({
+    name,
+    entries,
+    date: new Date().toLocaleString()
+  });
+
+  localStorage.setItem("sessions", JSON.stringify(sessions));
+
+  alert("Session Saved!");
+
+  entries = [];
+  localStorage.setItem("entries", JSON.stringify(entries));
+  updateUI();
+}
+</script>
+
+</body>
+</html>

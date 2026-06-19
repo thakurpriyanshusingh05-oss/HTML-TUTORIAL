@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURUM INTELLIGENCE — Luxury AI Poster</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --gold-bright: #fff0a0;
+  --gold-mid:    #d4a017;
+  --gold-deep:   #8b6200;
+  --gold-dark:   #3d2a00;
+  --marble-bg:   #080601;
+  --marble-mid:  #0f0c01;
+  --cream:       #fff8e7;
+}
+
+body {
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 50px 20px;
+}
+
+/* ══ POSTER SHELL ══ */
+.poster {
+  position: relative;
+  width: 720px;
+  background: var(--marble-bg);
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(200,160,40,0.2),
+    0 0 60px rgba(180,130,20,0.3),
+    0 0 140px rgba(120,80,0,0.2),
+    inset 0 0 120px rgba(0,0,0,0.8);
+}
+
+/* ══ MARBLE BACKGROUND ══ */
+.marble-base {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 90% 50% at 50% 0%,   rgba(50,35,5,0.7)  0%, transparent 65%),
+    radial-gradient(ellipse 60% 40% at 15% 40%,  rgba(35,25,3,0.5)  0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 85% 60%,  rgba(40,28,4,0.5)  0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(30,20,2,0.8)  0%, transparent 65%),
+    linear-gradient(160deg, #0c0900 0%, #080601 35%, #0a0700 70%, #060400 100%);
+}
+
+/* Marble veins layer 1 */
+.veins1 {
+  position: absolute; inset: 0; opacity: 0.055;
+  background-image:
+    repeating-linear-gradient(-52deg,
+      transparent 0px, transparent 38px,
+      rgba(220,175,50,1) 38px, rgba(220,175,50,1) 39px,
+      transparent 39px, transparent 90px,
+      rgba(190,145,30,0.6) 90px, rgba(190,145,30,0.6) 91px),
+    repeating-linear-gradient(34deg,
+      transparent 0px, transparent 60px,
+      rgba(200,155,35,0.4) 60px, rgba(200,155,35,0.4) 61px);
+}
+/* Marble veins layer 2 — fine */
+.veins2 {
+  position: absolute; inset: 0; opacity: 0.025;
+  background-image:
+    repeating-linear-gradient(-20deg,
+      transparent 0px, transparent 18px,
+      rgba(240,200,80,1) 18px, rgba(240,200,80,1) 18.5px);
+}
+
+/* Grain texture overlay */
+.grain {
+  position: absolute; inset: 0; opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* Vignette */
+.vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 85% 85% at 50% 50%, transparent 40%, rgba(0,0,0,0.7) 100%);
+}
+
+/* ══ OUTER BORDER FRAME ══ */
+.frame-outer {
+  position: absolute; inset: 16px;
+  border: 1px solid rgba(200,160,40,0.25);
+  pointer-events: none; z-index: 5;
+}
+.frame-inner {
+  position: absolute; inset: 24px;
+  border: 1px solid rgba(200,160,40,0.1);
+  pointer-events: none; z-index: 5;
+}
+
+/* Corner ornaments */
+.corner-orn {
+  position: absolute; width: 48px; height: 48px; z-index: 6;
+}
+.corner-orn svg { width:100%; height:100%; }
+.corner-orn.tl { top: 10px; left: 10px; }
+.corner-orn.tr { top: 10px; right: 10px; transform: scaleX(-1); }
+.corner-orn.bl { bottom: 10px; left: 10px; transform: scaleY(-1); }
+.corner-orn.br { bottom: 10px; right: 10px; transform: scale(-1,-1); }
+
+/* ══ GOLDEN AMBIENT GLOW ══ */
+.glow-top    { position:absolute; width:500px; height:300px; top:-120px; left:50%; transform:translateX(-50%); background:radial-gradient(ellipse, rgba(180,130,20,0.18) 0%, transparent 70%); filter:blur(20px); pointer-events:none; }
+.glow-center { position:absolute; width:400px; height:400px; top:28%; left:50%; transform:translateX(-50%); background:radial-gradient(ellipse, rgba(200,150,30,0.08) 0%, transparent 70%); pointer-events:none; }
+.glow-bottom { position:absolute; width:500px; height:300px; bottom:-100px; left:50%; transform:translateX(-50%); background:radial-gradient(ellipse, rgba(160,110,10,0.15) 0%, transparent 70%); filter:blur(20px); pointer-events:none; }
+
+/* ══ CONTENT ══ */
+.content {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 52px 52px 52px;
+}
+
+/* ── TOP CREST ── */
+.crest-row {
+  display: flex; align-items: center; width: 100%; gap: 14px;
+  animation: fadeIn 1s ease forwards;
+}
+.crest-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200,160,40,0.5), rgba(220,180,60,0.8), rgba(200,160,40,0.5), transparent);
+}
+.crest-center { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+.crest-diamond {
+  width: 7px; height: 7px;
+  background: rgba(200,160,40,0.8);
+  transform: rotate(45deg);
+  box-shadow: 0 0 8px rgba(200,160,40,0.8), 0 0 16px rgba(180,130,20,0.4);
+}
+.crest-dot {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: rgba(180,140,30,0.6);
+  box-shadow: 0 0 6px rgba(180,140,30,0.6);
+}
+
+/* Estate tag */
+.estate-tag {
+  margin-top: 18px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px; font-style: italic;
+  letter-spacing: 7px;
+  color: rgba(200,160,40,0.45);
+  text-transform: uppercase;
+  text-align: center;
+  animation: fadeIn 1s 0.2s forwards; opacity:0;
+}
+
+/* ── MAIN TITLE ── */
+.title-block {
+  margin-top: 22px;
+  text-align: center;
+  animation: riseUp 1.2s 0.4s ease forwards; opacity:0;
+}
+.title-line1 {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 72px; font-weight: 900;
+  letter-spacing: 6px;
+  background: linear-gradient(180deg,
+    #fff8c0 0%,
+    #f0d060 15%,
+    #d4a017 40%,
+    #b8880e 60%,
+    #d4a017 75%,
+    #f0d060 90%,
+    #fff8c0 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: block;
+  filter: drop-shadow(0 0 25px rgba(200,150,20,0.5)) drop-shadow(0 4px 8px rgba(0,0,0,0.8));
+  line-height: 1;
+}
+.title-line2 {
+  font-family: 'Cinzel', serif;
+  font-size: 18px; font-weight: 400;
+  letter-spacing: 20px;
+  color: rgba(200,160,40,0.45);
+  display: block;
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+
+/* ── ORNATE DIVIDER ── */
+.orn-divider {
+  margin-top: 20px;
+  width: 85%;
+  display: flex; align-items: center; gap: 10px;
+  animation: fadeIn 1s 0.7s forwards; opacity:0;
+}
+.orn-line { flex:1; height:1px; background: linear-gradient(90deg, transparent, rgba(200,160,40,0.4), transparent); }
+.orn-flourish {
+  display: flex; align-items: center; gap: 5px;
+}
+.orn-f-diamond { width:6px; height:6px; background:rgba(200,160,40,0.6); transform:rotate(45deg); }
+.orn-f-small   { width:4px; height:4px; background:rgba(160,120,20,0.4); transform:rotate(45deg); }
+
+/* ── MEDALLION ── */
+.medallion-wrap {
+  margin-top: 28px;
+  position: relative;
+  width: 260px; height: 260px;
+  display: flex; align-items: center; justify-content: center;
+  animation: riseUp 1.2s 0.6s ease forwards; opacity:0;
+}
+.medallion-outer {
+  position: absolute; inset: 0;
+  animation: medalRotateSlow 60s linear infinite;
+}
+.medallion-mid {
+  position: absolute; inset: 20px;
+  animation: medalRotateSlow 40s linear infinite reverse;
+}
+.medallion-core {
+  position: relative;
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 32%,
+    rgba(255,245,180,0.95) 0%,
+    rgba(220,175,50,0.9) 20%,
+    rgba(170,120,15,0.85) 50%,
+    rgba(80,50,5,0.95) 80%,
+    rgba(20,12,0,1) 100%);
+  box-shadow:
+    0 0 0 1px rgba(200,160,40,0.5),
+    0 0 30px rgba(200,150,20,0.6),
+    0 0 70px rgba(160,110,10,0.3),
+    inset 0 0 30px rgba(0,0,0,0.6),
+    inset -8px -8px 20px rgba(0,0,0,0.4);
+  animation: medalPulse 4s ease-in-out infinite;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+}
+@keyframes medalPulse {
+  0%,100% { box-shadow: 0 0 0 1px rgba(200,160,40,0.5), 0 0 30px rgba(200,150,20,0.6), 0 0 70px rgba(160,110,10,0.3), inset 0 0 30px rgba(0,0,0,0.6); }
+  50%     { box-shadow: 0 0 0 1px rgba(220,180,60,0.7), 0 0 50px rgba(220,170,30,0.9), 0 0 100px rgba(180,130,15,0.5), inset 0 0 30px rgba(0,0,0,0.6); }
+}
+@keyframes medalRotateSlow { to { transform: rotate(360deg); } }
+
+.medal-ai-text {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 32px; font-weight: 900;
+  background: linear-gradient(180deg, #fff8c0, #d4a017, #8b6200);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 4px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+}
+.medal-sub-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9px; font-style: italic;
+  letter-spacing: 5px;
+  color: rgba(220,180,60,0.6);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* ── QUOTE ── */
+.quote-block {
+  margin-top: 26px;
+  text-align: center;
+  padding: 0 40px;
+  animation: fadeIn 1s 0.9s forwards; opacity:0;
+}
+.quote-mark {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 40px;
+  color: rgba(200,160,40,0.2);
+  line-height: 0.5;
+  display: block;
+}
+.quote-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px; font-style: italic; font-weight: 300;
+  color: rgba(220,185,80,0.55);
+  letter-spacing: 2px;
+  line-height: 1.7;
+}
+
+/* ── STAT COLUMNS ── */
+.stats-grid {
+  margin-top: 28px;
+  width: 100%;
+  display: grid; grid-template-columns: 1fr 1px 1fr 1px 1fr 1px 1fr;
+  border: 1px solid rgba(200,160,40,0.15);
+  position: relative;
+  animation: riseUp 1s 1s forwards; opacity:0;
+}
+.stats-grid::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200,160,40,0.4), rgba(220,180,60,0.6), rgba(200,160,40,0.4), transparent);
+}
+.stats-grid::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200,160,40,0.4), rgba(220,180,60,0.6), rgba(200,160,40,0.4), transparent);
+}
+.stat-div { background: rgba(200,160,40,0.1); }
+.stat-cell {
+  padding: 18px 0;
+  text-align: center;
+  background: rgba(5,3,0,0.5);
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+}
+.stat-val {
+  font-family: 'Cinzel', serif;
+  font-size: 22px; font-weight: 700;
+  background: linear-gradient(180deg, #fff8c0, #d4a017);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 8px rgba(200,150,20,0.5));
+}
+.stat-key {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9px; font-style: italic;
+  letter-spacing: 3px;
+  color: rgba(180,140,30,0.4);
+  text-transform: uppercase;
+}
+
+/* ── STOPWATCH ── */
+.sw-section {
+  margin-top: 28px;
+  width: 100%;
+  animation: riseUp 1s 1.2s forwards; opacity:0;
+}
+.sw-header {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 18px;
+}
+.sw-h-line { flex:1; height:1px; background: linear-gradient(90deg, transparent, rgba(200,160,40,0.3)); }
+.sw-h-line.rev { background: linear-gradient(90deg, rgba(200,160,40,0.3), transparent); }
+.sw-h-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px; font-style: italic;
+  letter-spacing: 6px;
+  color: rgba(200,160,40,0.4);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.sw-body {
+  background: rgba(4,3,0,0.9);
+  border: 1px solid rgba(200,160,40,0.2);
+  padding: 28px 36px 24px;
+  position: relative;
+}
+/* Top shimmer */
+.sw-body::before {
+  content:'';
+  position:absolute; top:0; left:15%; right:15%; height:1px;
+  background: linear-gradient(90deg, transparent, rgba(220,180,60,0.6), transparent);
+}
+/* Bottom shimmer */
+.sw-body::after {
+  content:'';
+  position:absolute; bottom:0; left:15%; right:15%; height:1px;
+  background: linear-gradient(90deg, transparent, rgba(200,150,30,0.4), transparent);
+}
+/* Corner accents */
+.sw-corner {
+  position: absolute; width: 14px; height: 14px;
+  border-color: rgba(200,160,40,0.35);
+  border-style: solid;
+}
+.sw-corner.tl { top:6px; left:6px;   border-width: 1px 0 0 1px; }
+.sw-corner.tr { top:6px; right:6px;  border-width: 1px 1px 0 0; }
+.sw-corner.bl { bottom:6px; left:6px;  border-width: 0 0 1px 1px; }
+.sw-corner.br { bottom:6px; right:6px; border-width: 0 1px 1px 0; }
+
+/* Roman numeral row */
+.sw-roman {
+  display: flex; justify-content: space-between;
+  margin-bottom: 12px;
+  padding: 0 10px;
+}
+.sw-roman span {
+  font-family: 'Cinzel', serif;
+  font-size: 9px; letter-spacing: 1px;
+  color: rgba(180,140,30,0.25);
+}
+
+/* Time display */
+.sw-time-display {
+  text-align: center;
+  margin-bottom: 8px;
+  position: relative;
+}
+.sw-digits {
+  font-family: 'Cinzel', serif;
+  font-size: 68px; font-weight: 900;
+  background: linear-gradient(180deg,
+    #fff8c0 0%, #f0d060 20%,
+    #d4a017 45%, #b8880e 65%,
+    #d4a017 80%, #f0d060 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 20px rgba(200,150,20,0.7)) drop-shadow(0 0 40px rgba(160,110,10,0.4));
+  letter-spacing: 4px;
+  line-height: 1;
+  display: inline;
+}
+.sw-ms-display {
+  font-family: 'Cinzel', serif;
+  font-size: 28px; font-weight: 400;
+  color: rgba(180,130,20,0.55);
+  filter: drop-shadow(0 0 8px rgba(180,130,20,0.4));
+  letter-spacing: 2px;
+}
+
+/* Tick marks */
+.sw-ticks {
+  display: flex; justify-content: space-between;
+  padding: 0 4px; margin-bottom: 20px;
+}
+.sw-tick { width: 1px; height: 6px; background: rgba(200,160,40,0.2); }
+.sw-tick.major { height: 10px; background: rgba(200,160,40,0.4); }
+
+/* Lap display */
+.sw-laps {
+  min-height: 30px;
+  display: flex; flex-wrap: wrap; gap: 8px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.lap-pill {
+  font-family: 'Cinzel', serif;
+  font-size: 10px; letter-spacing: 2px;
+  padding: 4px 12px;
+  border: 1px solid rgba(200,160,40,0.2);
+  color: rgba(200,160,40,0.5);
+  background: rgba(200,160,40,0.04);
+  animation: fadeIn 0.3s ease;
+}
+
+/* Controls */
+.sw-controls {
+  display: flex; justify-content: center; gap: 12px;
+}
+.sw-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 4px;
+  padding: 12px 28px;
+  background: transparent;
+  cursor: pointer; text-transform: uppercase;
+  transition: all 0.3s ease;
+  position: relative; overflow: hidden;
+}
+.sw-btn::before {
+  content:'';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(200,160,40,0.1), transparent);
+  opacity: 0; transition: opacity 0.3s;
+}
+.sw-btn:hover::before { opacity: 1; }
+
+.btn-start {
+  border: 1px solid rgba(200,160,40,0.4);
+  color: rgba(220,175,50,0.85);
+}
+.btn-start:hover {
+  border-color: rgba(220,180,60,0.8);
+  color: var(--cream);
+  box-shadow: 0 0 20px rgba(200,150,20,0.3), inset 0 0 12px rgba(200,150,20,0.05);
+}
+.btn-start.running {
+  border-color: rgba(200,100,20,0.7);
+  color: rgba(240,150,40,0.9);
+  box-shadow: 0 0 16px rgba(200,100,20,0.3);
+}
+.btn-lap {
+  border: 1px solid rgba(180,140,30,0.25);
+  color: rgba(180,140,30,0.55);
+}
+.btn-lap:hover {
+  border-color: rgba(200,160,40,0.5);
+  color: rgba(200,160,40,0.8);
+}
+.btn-reset {
+  border: 1px solid rgba(160,120,20,0.2);
+  color: rgba(160,120,20,0.4);
+}
+.btn-reset:hover {
+  border-color: rgba(180,140,30,0.4);
+  color: rgba(180,140,30,0.65);
+}
+
+/* ── BOTTOM CREST ── */
+.bottom-section {
+  margin-top: 28px;
+  width: 100%;
+  display: flex; justify-content: space-between; align-items: center;
+  animation: fadeIn 1s 1.4s forwards; opacity:0;
+}
+.bottom-badge {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 10px; font-style: italic;
+  letter-spacing: 4px;
+  color: rgba(180,140,30,0.3);
+  text-transform: uppercase;
+}
+.bottom-crest {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.bc-mark {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 18px;
+  background: linear-gradient(180deg, rgba(220,180,50,0.6), rgba(160,110,20,0.4));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 4px;
+}
+.bc-dots { display:flex; gap:6px; }
+.bc-dot { width:3px; height:3px; border-radius:50%; background:rgba(200,160,40,0.3); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+@keyframes riseUp {
+  from { opacity:0; transform:translateY(28px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* Floating gold motes */
+.mote {
+  position: absolute; border-radius: 50%;
+  pointer-events: none;
+  animation: moteFloat linear infinite;
+}
+@keyframes moteFloat {
+  0%   { transform: translateY(0) translateX(0); opacity:0; }
+  10%  { opacity:1; }
+  90%  { opacity:0.3; }
+  100% { transform: translateY(-90vh) translateX(var(--mx)); opacity:0; }
+}
+</style>
+</head>
+<body>
+<div class="poster" id="poster">
+
+  <!-- BACKGROUNDS -->
+  <div class="marble-base"></div>
+  <div class="veins1"></div>
+  <div class="veins2"></div>
+  <div class="grain"></div>
+  <div class="vignette"></div>
+  <div class="glow-top"></div>
+  <div class="glow-center"></div>
+  <div class="glow-bottom"></div>
+
+  <!-- FRAMES -->
+  <div class="frame-outer"></div>
+  <div class="frame-inner"></div>
+
+  <!-- CORNER ORNAMENTS -->
+  <div class="corner-orn tl">
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2,46 L2,8 C2,4.7 4.7,2 8,2 L46,2" stroke="rgba(200,160,40,0.5)" stroke-width="1.5"/>
+      <path d="M2,28 L10,28 L10,20 L18,20 L18,12 L26,12" stroke="rgba(200,160,40,0.25)" stroke-width="0.8"/>
+      <circle cx="2"  cy="2"  r="2.5" fill="rgba(200,160,40,0.5)"/>
+      <circle cx="26" cy="2"  r="1.5" fill="rgba(180,140,30,0.3)"/>
+      <circle cx="2"  cy="26" r="1.5" fill="rgba(180,140,30,0.3)"/>
+      <rect x="0" y="0" width="4" height="4" rx="0" fill="none" stroke="rgba(200,160,40,0.3)" stroke-width="0.5" transform="translate(18,18)"/>
+    </svg>
+  </div>
+  <div class="corner-orn tr">
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2,46 L2,8 C2,4.7 4.7,2 8,2 L46,2" stroke="rgba(200,160,40,0.5)" stroke-width="1.5"/>
+      <path d="M2,28 L10,28 L10,20 L18,20 L18,12 L26,12" stroke="rgba(200,160,40,0.25)" stroke-width="0.8"/>
+      <circle cx="2" cy="2" r="2.5" fill="rgba(200,160,40,0.5)"/>
+      <circle cx="26" cy="2" r="1.5" fill="rgba(180,140,30,0.3)"/>
+      <circle cx="2" cy="26" r="1.5" fill="rgba(180,140,30,0.3)"/>
+    </svg>
+  </div>
+  <div class="corner-orn bl">
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2,46 L2,8 C2,4.7 4.7,2 8,2 L46,2" stroke="rgba(200,160,40,0.5)" stroke-width="1.5"/>
+      <path d="M2,28 L10,28 L10,20 L18,20 L18,12 L26,12" stroke="rgba(200,160,40,0.25)" stroke-width="0.8"/>
+      <circle cx="2" cy="2" r="2.5" fill="rgba(200,160,40,0.5)"/>
+      <circle cx="26" cy="2" r="1.5" fill="rgba(180,140,30,0.3)"/>
+      <circle cx="2" cy="26" r="1.5" fill="rgba(180,140,30,0.3)"/>
+    </svg>
+  </div>
+  <div class="corner-orn br">
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2,46 L2,8 C2,4.7 4.7,2 8,2 L46,2" stroke="rgba(200,160,40,0.5)" stroke-width="1.5"/>
+      <path d="M2,28 L10,28 L10,20 L18,20 L18,12 L26,12" stroke="rgba(200,160,40,0.25)" stroke-width="0.8"/>
+      <circle cx="2" cy="2" r="2.5" fill="rgba(200,160,40,0.5)"/>
+      <circle cx="26" cy="2" r="1.5" fill="rgba(180,140,30,0.3)"/>
+      <circle cx="2" cy="26" r="1.5" fill="rgba(180,140,30,0.3)"/>
+    </svg>
+  </div>
+
+  <!-- FLOATING MOTES -->
+  <div id="motes"></div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- TOP CREST -->
+    <div class="crest-row">
+      <div class="crest-line"></div>
+      <div class="crest-center">
+        <div class="crest-dot"></div>
+        <div class="crest-diamond"></div>
+        <div class="crest-dot"></div>
+        <div class="crest-diamond"></div>
+        <div class="crest-dot"></div>
+      </div>
+      <div class="crest-line"></div>
+    </div>
+
+    <div class="estate-tag">Est. Anno Domini MMX · Artificium Infinitum</div>
+
+    <!-- MAIN TITLE -->
+    <div class="title-block">
+      <span class="title-line1">AURUM</span>
+      <span class="title-line2">Intelligence</span>
+    </div>
+
+    <!-- ORNATE DIVIDER -->
+    <div class="orn-divider">
+      <div class="orn-line"></div>
+      <div class="orn-flourish">
+        <div class="orn-f-small"></div>
+        <div class="orn-f-diamond"></div>
+        <div class="orn-f-small"></div>
+      </div>
+      <div class="orn-line"></div>
+    </div>
+
+    <!-- MEDALLION -->
+    <div class="medallion-wrap">
+      <!-- Outer rotating ring -->
+      <div class="medallion-outer" style="position:absolute;inset:0;">
+        <svg viewBox="0 0 260 260" width="260" height="260" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="130" cy="130" r="125" fill="none" stroke="rgba(200,160,40,0.12)" stroke-width="1"/>
+          <circle cx="130" cy="130" r="120" fill="none" stroke="rgba(200,160,40,0.08)" stroke-width="0.5" stroke-dasharray="4 12"/>
+          <!-- 24 tick marks -->
+          <g stroke="rgba(200,160,40,0.25)" stroke-width="1">
+            <line x1="130" y1="5"   x2="130" y2="18"/>
+            <line x1="130" y1="242" x2="130" y2="255"/>
+            <line x1="5"   y1="130" x2="18"  y2="130"/>
+            <line x1="242" y1="130" x2="255" y2="130"/>
+            <line x1="35"  y1="35"  x2="44"  y2="44"/>
+            <line x1="216" y1="35"  x2="225" y2="44"/>
+            <line x1="35"  y1="225" x2="44"  y2="216"/>
+            <line x1="216" y1="225" x2="225" y2="216"/>
+          </g>
+          <g stroke="rgba(180,140,30,0.15)" stroke-width="0.8">
+            <line x1="68"  y1="12"  x2="72"  y2="22"/>
+            <line x1="192" y1="12"  x2="188" y2="22"/>
+            <line x1="12"  y1="68"  x2="22"  y2="72"/>
+            <line x1="12"  y1="192" x2="22"  y2="188"/>
+            <line x1="248" y1="68"  x2="238" y2="72"/>
+            <line x1="248" y1="192" x2="238" y2="188"/>
+          </g>
+          <!-- Corner diamonds -->
+          <g fill="rgba(200,160,40,0.4)">
+            <polygon points="130,2 133,6 130,10 127,6"/>
+            <polygon points="130,250 133,254 130,258 127,254"/>
+            <polygon points="2,130 6,133 10,130 6,127"/>
+            <polygon points="250,130 254,133 258,130 254,127"/>
+          </g>
+        </svg>
+      </div>
+      <!-- Mid ring -->
+      <div class="medallion-mid" style="position:absolute;">
+        <svg viewBox="0 0 220 220" width="220" height="220" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="110" cy="110" r="105" fill="none" stroke="rgba(200,160,40,0.15)" stroke-width="1" stroke-dasharray="2 6"/>
+          <circle cx="110" cy="110" r="96"  fill="none" stroke="rgba(180,130,20,0.1)"  stroke-width="0.5"/>
+          <!-- 8 ornate spokes -->
+          <g stroke="rgba(200,160,40,0.2)" stroke-width="0.8">
+            <line x1="110" y1="5"   x2="110" y2="30"/>
+            <line x1="110" y1="190" x2="110" y2="215"/>
+            <line x1="5"   y1="110" x2="30"  y2="110"/>
+            <line x1="190" y1="110" x2="215" y2="110"/>
+            <line x1="28"  y1="28"  x2="46"  y2="46"/>
+            <line x1="174" y1="28"  x2="192" y2="46"/>
+            <line x1="28"  y1="192" x2="46"  y2="174"/>
+            <line x1="174" y1="192" x2="192" y2="174"/>
+          </g>
+        </svg>
+      </div>
+      <!-- Core medallion -->
+      <div class="medallion-core">
+        <span class="medal-ai-text">AI</span>
+        <span class="medal-sub-text">Artificium</span>
+      </div>
+    </div>
+
+    <!-- ITALIC QUOTE -->
+    <div class="quote-block">
+      <span class="quote-mark">"</span>
+      <p class="quote-text">Where the precision of machines meets<br>the wisdom of ages — intelligence refined.</p>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-cell">
+        <span class="stat-val">∞</span>
+        <span class="stat-key">Sapience</span>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-cell">
+        <span class="stat-val">XII</span>
+        <span class="stat-key">Pillars</span>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-cell">
+        <span class="stat-val">99.9</span>
+        <span class="stat-key">Precision</span>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-cell">
+        <span class="stat-val">I</span>
+        <span class="stat-key">Singular</span>
+      </div>
+    </div>
+
+    <!-- STOPWATCH -->
+    <div class="sw-section">
+      <div class="sw-header">
+        <div class="sw-h-line"></div>
+        <span class="sw-h-label">— Grand Chronograph —</span>
+        <div class="sw-h-line rev"></div>
+      </div>
+
+      <div class="sw-body">
+        <div class="sw-corner tl"></div>
+        <div class="sw-corner tr"></div>
+        <div class="sw-corner bl"></div>
+        <div class="sw-corner br"></div>
+
+        <!-- Roman numerals as clock markers -->
+        <div class="sw-roman">
+          <span>I</span><span>II</span><span>III</span><span>IV</span><span>V</span>
+          <span>VI</span><span>VII</span><span>VIII</span><span>IX</span><span>X</span>
+          <span>XI</span><span>XII</span>
+        </div>
+
+        <!-- Main time display -->
+        <div class="sw-time-display">
+          <span class="sw-digits" id="sw-digits">00:00:00</span><span class="sw-ms-display" id="sw-ms">.000</span>
+        </div>
+
+        <!-- Tick marks -->
+        <div class="sw-ticks">
+          <div class="sw-tick major"></div><div class="sw-tick"></div><div class="sw-tick"></div><div class="sw-tick"></div>
+          <div class="sw-tick major"></div><div class="sw-tick"></div><div class="sw-tick"></div><div class="sw-tick"></div>
+          <div class="sw-tick major"></div><div class="sw-tick"></div><div class="sw-tick"></div><div class="sw-tick"></div>
+          <div class="sw-tick major"></div><div class="sw-tick"></div><div class="sw-tick"></div><div class="sw-tick"></div>
+          <div class="sw-tick major"></div><div class="sw-tick"></div><div class="sw-tick"></div><div class="sw-tick"></div>
+          <div class="sw-tick major"></div><div class="sw-tick"></div><div class="sw-tick"></div><div class="sw-tick"></div>
+          <div class="sw-tick major"></div>
+        </div>
+
+        <!-- Laps -->
+        <div class="sw-laps" id="sw-laps"></div>
+
+        <!-- Controls -->
+        <div class="sw-controls">
+          <button class="sw-btn btn-start" id="sw-start">▶ Commence</button>
+          <button class="sw-btn btn-lap"   id="sw-lap">◈ Lap</button>
+          <button class="sw-btn btn-reset" id="sw-reset">↺ Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM -->
+    <div class="bottom-section">
+      <span class="bottom-badge">Est. MMX · London</span>
+      <div class="bottom-crest">
+        <span class="bc-mark">✦ AI ✦</span>
+        <div class="bc-dots">
+          <div class="bc-dot"></div>
+          <div class="bc-dot" style="background:rgba(200,160,40,0.5);"></div>
+          <div class="bc-dot"></div>
+        </div>
+      </div>
+      <span class="bottom-badge">Artificium · Infinitum</span>
+    </div>
+
+  </div><!-- /content -->
+</div>
+
+<script>
+// ── FLOATING GOLD MOTES ──
+const motesEl = document.getElementById('motes');
+for (let i = 0; i < 30; i++) {
+  const m = document.createElement('div');
+  m.className = 'mote';
+  const sz = Math.random() * 3 + 1;
+  const drift = (Math.random() - 0.5) * 100;
+  m.style.cssText = `
+    width:${sz}px; height:${sz}px;
+    left:${Math.random()*100}%; bottom:${Math.random()*20}%;
+    background:rgba(${200+Math.random()*55},${150+Math.random()*50},${10+Math.random()*30},${0.4+Math.random()*0.5});
+    box-shadow:0 0 ${sz*3}px rgba(200,150,20,0.6);
+    --mx:${drift}px;
+    animation-duration:${8+Math.random()*12}s;
+    animation-delay:-${Math.random()*12}s;
+  `;
+  motesEl.appendChild(m);
+}
+
+// ── STOPWATCH ──
+let elapsed = 0, startTime = 0, running = false, rafId = null;
+let laps = [], lapCount = 0;
+
+const digEl   = document.getElementById('sw-digits');
+const msEl    = document.getElementById('sw-ms');
+const startBtn= document.getElementById('sw-start');
+const lapBtn  = document.getElementById('sw-lap');
+const resetBtn= document.getElementById('sw-reset');
+const lapsEl  = document.getElementById('sw-laps');
+
+const pad = (n, l=2) => String(Math.floor(n)).padStart(l, '0');
+
+const toRoman = n => {
+  const v=[1000,900,500,400,100,90,50,40,10,9,5,4,1];
+  const r=['M','CM','D','CD','C','XC','L','XL','X','IX','V','IV','I'];
+  let s=''; v.forEach((val,i)=>{ while(n>=val){ s+=r[i]; n-=val; } }); return s||'·';
+};
+
+function tick() {
+  const total = elapsed + (running ? Date.now() - startTime : 0);
+  const ms   = total % 1000;
+  const secs = Math.floor(total / 1000) % 60;
+  const mins = Math.floor(total / 60000) % 60;
+  const hrs  = Math.floor(total / 3600000);
+  digEl.textContent = `${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
+  msEl.textContent  = `.${pad(ms, 3)}`;
+  if (running) rafId = requestAnimationFrame(tick);
+}
+
+startBtn.addEventListener('click', () => {
+  if (!running) {
+    startTime = Date.now(); running = true;
+    startBtn.textContent = '⏸ Pause';
+    startBtn.classList.add('running');
+    rafId = requestAnimationFrame(tick);
+  } else {
+    elapsed += Date.now() - startTime; running = false;
+    cancelAnimationFrame(rafId);
+    startBtn.textContent = '▶ Commence';
+    startBtn.classList.remove('running');
+  }
+});
+
+lapBtn.addEventListener('click', () => {
+  if (elapsed === 0 && !running) return;
+  const total = elapsed + (running ? Date.now() - startTime : 0);
+  const lapTime = total - laps.reduce((a,b)=>a+b,0);
+  laps.push(lapTime); lapCount++;
+
+  const s = Math.floor(lapTime/1000)%60;
+  const m = Math.floor(lapTime/60000)%60;
+  const pill = document.createElement('div');
+  pill.className = 'lap-pill';
+  pill.textContent = `${toRoman(lapCount)}  ${pad(m)}:${pad(s)}`;
+  lapsEl.appendChild(pill);
+});
+
+resetBtn.addEventListener('click', () => {
+  running = false; cancelAnimationFrame(rafId);
+  elapsed = 0; laps = []; lapCount = 0;
+  startBtn.textContent = '▶ Commence';
+  startBtn.classList.remove('running');
+  digEl.textContent = '00:00:00';
+  msEl.textContent  = '.000';
+  lapsEl.innerHTML  = '';
+});
+</script>
+</body>
+</html>

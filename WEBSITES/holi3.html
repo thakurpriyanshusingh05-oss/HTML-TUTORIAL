@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Holi 🎨</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&family=Dancing+Script:wght@700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0a;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: screen;
+    transition: transform 0.1s;
+    background: radial-gradient(circle, #fff, transparent);
+  }
+
+  /* Canvas for color splash */
+  #canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Hero Section */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .hero-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(4rem, 12vw, 10rem);
+    background: linear-gradient(135deg, #ff6b35, #f7c59f, #efefd0, #00b4d8, #9b5de5, #f15bb5, #fee440);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 30px rgba(255,100,100,0.5));
+    animation: titleFloat 3s ease-in-out infinite;
+    line-height: 1.1;
+  }
+
+  @keyframes titleFloat {
+    0%, 100% { transform: translateY(0) rotate(-1deg); }
+    50% { transform: translateY(-15px) rotate(1deg); }
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    color: rgba(255,255,255,0.85);
+    margin-top: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    animation: fadeIn 2s ease;
+  }
+
+  .color-dots {
+    display: flex;
+    gap: 12px;
+    margin-top: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .dot {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    animation: dotBounce 1.5s ease-in-out infinite;
+  }
+  .dot:nth-child(1) { background: #ff4757; animation-delay: 0s; }
+  .dot:nth-child(2) { background: #ff9f43; animation-delay: 0.15s; }
+  .dot:nth-child(3) { background: #ffd32a; animation-delay: 0.3s; }
+  .dot:nth-child(4) { background: #0be881; animation-delay: 0.45s; }
+  .dot:nth-child(5) { background: #18dcff; animation-delay: 0.6s; }
+  .dot:nth-child(6) { background: #7d5fff; animation-delay: 0.75s; }
+  .dot:nth-child(7) { background: #ef5777; animation-delay: 0.9s; }
+
+  @keyframes dotBounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-20px) scale(1.3); }
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 30px;
+    color: rgba(255,255,255,0.5);
+    font-size: 0.85rem;
+    animation: pulse 2s infinite;
+    letter-spacing: 2px;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  /* Floating Gulal */
+  .gulal-container {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .gulal {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0;
+    animation: floatUp linear infinite;
+    filter: blur(2px);
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+  }
+
+  /* Lyrics Section */
+  .lyrics-section {
+    position: relative;
+    z-index: 2;
+    padding: 80px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    text-align: center;
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2rem, 6vw, 4rem);
+    color: #fff;
+    margin-bottom: 50px;
+    text-shadow: 0 0 30px rgba(255, 200, 0, 0.6);
+  }
+
+  .lyrics-card {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px;
+    padding: 40px;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .lyrics-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 60px rgba(255,100,100,0.2);
+  }
+
+  .lyrics-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    border-radius: 4px 0 0 4px;
+  }
+
+  .card-1::before { background: linear-gradient(#ff6b35, #f7c59f); }
+  .card-2::before { background: linear-gradient(#9b5de5, #c77dff); }
+  .card-3::before { background: linear-gradient(#00b4d8, #0077b6); }
+  .card-4::before { background: linear-gradient(#f15bb5, #ff85c1); }
+
+  .song-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  .card-1 .song-title { color: #ff9f43; }
+  .card-2 .song-title { color: #c77dff; }
+  .card-3 .song-title { color: #48cae4; }
+  .card-4 .song-title { color: #ff85c1; }
+
+  .song-movie {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .lyrics-text {
+    color: rgba(255,255,255,0.88);
+    font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+    line-height: 2.2;
+    font-style: italic;
+  }
+
+  .lyrics-text span {
+    display: block;
+    transition: color 0.3s, transform 0.3s;
+    cursor: default;
+  }
+
+  .lyrics-text span:hover {
+    color: #ffd32a;
+    transform: translateX(10px);
+  }
+
+  /* Color throw button */
+  .throw-btn {
+    display: block;
+    margin: 60px auto 0;
+    padding: 18px 50px;
+    font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #ff4757, #ff9f43, #ffd32a, #0be881, #18dcff, #7d5fff);
+    background-size: 300% 300%;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    animation: gradientShift 3s ease infinite;
+    box-shadow: 0 8px 32px rgba(255,100,100,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    z-index: 2;
+  }
+
+  .throw-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 12px 48px rgba(255,100,100,0.6);
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Wishes section */
+  .wishes {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 60px 20px 100px;
+  }
+
+  .wishes-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .wish-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 24px 30px;
+    flex: 1;
+    min-width: 220px;
+    max-width: 280px;
+    transition: all 0.3s;
+  }
+
+  .wish-card:hover {
+    background: rgba(255,255,255,0.12);
+    transform: scale(1.05);
+  }
+
+  .wish-emoji { font-size: 2.5rem; display: block; margin-bottom: 10px; }
+  .wish-text { color: rgba(255,255,255,0.8); font-size: 0.95rem; line-height: 1.6; }
+
+  /* Footer */
+  footer {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 30px;
+    color: rgba(255,255,255,0.3);
+    font-size: 0.85rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Splash effect */
+  .splash {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 100;
+    animation: splashOut 0.6s ease-out forwards;
+  }
+
+  @keyframes splashOut {
+    0% { transform: scale(0); opacity: 1; }
+    100% { transform: scale(4); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<canvas id="canvas"></canvas>
+<div class="gulal-container" id="gulalContainer"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <h1 class="hero-title">Happy Holi!</h1>
+  <p class="hero-sub">✨ Festival of Colors 2025 ✨</p>
+  <div class="color-dots">
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+  </div>
+  <p class="scroll-hint">↓ scroll for songs ↓</p>
+</section>
+
+<!-- LYRICS -->
+<section class="lyrics-section">
+  <h2 class="section-title">🎵 Holi Songs 🎵</h2>
+
+  <div class="lyrics-card card-1">
+    <div class="song-title">Rang Barse</div>
+    <div class="song-movie">Silsila • 1981</div>
+    <div class="lyrics-text">
+      <span>Rang barse bheege chunarwali</span>
+      <span>Rang barse...</span>
+      <span>Saas ne bahu ko maara pichkaari</span>
+      <span>Nand bhaabi par rang daare</span>
+      <span>Aaj na mano holi re</span>
+      <span>Balma rang barse...</span>
+      <span>Bheegi bheegi aaj chunariya</span>
+      <span>Piya ke rang rangi duniya</span>
+    </div>
+  </div>
+
+  <div class="lyrics-card card-2">
+    <div class="song-title">Balam Pichkari</div>
+    <div class="song-movie">Yeh Jawaani Hai Deewani • 2013</div>
+    <div class="lyrics-text">
+      <span>Balam pichkari jo tune mujhe maari</span>
+      <span>To seedhi saadhi chokri sharaabi ho gayi</span>
+      <span>Rang de rang de rang de mujhe rang de</span>
+      <span>O piya rang de rang de mujhe rang de</span>
+      <span>Holi ke din dil khil jaate hain</span>
+      <span>Rangon mein rang mil jaate hain</span>
+      <span>Gora rang kaahe ko laaya</span>
+      <span>Holi ne sabko rang lagaaya</span>
+    </div>
+  </div>
+
+  <div class="lyrics-card card-3">
+    <div class="song-title">Do Me A Favour Lets Play Holi</div>
+    <div class="song-movie">Waqt • 2005</div>
+    <div class="lyrics-text">
+      <span>Do me a favour let's play Holi</span>
+      <span>Do me a favour let's play Holi</span>
+      <span>Aayi re aayi re Holi aayi re</span>
+      <span>Rang gulaal udaai re</span>
+      <span>Leke pichkaari dil ki pyaari</span>
+      <span>Sab ko rang lagaai re</span>
+      <span>Holi khele Radheshyam</span>
+      <span>Holi khele Radheshyam...</span>
+    </div>
+  </div>
+
+  <div class="lyrics-card card-4">
+    <div class="song-title">Holi Khele Raghuveera</div>
+    <div class="song-movie">Baghban • 2003</div>
+    <div class="lyrics-text">
+      <span>Holi khele Raghuveera Awadh mein</span>
+      <span>Holi khele Raghuveera</span>
+      <span>Rang gulaal ke baadal chhaye</span>
+      <span>Ghar ghar khushiyan laaye</span>
+      <span>Mann mein umang jaage</span>
+      <span>Prem ki reet ched ke</span>
+      <span>Holi khele Raghuveera Awadh mein</span>
+      <span>Aaj ke din sab ek hain...</span>
+    </div>
+  </div>
+
+  <button class="throw-btn" onclick="throwColors()">🎨 Throw Colors!</button>
+</section>
+
+<!-- WISHES -->
+<section class="wishes">
+  <h2 class="section-title">💛 Holi Wishes 💛</h2>
+  <div class="wishes-grid">
+    <div class="wish-card">
+      <span class="wish-emoji">🌈</span>
+      <p class="wish-text">May your life be as colorful and joyful as Holi!</p>
+    </div>
+    <div class="wish-card">
+      <span class="wish-emoji">💐</span>
+      <p class="wish-text">Wishing you love, laughter and lots of gulaal!</p>
+    </div>
+    <div class="wish-card">
+      <span class="wish-emoji">🎉</span>
+      <p class="wish-text">May every color bring happiness & new beginnings!</p>
+    </div>
+    <div class="wish-card">
+      <span class="wish-emoji">🔥</span>
+      <p class="wish-text">Burn away the bad, welcome the beautiful. Happy Holi!</p>
+    </div>
+  </div>
+</section>
+
+<footer>Made with 💖 &amp; colors &nbsp;|&nbsp; Happy Holi 2025 🎨</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const colors = ['#ff4757','#ff9f43','#ffd32a','#0be881','#18dcff','#7d5fff','#ef5777','#ff6b81'];
+  let colorIdx = 0;
+
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX - 10 + 'px';
+    cursor.style.top = e.clientY - 10 + 'px';
+  });
+
+  // Click splash
+  document.addEventListener('click', e => {
+    const splash = document.createElement('div');
+    splash.className = 'splash';
+    const size = 40 + Math.random() * 40;
+    splash.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${e.clientX - size/2}px; top:${e.clientY - size/2}px;
+      background: ${colors[colorIdx++ % colors.length]};
+    `;
+    document.body.appendChild(splash);
+    setTimeout(() => splash.remove(), 700);
+  });
+
+  // Floating gulal bubbles
+  const gulalContainer = document.getElementById('gulalContainer');
+  function spawnGulal() {
+    const g = document.createElement('div');
+    g.className = 'gulal';
+    const size = 10 + Math.random() * 50;
+    const left = Math.random() * 100;
+    const duration = 4 + Math.random() * 8;
+    const delay = Math.random() * 3;
+    g.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${left}%; bottom: -60px;
+      background: ${colors[Math.floor(Math.random() * colors.length)]};
+      animation-duration: ${duration}s;
+      animation-delay: ${delay}s;
+    `;
+    gulalContainer.appendChild(g);
+    setTimeout(() => g.remove(), (duration + delay) * 1000);
+  }
+  setInterval(spawnGulal, 300);
+
+  // Canvas color trails
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+
+  let particles = [];
+  document.addEventListener('mousemove', e => {
+    for (let i = 0; i < 3; i++) {
+      particles.push({
+        x: e.clientX, y: e.clientY,
+        vx: (Math.random() - 0.5) * 4,
+        vy: (Math.random() - 0.5) * 4 - 2,
+        life: 1,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        size: 4 + Math.random() * 8
+      });
+    }
+  });
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles = particles.filter(p => p.life > 0);
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+      ctx.fillStyle = p.color + Math.floor(p.life * 200).toString(16).padStart(2,'0');
+      ctx.fill();
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.05;
+      p.life -= 0.025;
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // Big color throw
+  function throwColors() {
+    for (let i = 0; i < 80; i++) {
+      setTimeout(() => {
+        const splash = document.createElement('div');
+        splash.className = 'splash';
+        const size = 20 + Math.random() * 80;
+        splash.style.cssText = `
+          width:${size}px; height:${size}px;
+          left:${Math.random() * window.innerWidth}px;
+          top:${Math.random() * window.innerHeight}px;
+          background: ${colors[Math.floor(Math.random() * colors.length)]};
+          position: fixed;
+        `;
+        document.body.appendChild(splash);
+        setTimeout(() => splash.remove(), 700);
+      }, i * 30);
+    }
+  }
+</script>
+</body>
+</html>

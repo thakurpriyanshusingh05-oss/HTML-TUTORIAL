@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMAZON !</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="nav-logo border">
+                <div class="logo"></div>
+            </div>
+
+            <div class="nav-address border" id="addressToggle">
+                <p class="add-first">deliver to</p>
+                <div class="add-icon">
+                     <i class="fa-solid fa-location-dot"></i>
+                    <p class="add-second" id="addressLabel">India</p>
+                </div>
+                <div class="address-dropdown" id="addressDropdown">
+                    <p class="address-dropdown-title">Choose your location</p>
+                    <a href="#" data-country="India" data-domain="amazon.in">🇮🇳 India</a>
+                    <a href="#" data-country="United States" data-domain="amazon.com">🇺🇸 United States</a>
+                    <a href="#" data-country="United Kingdom" data-domain="amazon.co.uk">🇬🇧 United Kingdom</a>
+                </div>
+                </div>
+
+                <div class="nav-search">
+                    <select class="search-select border">
+                        <option>All</option>
+                    </select>
+                    <input placeholder="Search amazon" class="search-input" id="searchInput">
+                    <div class="search-icon" id="searchBtn">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <div class="search-suggestions" id="searchSuggestions"></div>
+                    </div>
+                    <div class="nav-sign in border" id="accountToggle">
+                        <p><span>Hello, signin </span></p>
+                        <p class="nav-second">Account & lists</p>
+                        <div class="account-dropdown" id="accountDropdown">
+                            <a href="#">Sign in</a>
+                            <a href="#">New customer? Start here</a>
+                            <hr>
+                            <a href="#">Your Orders</a>
+                            <a href="#">Your Wish List</a>
+                        </div>
+                    </div>
+                    <div class="nav-return border">
+                        <p><span>Returns </span></p>
+                        <p class="nav-second">& Orders</p>
+                    </div>
+                    <div class="nav-wishlist border" id="wishlistIcon">
+                        <i class="fa-solid fa-heart"></i>
+                        Wishlist
+                        <span class="wishlist-count" id="wishlistCount">0</span>
+                    </div>
+                    <div class="nav-cart border" id="cartIcon">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        Cart
+                        <span class="cart-count" id="cartCount">0</span>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-all" id="categoryToggle">
+                     <i class="fa-solid fa-list"></i>
+                    All
+                    </div>
+                    <div class="panel-ops ">
+                        <p>Today's Deal</p>
+                        <p>Customer Services</p>
+                        <p>Registry</p>
+                        <p>Gifts cards</p>
+                        <p>Sell</p>
+                    </div>
+                    <div class="panel-deals border">
+                        Shop Deals In Electronics
+                    </div>
+                </div>
+    </header>
+    <div class="hero-section">
+    <div class="hero-message">
+        <p id="heroText">You are on amazon.com. You can also shop on India for millions of product with local fast delivery <a href="https://www.amazon.com/" target="_blank" id="heroLink">Amazon link!</a></p>
+    </div>
+    </div>
+    <div class="shop-section">
+        <div class="box1 box" data-id="box1" data-price="799">
+            <div class="box-content">
+                <h2>Clothes</h2>
+            <div class="box-image" style="background-image:url('box1_image.jpg')"><button class="wishlist-heart" aria-label="Save to wishlist"><i class="fa-regular fa-heart"></i></button></div>
+            <div class="product-meta"><span class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></span><span class="review-count">(1240)</span><span class="price">&#8377;799</span></div>
+            <p class="cart-btn">Shop now</p>
+            </div>
+        </div>
+        <div class="box2 box" data-id="box2" data-price="349">
+            <div class="box-content">
+                <h2>Health & Personal Care</h2>
+            <div class="box-image" style="background-image:url('box2_image.jpg')"><button class="wishlist-heart" aria-label="Save to wishlist"><i class="fa-regular fa-heart"></i></button></div>
+            <div class="product-meta"><span class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></span><span class="review-count">(3050)</span><span class="price">&#8377;349</span></div>
+            <p class="cart-btn">Shop now</p>
+            </div>
+        </div>
+        <div class="box3 box" data-id="box3" data-price="4999">
+            <div class="box-content">
+                <h2>Furniture </h2>
+            <div class="box-image" style="background-image:url('box3_image.jpg')"><button class="wishlist-heart" aria-label="Save to wishlist"><i class="fa-regular fa-heart"></i></button></div>
+            <div class="product-meta"><span class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></span><span class="review-count">(540)</span><span class="price">&#8377;4999</span></div>
+            <p class="cart-btn">See more</p>
+            </div>
+        </div>
+        <div class="box4 box" data-id="box4" data-price="12999">
+            <div class="box-content">
+                <h2>Electronics </h2>
+            <div class="box-image" style="background-image:url('box4_image.jpg')"><button class="wishlist-heart" aria-label="Save to wishlist"><i class="fa-regular fa-heart"></i></button></div>
+            <div class="product-meta"><span class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></span><span class="review-count">(8900)</span><span class="price">&#8377;12999</span></div>
+            <p class="cart-btn">See more</p>
+            </div>
+        </div>
+        <div class="box5 box" data-id="box5" data-price="599">
+            <div class="box-content">
+                <h2>Beauty picks </h2>
+            <div class="box-image" style="background-image:url('box5_image.jpg')"><button class="wishlist-heart" aria-label="Save to wishlist"><i class="fa-regular fa-heart"></i></button></div>
+            <div class="product-meta"><span class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></span><span class="review-count">(2100)</span><span class="price">&#8377;599</span></div>
+            <p class="cart-btn">See more</p>
+            </div>
+        </div>
+        <div class="box6 box" data-id="box6" data-price="449">
+            <div class="box-content">
+                <h2>Pet care </h2>
+            <div class="box-image" style="background-image:url('box6_image.jpg')"><button class="wishlist-heart" aria-label="Save to wishlist"><i class="fa-regular fa-heart"></i></button></div>
+            <div class="product-meta"><span class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></span><span class="review-count">(1780)</span><span class="price">&#8377;449</span></div>
+            <p class="cart-btn">See more</p>
+            </div>
+        </div>
+        <div class="box7 box" data-id="box7" data-price="299">
+            <div class="box-content">
+                <h2>New arrival in toy </h2>
+            <div class="box-image" style="background-image:url('box7_image.jpg')"><button class="wishlist-heart" aria-label="Save to wishlist"><i class="fa-regular fa-heart"></i></button></div>
+            <div class="product-meta"><span class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></span><span class="review-count">(670)</span><span class="price">&#8377;299</span></div>
+            <p class="cart-btn">See more</p>
+            </div>
+        </div>
+        <div class="box8 box" data-id="box8" data-price="899">
+            <div class="box-content">
+                <h2>Discover faishon trends </h2>
+            <div class="box-image" style="background-image:url('box8_image.jpg')"><button class="wishlist-heart" aria-label="Save to wishlist"><i class="fa-regular fa-heart"></i></button></div>
+            <div class="product-meta"><span class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></span><span class="review-count">(410)</span><span class="price">&#8377;899</span></div>
+            <p class="cart-btn">See more</p>
+            </div>
+        </div>
+        <div class="box9 box" data-id="box9" data-price="199">
+            <div class="box-content">
+                <h2>SHOP gifts by price </h2>
+            <div class="box-image" style="background-image:url('box9_image.jpg')"><button class="wishlist-heart" aria-label="Save to wishlist"><i class="fa-regular fa-heart"></i></button></div>
+            <div class="product-meta"><span class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></span><span class="review-count">(990)</span><span class="price">&#8377;199</span></div>
+            <p class="cart-btn">See more</p>
+            </div>
+        </div>
+        <div class="box10 box" data-id="box10" data-price="999">
+            <div class="box-content">
+                <h2>Shop gifts by recipients</h2>
+            <div class="box-image" style="background-image:url('box10_image.jpg')"><button class="wishlist-heart" aria-label="Save to wishlist"><i class="fa-regular fa-heart"></i></button></div>
+            <div class="product-meta"><span class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></span><span class="review-count">(1320)</span><span class="price">&#8377;999</span></div>
+            <p class="cart-btn">See more</p>
+            </div>
+        </div>
+        <div class="box11 box" data-id="box11" data-price="2499">
+            <div class="box-content">
+                <h2>Gate your game on </h2>
+            <div class="box-image" style="background-image:url('box11_image.jpg')"><button class="wishlist-heart" aria-label="Save to wishlist"><i class="fa-regular fa-heart"></i></button></div>
+            <div class="product-meta"><span class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></span><span class="review-count">(5400)</span><span class="price">&#8377;2499</span></div>
+            <p class="cart-btn">See more</p>
+            </div>
+        </div>
+        <div class="box12 box" data-id="box12" data-price="399">
+            <div class="box-content">
+                <h2>Shop faishon for less</h2>
+            <div class="box-image" style="background-image:url('box12_image.jpg')"><button class="wishlist-heart" aria-label="Save to wishlist"><i class="fa-regular fa-heart"></i></button></div>
+            <div class="product-meta"><span class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></span><span class="review-count">(760)</span><span class="price">&#8377;399</span></div>
+            <p class="cart-btn">See more</p>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="foot-panel1" id="backToTop">
+            Back to top
+        </div>
+        <div class="foot-panel2">
+        <ul>
+            <p>Get to Know Us</p>
+            <a>Careers</a>
+            <a>Blog</a>
+            <a>About amazon</a>
+            <a>Investor relations</a>
+            <a>Amazon devices</a>
+            <a>Amazon science</a>
+        </ul>
+        <ul>
+            <p>Make money with Us</p>
+            <a>sell products on amazon</a>
+            <a>sell on amazon business</a>
+            <a>sell apps on amazon</a>
+            <a>Become a affiliate</a>
+            <a>Advertise ypur products</a>
+            <a>self-publish with us</a>
+            <a>Host an amazon hub</a>
+        </ul>
+        <ul>
+            <p>Amazon payment products</p>
+            <a>Amazon business card</a>
+            <a>Shop with points</a>
+            <a>Reload your balance</a>
+            <a>Amazon currency converter</a>
+        </ul>
+        <ul>
+            <p>Get to Know Us</p>
+            <a>Amazon and COVID-19</a>
+            <a>Your account</a>
+            <a>Your orders</a>
+            <a>Shipping Rates & policies</a>
+            <a>Return & Replacements</a>
+            <a>Manage Your Replkacements</a>
+            <a>Help</a>
+        </ul>
+        </div>
+        <div class="foot-panel3">
+            <div class="logo border"></div>
+        </div>
+        <div class="foot-panel4">
+            <div class="pages">
+                <a>Conditions of use</a>
+                <a> Privacy notice</a>
+                <a>Your ads privacy choices</a>
+            </div>
+            <div class="copyright">
+                © 1996-2025, Amazon.com, Inc. or its affiliates
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- ===== Cart drawer ===== -->
+    <div class="drawer-overlay" id="cartOverlay"></div>
+    <aside class="cart-drawer" id="cartDrawer">
+        <div class="drawer-header">
+            <h3>Your Cart</h3>
+            <button class="drawer-close" id="cartClose" aria-label="Close cart">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItemsList">
+            <p class="cart-empty" id="cartEmptyMsg">Your cart is empty.</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-subtotal">
+                Subtotal: <span id="cartSubtotal">&#8377;0</span>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn">Proceed to checkout</button>
+        </div>
+    </aside>
+
+    <!-- ===== Category sidebar (from "All") ===== -->
+    <div class="drawer-overlay" id="categoryOverlay"></div>
+    <aside class="category-drawer" id="categoryDrawer">
+        <div class="drawer-header">
+            <h3>Shop by category</h3>
+            <button class="drawer-close" id="categoryClose" aria-label="Close menu">&times;</button>
+        </div>
+        <ul class="category-list" id="categoryList"></ul>
+    </aside>
+
+    <!-- ===== Floating back-to-top button ===== -->
+    <button class="float-top-btn" id="floatTopBtn" aria-label="Back to top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Poster Showcase — 4 Designs</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@400;700;900&family=Syncopate:wght@400;700&family=Share+Tech+Mono&family=Cinzel:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=VT323&family=Exo+2:wght@100;300;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: #050505;
+  font-family: sans-serif;
+  padding: 60px 40px;
+}
+.page-title {
+  text-align: center;
+  font-family: 'Orbitron', monospace;
+  font-size: 13px;
+  letter-spacing: 8px;
+  color: rgba(255,255,255,0.2);
+  margin-bottom: 60px;
+  text-transform: uppercase;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.poster-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.poster-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: rgba(255,255,255,0.18);
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════
+   POSTER 1 — CYBERPUNK NEON GLITCH
+═══════════════════════════════════════ */
+.p1 {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: #060008;
+  overflow: hidden;
+  box-shadow: 0 0 60px rgba(255,0,200,0.3), 0 0 120px rgba(0,255,200,0.15);
+}
+.p1-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 30% 60%, rgba(255,0,180,0.2) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 70% 40%, rgba(0,255,220,0.15) 0%, transparent 70%),
+    linear-gradient(135deg, #060008 0%, #0a000f 50%, #060008 100%);
+}
+.p1-lines {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(0deg, rgba(255,0,200,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,200,0.04) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+.p1-glitch {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(0,255,200,0.8), rgba(255,0,200,0.8), transparent);
+  animation: glitchScan 3s linear infinite;
+}
+@keyframes glitchScan {
+  0%   { top: -3px; opacity:0; }
+  5%   { opacity:1; }
+  95%  { opacity:0.6; }
+  100% { top: 100%; opacity:0; }
+}
+.p1-city {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 45%;
+  opacity: 0.25;
+}
+.p1-content {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center;
+  padding: 8% 8% 6%;
+  z-index: 10;
+}
+.p1-tag {
+  font-family: 'VT323', monospace;
+  font-size: clamp(12px,1.4vw,16px);
+  color: rgba(0,255,200,0.7);
+  letter-spacing: 4px;
+  border: 1px solid rgba(0,255,200,0.3);
+  padding: 4px 14px;
+  background: rgba(0,255,200,0.04);
+  animation: fadeIn 1s ease;
+}
+.p1-title {
+  margin-top: 6%;
+  text-align: center;
+  animation: fadeUp 1s 0.3s ease forwards; opacity:0;
+}
+.p1-t1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(50px,8vw,90px);
+  color: #fff;
+  letter-spacing: 6px;
+  display: block;
+  text-shadow: 0 0 30px rgba(255,0,200,0.8), 3px 0 0 rgba(0,255,200,0.4), -3px 0 0 rgba(255,0,200,0.4);
+  animation: glitchText 6s infinite;
+}
+@keyframes glitchText {
+  0%,92%,100% { text-shadow: 0 0 30px rgba(255,0,200,0.8), 3px 0 0 rgba(0,255,200,0.4), -3px 0 0 rgba(255,0,200,0.4); transform: none; }
+  93% { transform: translateX(3px); text-shadow: -3px 0 rgba(0,255,200,1), 3px 0 rgba(255,0,200,1); }
+  94% { transform: translateX(-2px); }
+  95% { transform: none; }
+}
+.p1-t2 {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(14px,2.2vw,24px);
+  font-weight: 900;
+  background: linear-gradient(90deg, #ff00cc, #00ffcc, #ff00cc);
+  background-size: 200%;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 10px;
+  display: block;
+  animation: neonShift 3s linear infinite;
+}
+@keyframes neonShift { 0% { background-position:0% } 100% { background-position:200% } }
+.p1-sub {
+  margin-top: 3%;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(9px,1vw,11px);
+  letter-spacing: 3px;
+  color: rgba(200,150,255,0.5);
+  text-transform: uppercase;
+  text-align: center;
+}
+/* Cyber circle visual */
+.p1-ring {
+  position: absolute;
+  top: 28%;
+  left: 50%; transform: translateX(-50%);
+  width: clamp(120px,20vw,200px);
+  height: clamp(120px,20vw,200px);
+}
+.p1-ring svg { width:100%; height:100%;
+  filter: drop-shadow(0 0 12px rgba(0,255,200,0.6)) drop-shadow(0 0 25px rgba(255,0,200,0.4));
+  animation: ringRotate 8s linear infinite;
+}
+@keyframes ringRotate { to { transform: rotate(360deg); } }
+/* Stats */
+.p1-stats {
+  position: absolute;
+  bottom: 18%;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: space-around;
+  padding: 0 8%;
+}
+.p1-stat { text-align: center; }
+.p1-sv {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(16px,2.5vw,26px);
+  font-weight: 900;
+  color: #00ffcc;
+  text-shadow: 0 0 12px rgba(0,255,200,0.8);
+  display: block;
+}
+.p1-sk {
+  font-size: clamp(7px,0.8vw,9px);
+  letter-spacing: 3px;
+  color: rgba(200,150,255,0.4);
+  text-transform: uppercase;
+}
+/* Stopwatch */
+.p1-sw {
+  position: absolute;
+  bottom: 3%;
+  left: 6%; right: 6%;
+  background: rgba(0,0,15,0.85);
+  border: 1px solid rgba(255,0,200,0.3);
+  padding: clamp(8px,1.5vw,16px) clamp(10px,2vw,24px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.p1-sw-time {
+  font-family: 'VT323', monospace;
+  font-size: clamp(28px,4.5vw,52px);
+  color: #00ffcc;
+  text-shadow: 0 0 16px rgba(0,255,200,0.9), 0 0 30px rgba(0,200,150,0.4);
+  letter-spacing: 2px;
+  line-height: 1;
+}
+.p1-sw-ms {
+  font-family: 'VT323', monospace;
+  font-size: clamp(16px,2.5vw,28px);
+  color: rgba(255,0,200,0.7);
+}
+.p1-sw-btns { display:flex; gap:6px; flex-shrink: 0; }
+.p1-btn {
+  font-family: 'VT323', monospace;
+  font-size: clamp(12px,1.5vw,16px);
+  letter-spacing: 2px;
+  padding: clamp(4px,0.8vw,8px) clamp(8px,1.5vw,16px);
+  background: transparent;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+.p1-btn-start { border:1px solid rgba(0,255,200,0.5); color:#00ffcc; }
+.p1-btn-start:hover, .p1-btn-start.on { background:rgba(0,255,200,0.1); box-shadow:0 0 12px rgba(0,255,200,0.4); color:#fff; }
+.p1-btn-start.on { border-color:#ff00cc; color:#ff00cc; box-shadow:0 0 12px rgba(255,0,200,0.4); }
+.p1-btn-reset { border:1px solid rgba(255,0,200,0.3); color:rgba(255,0,200,0.5); }
+.p1-btn-reset:hover { background:rgba(255,0,200,0.08); color:#ff00cc; }
+/* Corner marks p1 */
+.p1::before, .p1::after {
+  content:''; position:absolute; width:20px; height:20px; z-index:20;
+}
+.p1::before { top:10px; left:10px; border-top:2px solid rgba(0,255,200,0.6); border-left:2px solid rgba(0,255,200,0.6); }
+.p1::after  { bottom:10px; right:10px; border-bottom:2px solid rgba(255,0,200,0.6); border-right:2px solid rgba(255,0,200,0.6); }
+
+
+/* ═══════════════════════════════════════
+   POSTER 2 — DARK LUXURY GOLD & MARBLE
+═══════════════════════════════════════ */
+.p2 {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: #0a0800;
+  overflow: hidden;
+  box-shadow: 0 0 60px rgba(180,140,40,0.25), 0 0 120px rgba(100,80,0,0.15);
+}
+.p2-marble {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(60,45,10,0.8) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 20% 80%, rgba(40,30,5,0.5) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 50%, rgba(50,40,8,0.4) 0%, transparent 60%),
+    linear-gradient(160deg, #0f0c00 0%, #0a0800 40%, #080600 100%);
+}
+/* Marble veins */
+.p2-veins {
+  position: absolute; inset: 0; opacity: 0.07;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent 0px, transparent 30px,
+    rgba(200,160,40,1) 30px, rgba(200,160,40,1) 31px,
+    transparent 31px, transparent 80px,
+    rgba(180,140,30,0.5) 80px, rgba(180,140,30,0.5) 81px
+  );
+}
+.p2-content {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 8% 8% 5%;
+  z-index: 10;
+}
+/* Ornate top divider */
+.p2-ornament {
+  width: 80%;
+  display: flex; align-items: center; gap: 10px;
+  animation: fadeIn 1s ease;
+}
+.p2-orn-line { flex:1; height:1px; background: linear-gradient(90deg, transparent, rgba(200,160,40,0.6), transparent); }
+.p2-orn-diamond {
+  width: 8px; height: 8px; background: rgba(200,160,40,0.8);
+  transform: rotate(45deg);
+  box-shadow: 0 0 8px rgba(200,160,40,0.6);
+}
+.p2-royal-tag {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(9px,1vw,11px);
+  letter-spacing: 6px;
+  color: rgba(200,160,40,0.6);
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 3%;
+  animation: fadeIn 1s 0.2s forwards; opacity:0;
+}
+.p2-title {
+  margin-top: 5%;
+  text-align: center;
+  animation: fadeUp 1s 0.4s forwards; opacity:0;
+}
+.p2-t1 {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(36px,5.5vw,62px);
+  font-weight: 900;
+  background: linear-gradient(180deg, #fff8dc 0%, #d4a017 40%, #8b6914 80%, #d4a017 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 6px;
+  display: block;
+  filter: drop-shadow(0 0 20px rgba(200,160,40,0.5));
+}
+.p2-t2 {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(14px,2vw,22px);
+  font-weight: 400;
+  color: rgba(200,160,40,0.5);
+  letter-spacing: 14px;
+  display: block;
+  margin-top: 6px;
+}
+/* Central medallion */
+.p2-medallion {
+  margin-top: 6%;
+  width: clamp(100px,18vw,180px);
+  height: clamp(100px,18vw,180px);
+  position: relative;
+}
+.p2-medallion svg {
+  width: 100%; height: 100%;
+  filter: drop-shadow(0 0 15px rgba(200,160,40,0.6)) drop-shadow(0 0 35px rgba(180,130,20,0.3));
+  animation: medalPulse 4s ease-in-out infinite;
+}
+@keyframes medalPulse {
+  0%,100% { filter: drop-shadow(0 0 15px rgba(200,160,40,0.6)) drop-shadow(0 0 35px rgba(180,130,20,0.3)); }
+  50% { filter: drop-shadow(0 0 25px rgba(220,180,60,0.9)) drop-shadow(0 0 55px rgba(200,150,30,0.5)); }
+}
+.p2-sub {
+  margin-top: 4%;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(10px,1.1vw,13px);
+  font-weight: 300;
+  letter-spacing: 4px;
+  color: rgba(180,140,40,0.4);
+  text-align: center;
+  text-transform: uppercase;
+  animation: fadeUp 1s 0.7s forwards; opacity:0;
+}
+/* Data row */
+.p2-data {
+  margin-top: auto;
+  width: 100%;
+  display: grid; grid-template-columns: 1fr 1px 1fr 1px 1fr;
+  border: 1px solid rgba(200,160,40,0.15);
+  animation: fadeUp 1s 0.9s forwards; opacity:0;
+}
+.p2-divv { background: rgba(200,160,40,0.15); }
+.p2-dc {
+  padding: clamp(10px,1.5vw,18px) 0;
+  text-align: center;
+}
+.p2-dv {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(16px,2.2vw,24px);
+  color: rgba(220,180,60,0.9);
+  display: block;
+  text-shadow: 0 0 12px rgba(200,160,40,0.5);
+}
+.p2-dk {
+  font-size: clamp(6px,0.75vw,8px);
+  letter-spacing: 3px;
+  color: rgba(180,140,40,0.35);
+  text-transform: uppercase;
+}
+/* Stopwatch luxury */
+.p2-sw {
+  margin-top: 3%;
+  width: 100%;
+  border: 1px solid rgba(200,160,40,0.2);
+  background: rgba(5,4,0,0.8);
+  padding: clamp(10px,1.8vw,20px) clamp(12px,2.5vw,28px);
+  position: relative;
+  animation: fadeUp 1s 1.1s forwards; opacity:0;
+}
+.p2-sw::before { content:'◈'; position:absolute; top:-10px; left:50%; transform:translateX(-50%); color:rgba(200,160,40,0.6); font-size:16px; background:#0a0800; padding:0 6px; }
+.p2-sw-label {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(7px,0.8vw,9px);
+  letter-spacing: 5px;
+  color: rgba(180,140,40,0.4);
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: clamp(6px,1vw,10px);
+}
+.p2-sw-time {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(28px,4.5vw,52px);
+  font-weight: 900;
+  text-align: center;
+  background: linear-gradient(180deg, #fff8dc, #d4a017, #8b6914);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 10px rgba(200,160,40,0.6));
+  line-height: 1;
+  display: block;
+}
+.p2-sw-ms {
+  font-size: clamp(14px,2vw,22px);
+  color: rgba(180,130,20,0.6);
+}
+.p2-sw-btns {
+  display: flex; justify-content: center; gap: 10px; margin-top: clamp(8px,1.2vw,14px);
+}
+.p2-btn {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(8px,0.9vw,10px);
+  letter-spacing: 3px;
+  padding: clamp(6px,1vw,10px) clamp(14px,2vw,22px);
+  background: transparent;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.25s;
+}
+.p2-btn-start { border:1px solid rgba(200,160,40,0.4); color:rgba(200,160,40,0.8); }
+.p2-btn-start:hover, .p2-btn-start.on { background:rgba(200,160,40,0.1); box-shadow:0 0 16px rgba(200,160,40,0.3); color:#fff8dc; }
+.p2-btn-start.on { border-color:rgba(180,100,20,0.8); color:rgba(220,140,40,0.9); }
+.p2-btn-reset { border:1px solid rgba(200,160,40,0.15); color:rgba(180,130,30,0.4); }
+.p2-btn-reset:hover { color:rgba(200,160,40,0.6); border-color:rgba(200,160,40,0.3); }
+
+
+/* ═══════════════════════════════════════
+   POSTER 3 — DEEP SPACE COSMIC
+═══════════════════════════════════════ */
+.p3 {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: #020008;
+  overflow: hidden;
+  box-shadow: 0 0 60px rgba(100,0,200,0.3), 0 0 120px rgba(200,100,255,0.1);
+}
+.p3-space {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 35%, rgba(80,0,160,0.5) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 40% at 70% 20%, rgba(200,50,255,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 20% 70%, rgba(50,100,255,0.15) 0%, transparent 60%),
+    linear-gradient(180deg, #020008 0%, #04000e 50%, #020008 100%);
+}
+.p3-stars { position: absolute; inset: 0; }
+.p3-nebula {
+  position: absolute;
+  width: 120%; height: 120%;
+  top: -10%; left: -10%;
+  background:
+    radial-gradient(ellipse 30% 20% at 60% 30%, rgba(180,80,255,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 25% 15% at 35% 60%, rgba(80,150,255,0.1) 0%, transparent 70%);
+  animation: nebulaDrift 20s ease-in-out infinite;
+}
+@keyframes nebulaDrift {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50% { transform: translate(-2%,2%) scale(1.02); }
+}
+.p3-content {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 7% 7% 5%;
+  z-index: 10;
+}
+.p3-coord {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(9px,0.9vw,11px);
+  color: rgba(180,100,255,0.5);
+  letter-spacing: 3px;
+  display: flex; gap: 20px;
+  animation: fadeIn 1s ease;
+}
+.p3-title {
+  margin-top: 5%;
+  text-align: center;
+  animation: fadeUp 1s 0.3s forwards; opacity:0;
+}
+.p3-t1 {
+  font-family: 'Exo 2', sans-serif;
+  font-size: clamp(48px,7.5vw,86px);
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(200,150,255,0.7);
+  letter-spacing: 8px;
+  display: block;
+  text-transform: uppercase;
+  filter: drop-shadow(0 0 20px rgba(160,80,255,0.5));
+  line-height: 0.9;
+}
+.p3-t2 {
+  font-family: 'Exo 2', sans-serif;
+  font-size: clamp(20px,3vw,36px);
+  font-weight: 100;
+  color: rgba(220,180,255,0.8);
+  letter-spacing: 16px;
+  display: block;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+/* Planet / orb visual */
+.p3-planet {
+  margin-top: 5%;
+  width: clamp(110px,18vw,180px);
+  height: clamp(110px,18vw,180px);
+  position: relative;
+}
+.p3-planet-core {
+  width: 100%; height: 100%; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(180,100,255,0.9), rgba(60,0,150,0.8) 60%, rgba(20,0,60,1) 100%);
+  box-shadow:
+    0 0 30px rgba(150,80,255,0.6),
+    0 0 60px rgba(120,50,255,0.3),
+    inset -10px -10px 30px rgba(0,0,80,0.6);
+  animation: planetPulse 5s ease-in-out infinite;
+}
+@keyframes planetPulse {
+  0%,100% { box-shadow: 0 0 30px rgba(150,80,255,0.6), 0 0 60px rgba(120,50,255,0.3), inset -10px -10px 30px rgba(0,0,80,0.6); }
+  50% { box-shadow: 0 0 50px rgba(200,120,255,0.8), 0 0 100px rgba(150,80,255,0.4), inset -10px -10px 30px rgba(0,0,80,0.6); }
+}
+.p3-ring-svg {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%) rotateX(75deg);
+  width: 150%; height: 150%;
+}
+.p3-ring-svg ellipse {
+  animation: ringOrbit 8s linear infinite;
+}
+@keyframes ringOrbit { to { stroke-dashoffset: -300; } }
+.p3-sub {
+  margin-top: 4%;
+  font-family: 'Exo 2', sans-serif;
+  font-size: clamp(9px,1vw,11px);
+  font-weight: 300;
+  letter-spacing: 4px;
+  color: rgba(180,130,255,0.4);
+  text-align: center;
+  text-transform: uppercase;
+  animation: fadeUp 1s 0.6s forwards; opacity:0;
+}
+.p3-data {
+  margin-top: auto;
+  width: 100%;
+  display: flex;
+  gap: 0;
+  border: 1px solid rgba(150,80,255,0.15);
+  animation: fadeUp 1s 0.9s forwards; opacity:0;
+}
+.p3-dc {
+  flex:1; padding: clamp(8px,1.4vw,16px) 0; text-align:center;
+  border-right: 1px solid rgba(150,80,255,0.15);
+}
+.p3-dc:last-child { border-right:none; }
+.p3-dv {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(14px,2vw,22px);
+  color: rgba(220,180,255,0.9);
+  text-shadow: 0 0 10px rgba(180,100,255,0.7);
+  display: block;
+}
+.p3-dk { font-size: clamp(6px,0.7vw,8px); letter-spacing:3px; color:rgba(150,100,255,0.35); text-transform:uppercase; }
+/* Stopwatch space */
+.p3-sw {
+  margin-top: 3%;
+  width: 100%;
+  background: rgba(10,0,25,0.8);
+  border: 1px solid rgba(150,80,255,0.2);
+  padding: clamp(10px,1.8vw,20px) clamp(14px,2.5vw,28px);
+  position: relative;
+  overflow: hidden;
+  animation: fadeUp 1s 1.1s forwards; opacity:0;
+}
+.p3-sw::after {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:1px;
+  background: linear-gradient(90deg, transparent, rgba(200,100,255,0.6), transparent);
+}
+.p3-sw-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+}
+.p3-sw-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(8px,0.8vw,9px);
+  letter-spacing:4px;
+  color:rgba(180,100,255,0.4);
+  text-transform:uppercase;
+  white-space: nowrap;
+}
+.p3-sw-time {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(26px,4vw,46px);
+  font-weight:900;
+  color: rgba(220,180,255,0.95);
+  text-shadow: 0 0 20px rgba(180,100,255,0.8), 0 0 40px rgba(150,60,255,0.4);
+  letter-spacing:2px;
+  line-height:1;
+  flex:1; text-align:center;
+}
+.p3-sw-ms { font-size: clamp(14px,2vw,22px); color:rgba(180,100,255,0.5); }
+.p3-sw-btns { display:flex; gap:6px; flex-shrink:0; }
+.p3-btn {
+  font-family:'Share Tech Mono', monospace;
+  font-size: clamp(9px,0.9vw,11px);
+  letter-spacing:3px;
+  padding: clamp(6px,1vw,10px) clamp(10px,1.5vw,18px);
+  background:transparent; cursor:pointer; text-transform:uppercase; transition:all 0.2s;
+  clip-path: polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);
+}
+.p3-btn-start { border:1px solid rgba(180,100,255,0.4); color:rgba(200,150,255,0.8); }
+.p3-btn-start:hover { background:rgba(180,100,255,0.1); color:#fff; box-shadow:0 0 14px rgba(180,100,255,0.3); }
+.p3-btn-start.on { border-color:rgba(255,100,200,0.6); color:rgba(255,150,220,0.9); }
+.p3-btn-reset { border:1px solid rgba(150,80,255,0.2); color:rgba(150,80,255,0.4); }
+.p3-btn-reset:hover { color:rgba(200,130,255,0.7); }
+
+
+/* ═══════════════════════════════════════
+   POSTER 4 — BIO-TECH GREEN MATRIX
+═══════════════════════════════════════ */
+.p4 {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: #010a02;
+  overflow: hidden;
+  box-shadow: 0 0 60px rgba(0,200,80,0.25), 0 0 120px rgba(0,100,30,0.15);
+}
+.p4-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 50%, rgba(0,60,15,0.6) 0%, transparent 70%),
+    linear-gradient(180deg, #010a02 0%, #020f03 50%, #010a02 100%);
+}
+.p4-matrix-rain { position: absolute; inset: 0; overflow: hidden; opacity: 0.12; }
+.p4-col {
+  position: absolute; top: -100%;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 13px; line-height: 1.4;
+  color: #00ff44;
+  white-space: nowrap;
+  writing-mode: vertical-lr;
+  animation: matrixFall linear infinite;
+}
+@keyframes matrixFall {
+  0%   { transform: translateY(-100%); opacity:0; }
+  5%   { opacity: 1; }
+  90%  { opacity: 0.4; }
+  100% { transform: translateY(200%); opacity:0; }
+}
+.p4-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,200,60,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,200,60,0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.p4-content {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 7% 7% 5%;
+  z-index: 10;
+}
+.p4-tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(9px,1vw,11px);
+  color: rgba(0,220,80,0.6);
+  letter-spacing: 4px;
+  border: 1px solid rgba(0,200,60,0.2);
+  padding: 4px 14px;
+  background: rgba(0,200,60,0.04);
+  animation: fadeIn 1s ease;
+}
+.p4-title {
+  margin-top: 5%;
+  text-align: center;
+  animation: fadeUp 1s 0.3s forwards; opacity:0;
+}
+.p4-t1 {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(40px,6.5vw,72px);
+  font-weight: 900;
+  color: #00ff44;
+  letter-spacing: 4px;
+  display: block;
+  text-shadow: 0 0 20px rgba(0,255,80,0.8), 0 0 50px rgba(0,200,60,0.4);
+  text-transform: uppercase;
+}
+.p4-t2 {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(12px,1.6vw,18px);
+  color: rgba(0,200,80,0.5);
+  letter-spacing: 10px;
+  display: block;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+/* DNA helix visual */
+.p4-dna {
+  margin-top: 4%;
+  width: clamp(60px,10vw,100px);
+  height: clamp(120px,18vw,180px);
+}
+.p4-dna svg { width:100%; height:100%; filter: drop-shadow(0 0 8px rgba(0,255,80,0.6)); }
+.p4-sub {
+  margin-top: 3%;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(9px,1vw,11px);
+  font-weight: 300;
+  letter-spacing: 4px;
+  color: rgba(0,180,60,0.4);
+  text-align: center;
+  text-transform: uppercase;
+  animation: fadeUp 1s 0.6s forwards; opacity:0;
+}
+.p4-data {
+  margin-top: auto;
+  width: 100%;
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px; background: rgba(0,200,60,0.1);
+  border: 1px solid rgba(0,200,60,0.1);
+  animation: fadeUp 1s 0.9s forwards; opacity:0;
+}
+.p4-dc {
+  background: rgba(1,10,2,0.9);
+  padding: clamp(8px,1.4vw,16px) 0; text-align: center;
+}
+.p4-dv {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(14px,2vw,22px);
+  color: rgba(0,255,80,0.9);
+  text-shadow: 0 0 10px rgba(0,255,60,0.7);
+  display: block;
+}
+.p4-dk { font-size: clamp(6px,0.7vw,8px); letter-spacing:3px; color:rgba(0,180,50,0.35); text-transform:uppercase; }
+/* Stopwatch bio */
+.p4-sw {
+  margin-top: 3%;
+  width: 100%;
+  background: rgba(0,8,2,0.9);
+  border: 1px solid rgba(0,200,60,0.2);
+  padding: clamp(10px,1.8vw,20px) clamp(14px,2.5vw,28px);
+  animation: fadeUp 1s 1.1s forwards; opacity:0;
+  position: relative; overflow: hidden;
+}
+.p4-sw-scan {
+  position: absolute; left:0; right:0; height:1px;
+  background: linear-gradient(90deg, transparent, rgba(0,255,80,0.5), transparent);
+  animation: swScan 3s linear infinite;
+}
+@keyframes swScan { 0%{top:0;opacity:0} 5%{opacity:1} 95%{opacity:0.3} 100%{top:100%;opacity:0} }
+.p4-sw-inner { position:relative; z-index:1; }
+.p4-sw-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(8px,0.8vw,9px); letter-spacing:5px;
+  color:rgba(0,200,60,0.4); text-align:center; margin-bottom: clamp(6px,1vw,10px);
+}
+.p4-sw-time {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(32px,5vw,58px);
+  color: #00ff44;
+  text-shadow: 0 0 20px rgba(0,255,80,1), 0 0 40px rgba(0,200,60,0.5);
+  text-align:center; display:block; line-height:1; letter-spacing:3px;
+}
+.p4-sw-ms { font-size: clamp(16px,2.5vw,28px); color:rgba(0,200,60,0.5); }
+.p4-sw-btns {
+  display:flex; justify-content:center; gap:10px; margin-top: clamp(8px,1.2vw,14px);
+}
+.p4-btn {
+  font-family:'Share Tech Mono', monospace;
+  font-size: clamp(9px,0.9vw,11px); letter-spacing:3px;
+  padding: clamp(6px,1vw,10px) clamp(12px,2vw,22px);
+  background:transparent; cursor:pointer; text-transform:uppercase; transition:all 0.2s;
+}
+.p4-btn-start { border:1px solid rgba(0,200,60,0.4); color:rgba(0,220,80,0.8); }
+.p4-btn-start:hover { background:rgba(0,200,60,0.08); color:#00ff44; box-shadow:0 0 14px rgba(0,255,60,0.3); }
+.p4-btn-start.on { border-color:rgba(255,80,80,0.5); color:rgba(255,100,100,0.9); }
+.p4-btn-reset { border:1px solid rgba(0,180,50,0.2); color:rgba(0,160,50,0.4); }
+.p4-btn-reset:hover { color:rgba(0,220,60,0.6); }
+
+/* Shared anims */
+@keyframes fadeIn  { from{opacity:0} to{opacity:1} }
+@keyframes fadeUp  { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+</style>
+</head>
+<body>
+
+<div class="page-title">— AI POSTER SHOWCASE · 4 DESIGNS —</div>
+
+<div class="grid">
+
+  <!-- ══ POSTER 1: CYBERPUNK ══ -->
+  <div class="poster-wrap">
+    <div class="p1">
+      <div class="p1-bg"></div>
+      <div class="p1-lines"></div>
+      <div class="p1-glitch"></div>
+
+      <!-- City silhouette -->
+      <svg class="p1-city" viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+        <path d="M0,300 L0,200 L40,200 L40,160 L60,160 L60,120 L80,120 L80,80 L100,80 L100,60 L110,60 L110,40 L120,40 L120,60 L130,60 L130,100 L150,100 L150,80 L165,80 L165,50 L175,50 L175,30 L185,30 L185,50 L195,50 L195,80 L210,80 L210,60 L220,60 L220,40 L230,40 L230,20 L240,20 L240,10 L250,10 L250,20 L260,20 L260,40 L270,40 L270,60 L280,60 L280,80 L300,80 L300,100 L320,100 L320,70 L330,70 L330,50 L340,50 L340,30 L350,30 L350,10 L360,10 L360,30 L370,30 L370,50 L380,50 L380,70 L390,70 L390,100 L420,100 L420,80 L440,80 L440,60 L455,60 L455,40 L465,40 L465,20 L475,20 L475,40 L485,40 L485,60 L500,60 L500,80 L520,80 L520,100 L540,100 L540,140 L560,140 L560,160 L580,160 L580,180 L600,180 L600,200 L620,200 L620,220 L650,220 L650,240 L700,240 L700,300 Z" fill="rgba(0,20,40,0.8)"/>
+        <path d="M0,300 L0,220 L40,220 L40,180 L60,180 L60,150 L80,150 L80,130 L110,130 L110,100 L130,100 L130,120 L150,120 L150,100 L170,100 L170,120 L190,120 L190,140 L210,140 L210,120 L240,120 L240,140 L270,140 L270,120 L300,120 L300,140 L330,140 L330,120 L360,120 L360,100 L390,100 L390,120 L420,120 L420,140 L450,140 L450,120 L480,120 L480,140 L510,140 L510,160 L540,160 L540,180 L570,180 L570,200 L600,200 L600,220 L640,220 L640,260 L700,260 L700,300 Z" fill="rgba(0,30,60,0.6)"/>
+        <!-- Neon windows -->
+        <g fill="rgba(0,255,200,0.3)">
+          <rect x="82" y="84" width="4" height="4"/><rect x="90" y="84" width="4" height="4"/>
+          <rect x="102" y="64" width="4" height="4"/><rect x="110" y="45" width="4" height="4"/>
+          <rect x="232" y="24" width="4" height="4"/><rect x="242" y="14" width="4" height="4"/>
+          <rect x="352" y="14" width="4" height="4"/><rect x="362" y="34" width="4" height="4"/>
+          <rect x="467" y="24" width="4" height="4"/><rect x="477" y="44" width="4" height="4"/>
+        </g>
+        <g fill="rgba(255,0,200,0.3)">
+          <rect x="165" y="54" width="4" height="4"/><rect x="175" y="34" width="4" height="4"/>
+          <rect x="322" y="74" width="4" height="4"/><rect x="332" y="54" width="4" height="4"/>
+          <rect x="442" y="64" width="4" height="4"/><rect x="457" y="44" width="4" height="4"/>
+        </g>
+      </svg>
+
+      <!-- Ring visual -->
+      <div class="p1-ring">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(0,255,200,0.15)" stroke-width="1" stroke-dasharray="8 12"/>
+          <circle cx="100" cy="100" r="70" fill="none" stroke="rgba(255,0,200,0.15)" stroke-width="1" stroke-dasharray="4 16"/>
+          <circle cx="100" cy="100" r="50" fill="none" stroke="rgba(0,255,200,0.2)" stroke-width="1"/>
+          <!-- Cross hairs -->
+          <line x1="100" y1="10" x2="100" y2="40" stroke="rgba(0,255,200,0.5)" stroke-width="1.5"/>
+          <line x1="100" y1="160" x2="100" y2="190" stroke="rgba(0,255,200,0.5)" stroke-width="1.5"/>
+          <line x1="10" y1="100" x2="40" y2="100" stroke="rgba(255,0,200,0.5)" stroke-width="1.5"/>
+          <line x1="160" y1="100" x2="190" y2="100" stroke="rgba(255,0,200,0.5)" stroke-width="1.5"/>
+          <!-- Center -->
+          <circle cx="100" cy="100" r="12" fill="rgba(0,255,200,0.15)" stroke="rgba(0,255,200,0.6)" stroke-width="1"/>
+          <circle cx="100" cy="100" r="5" fill="#00ffcc"/>
+          <!-- Orbital dots -->
+          <circle cx="100" cy="10" r="3" fill="rgba(0,255,200,0.8)"/>
+          <circle cx="190" cy="100" r="3" fill="rgba(255,0,200,0.8)"/>
+          <circle cx="100" cy="190" r="3" fill="rgba(0,255,200,0.8)"/>
+          <circle cx="10" cy="100" r="3" fill="rgba(255,0,200,0.8)"/>
+        </svg>
+      </div>
+
+      <div class="p1-content">
+        <div class="p1-tag">// CYBER.AI // 2077 //</div>
+        <div class="p1-title">
+          <span class="p1-t1">NEURAL</span>
+          <span class="p1-t2">UPRISING</span>
+        </div>
+        <div class="p1-sub">Jack in. Drop out. Rewrite reality.</div>
+      </div>
+
+      <div class="p1-stats">
+        <div class="p1-stat"><span class="p1-sv">9.8B</span><span class="p1-sk">Nodes</span></div>
+        <div class="p1-stat"><span class="p1-sv">4MS</span><span class="p1-sk">Latency</span></div>
+        <div class="p1-stat"><span class="p1-sv">∞</span><span class="p1-sk">Runtime</span></div>
+      </div>
+
+      <div class="p1-sw">
+        <div>
+          <span class="p1-sw-time" id="p1-time">00:00:00</span><span class="p1-sw-ms" id="p1-ms">.000</span>
+        </div>
+        <div class="p1-sw-btns">
+          <button class="p1-btn p1-btn-start" id="p1-start">▶ RUN</button>
+          <button class="p1-btn p1-btn-reset" id="p1-reset">↺</button>
+        </div>
+      </div>
+    </div>
+    <div class="poster-label">① Cyberpunk Neon Glitch</div>
+  </div>
+
+  <!-- ══ POSTER 2: DARK LUXURY ══ -->
+  <div class="poster-wrap">
+    <div class="p2">
+      <div class="p2-marble"></div>
+      <div class="p2-veins"></div>
+
+      <div class="p2-content">
+        <div class="p2-ornament">
+          <div class="p2-orn-line"></div>
+          <div class="p2-orn-diamond"></div>
+          <div class="p2-orn-line"></div>
+          <div class="p2-orn-diamond"></div>
+          <div class="p2-orn-line"></div>
+        </div>
+        <div class="p2-royal-tag">Est. MMX · Artificium Infinitum</div>
+
+        <div class="p2-title">
+          <span class="p2-t1">AURUM</span>
+          <span class="p2-t2">INTELLIGENCE</span>
+        </div>
+
+        <!-- Gold medallion -->
+        <div class="p2-medallion">
+          <svg viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="mg" cx="50%" cy="40%" r="60%">
+                <stop offset="0%" stop-color="#fff8c0"/>
+                <stop offset="40%" stop-color="#d4a017"/>
+                <stop offset="100%" stop-color="#5a3800"/>
+              </radialGradient>
+            </defs>
+            <!-- Outer ring -->
+            <circle cx="90" cy="90" r="85" fill="none" stroke="rgba(200,160,40,0.3)" stroke-width="1"/>
+            <circle cx="90" cy="90" r="78" fill="none" stroke="rgba(200,160,40,0.15)" stroke-width="0.5"/>
+            <!-- 12 ornate spokes -->
+            <g stroke="rgba(200,160,40,0.35)" stroke-width="0.8">
+              <line x1="90" y1="5"  x2="90" y2="25"/>  <line x1="90" y1="155" x2="90" y2="175"/>
+              <line x1="5"  y1="90" x2="25" y2="90"/>  <line x1="155" y1="90" x2="175" y2="90"/>
+              <line x1="28" y1="28" x2="42" y2="42"/>  <line x1="138" y1="28" x2="152" y2="42"/>
+              <line x1="28" y1="152" x2="42" y2="138"/> <line x1="138" y1="152" x2="152" y2="138"/>
+              <line x1="59" y1="10" x2="64" y2="24"/>   <line x1="116" y1="10" x2="121" y2="24"/>
+              <line x1="10" y1="59" x2="24" y2="64"/>   <line x1="10" y1="121" x2="24" y2="116"/>
+              <line x1="156" y1="59" x2="170" y2="64"/> <line x1="156" y1="121" x2="170" y2="116"/>
+            </g>
+            <!-- Main circle -->
+            <circle cx="90" cy="90" r="55" fill="rgba(20,12,0,0.8)" stroke="rgba(200,160,40,0.5)" stroke-width="1.5"/>
+            <circle cx="90" cy="90" r="45" fill="url(#mg)" opacity="0.8"/>
+            <!-- AI text inside -->
+            <text x="90" y="98" font-family="Cinzel, serif" font-size="28" font-weight="900" fill="rgba(255,240,180,0.95)" text-anchor="middle" letter-spacing="4">AI</text>
+            <circle cx="90" cy="90" r="18" fill="none" stroke="rgba(255,240,160,0.3)" stroke-width="0.5"/>
+            <!-- Corner dots -->
+            <circle cx="90" cy="5"  r="3" fill="rgba(200,160,40,0.7)"/>
+            <circle cx="90" cy="175" r="3" fill="rgba(200,160,40,0.7)"/>
+            <circle cx="5"  cy="90" r="3" fill="rgba(200,160,40,0.7)"/>
+            <circle cx="175" cy="90" r="3" fill="rgba(200,160,40,0.7)"/>
+          </svg>
+        </div>
+
+        <div class="p2-sub">Where machine wisdom meets timeless elegance</div>
+
+        <div class="p2-data">
+          <div class="p2-dc"><span class="p2-dv">XII</span><span class="p2-dk">Pillars</span></div>
+          <div class="p2-divv"></div>
+          <div class="p2-dc"><span class="p2-dv">∞</span><span class="p2-dk">Knowledge</span></div>
+          <div class="p2-divv"></div>
+          <div class="p2-dc"><span class="p2-dv">I</span><span class="p2-dk">Singular</span></div>
+        </div>
+
+        <div class="p2-sw">
+          <div class="p2-sw-label">— Chronograph —</div>
+          <div style="text-align:center">
+            <span class="p2-sw-time" id="p2-time">00:00:00</span><span class="p2-sw-ms" id="p2-ms">.000</span>
+          </div>
+          <div class="p2-sw-btns">
+            <button class="p2-btn p2-btn-start" id="p2-start">Commence</button>
+            <button class="p2-btn p2-btn-reset" id="p2-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="poster-label">② Dark Luxury Gold & Marble</div>
+  </div>
+
+  <!-- ══ POSTER 3: DEEP SPACE ══ -->
+  <div class="poster-wrap">
+    <div class="p3">
+      <div class="p3-space"></div>
+      <div class="p3-nebula"></div>
+      <div class="p3-stars" id="p3-stars"></div>
+
+      <div class="p3-content">
+        <div class="p3-coord">
+          <span>RA 05h 34m</span>
+          <span>DEC +22° 01'</span>
+          <span>Z+4.7</span>
+        </div>
+
+        <div class="p3-title">
+          <span class="p3-t1">COSMOS</span>
+          <span class="p3-t2">MIND</span>
+        </div>
+
+        <!-- Planet -->
+        <div class="p3-planet">
+          <div class="p3-planet-core"></div>
+          <svg class="p3-ring-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="150" cy="150" rx="140" ry="30" fill="none" stroke="rgba(180,100,255,0.3)" stroke-width="2" stroke-dasharray="20 10" stroke-dashoffset="0"/>
+            <ellipse cx="150" cy="150" rx="120" ry="22" fill="none" stroke="rgba(150,80,255,0.15)" stroke-width="1"/>
+          </svg>
+        </div>
+
+        <div class="p3-sub">Intelligence born from the heart of dying stars</div>
+
+        <div class="p3-data">
+          <div class="p3-dc"><span class="p3-dv">14B</span><span class="p3-dk">Light Yrs</span></div>
+          <div class="p3-dc" style="border-right:1px solid rgba(150,80,255,0.15)"><span class="p3-dv">∞</span><span class="p3-dk">Dimensions</span></div>
+          <div class="p3-dc"><span class="p3-dv">Ω</span><span class="p3-dk">Singularity</span></div>
+        </div>
+
+        <div class="p3-sw">
+          <div class="p3-sw-row">
+            <span class="p3-sw-label">◈ WARP TIMER</span>
+            <span class="p3-sw-time" id="p3-time">00:00:00<span class="p3-sw-ms" id="p3-ms">.000</span></span>
+            <div class="p3-sw-btns">
+              <button class="p3-btn p3-btn-start" id="p3-start">▶</button>
+              <button class="p3-btn p3-btn-reset" id="p3-reset">↺</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="poster-label">③ Deep Space Cosmic Nebula</div>
+  </div>
+
+  <!-- ══ POSTER 4: BIO-TECH ══ -->
+  <div class="poster-wrap">
+    <div class="p4">
+      <div class="p4-bg"></div>
+      <div class="p4-matrix-rain" id="p4-rain"></div>
+      <div class="p4-grid"></div>
+
+      <div class="p4-content">
+        <div class="p4-tag">BIO.SYS // GENOME.AI // v7.3</div>
+
+        <div class="p4-title">
+          <span class="p4-t1">GENESIS</span>
+          <span class="p4-t2">PROTOCOL</span>
+        </div>
+
+        <!-- DNA helix -->
+        <div class="p4-dna">
+          <svg viewBox="0 0 100 180" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="dnaG" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#00ff44"/>
+                <stop offset="50%" stop-color="#00cc33"/>
+                <stop offset="100%" stop-color="#00ff44"/>
+              </linearGradient>
+            </defs>
+            <!-- Left strand -->
+            <path d="M30,0 C70,20 30,40 70,60 C30,80 70,100 30,120 C70,140 30,160 70,180" fill="none" stroke="url(#dnaG)" stroke-width="2.5" opacity="0.8"/>
+            <!-- Right strand -->
+            <path d="M70,0 C30,20 70,40 30,60 C70,80 30,100 70,120 C30,140 70,160 30,180" fill="none" stroke="url(#dnaG)" stroke-width="2.5" opacity="0.8"/>
+            <!-- Rungs -->
+            <g stroke="rgba(0,255,80,0.4)" stroke-width="1.5">
+              <line x1="35" y1="12"  x2="65" y2="12"/>
+              <line x1="52" y1="30"  x2="48" y2="30"/>
+              <line x1="35" y1="48"  x2="65" y2="48"/>
+              <line x1="52" y1="66"  x2="48" y2="66"/>
+              <line x1="35" y1="84"  x2="65" y2="84"/>
+              <line x1="52" y1="102" x2="48" y2="102"/>
+              <line x1="35" y1="120" x2="65" y2="120"/>
+              <line x1="52" y1="138" x2="48" y2="138"/>
+              <line x1="35" y1="156" x2="65" y2="156"/>
+              <line x1="52" y1="174" x2="48" y2="174"/>
+            </g>
+            <!-- Nodes -->
+            <g fill="#00ff44">
+              <circle cx="30" cy="0"   r="3"/><circle cx="70" cy="0"   r="3"/>
+              <circle cx="70" cy="60"  r="3"/><circle cx="30" cy="60"  r="3"/>
+              <circle cx="30" cy="120" r="3"/><circle cx="70" cy="120" r="3"/>
+              <circle cx="70" cy="180" r="3"/><circle cx="30" cy="180" r="3"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="p4-sub">Rewriting the code of synthetic cognition</div>
+
+        <div class="p4-data">
+          <div class="p4-dc"><span class="p4-dv">3.2B</span><span class="p4-dk">Base Pairs</span></div>
+          <div class="p4-dc"><span class="p4-dv">100%</span><span class="p4-dk">Organic</span></div>
+          <div class="p4-dc"><span class="p4-dv">GEN7</span><span class="p4-dk">Evolution</span></div>
+        </div>
+
+        <div class="p4-sw">
+          <div class="p4-sw-scan"></div>
+          <div class="p4-sw-inner">
+            <div class="p4-sw-label">// SEQUENCE TIMER //</div>
+            <span class="p4-sw-time" id="p4-time">00:00:00</span><span class="p4-sw-ms" id="p4-ms">.000</span>
+            <div class="p4-sw-btns">
+              <button class="p4-btn p4-btn-start" id="p4-start">▶ INITIATE</button>
+              <button class="p4-btn p4-btn-reset" id="p4-reset">↺ FLUSH</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="poster-label">④ Bio-Tech Green Matrix</div>
+  </div>
+
+</div><!-- /grid -->
+
+<script>
+// ── SHARED STOPWATCH FACTORY ──
+function makeWatch(timeId, msId, startId, resetId) {
+  let elapsed=0, startTime=0, running=false, rafId=null;
+  const tEl = document.getElementById(timeId);
+  const mEl = document.getElementById(msId);
+  const sBtn = document.getElementById(startId);
+  const rBtn = document.getElementById(resetId);
+  const pad = (n,l=2) => String(Math.floor(n)).padStart(l,'0');
+
+  function tick() {
+    const total = elapsed + (running ? Date.now()-startTime : 0);
+    const ms = total%1000, s=Math.floor(total/1000)%60, m=Math.floor(total/60000)%60, h=Math.floor(total/3600000);
+    tEl.textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
+    mEl.textContent = `.${pad(ms,3)}`;
+    if(running) rafId=requestAnimationFrame(tick);
+  }
+  sBtn.addEventListener('click',()=>{
+    if(!running){
+      startTime=Date.now(); running=true;
+      sBtn.classList.add('on');
+      rafId=requestAnimationFrame(tick);
+    } else {
+      elapsed+=Date.now()-startTime; running=false;
+      cancelAnimationFrame(rafId); sBtn.classList.remove('on');
+    }
+  });
+  rBtn.addEventListener('click',()=>{
+    running=false; cancelAnimationFrame(rafId);
+    elapsed=0; sBtn.classList.remove('on');
+    tEl.textContent='00:00:00'; mEl.textContent='.000';
+  });
+}
+
+makeWatch('p1-time','p1-ms','p1-start','p1-reset');
+makeWatch('p2-time','p2-ms','p2-start','p2-reset');
+makeWatch('p3-time','p3-ms','p3-start','p3-reset');
+makeWatch('p4-time','p4-ms','p4-start','p4-reset');
+
+// ── STARS for P3 ──
+const starsEl = document.getElementById('p3-stars');
+for(let i=0;i<120;i++){
+  const s=document.createElement('div');
+  const sz=Math.random()*2+0.5;
+  s.style.cssText=`position:absolute;width:${sz}px;height:${sz}px;border-radius:50%;
+    left:${Math.random()*100}%;top:${Math.random()*100}%;
+    background:rgba(${200+Math.random()*55},${180+Math.random()*75},255,${0.4+Math.random()*0.6});
+    box-shadow:0 0 ${sz*2}px rgba(200,180,255,0.6);
+    animation:starTwink ${2+Math.random()*4}s ease-in-out ${Math.random()*4}s infinite alternate;`;
+  starsEl.appendChild(s);
+}
+const ss=document.createElement('style');
+ss.textContent='@keyframes starTwink{from{opacity:0.2;transform:scale(0.8)}to{opacity:1;transform:scale(1.2)}}';
+document.head.appendChild(ss);
+
+// ── MATRIX RAIN for P4 ──
+const rainEl = document.getElementById('p4-rain');
+const chars4 = 'ATCG01アイウエオカキクケコ∑∆∇∂∫';
+for(let i=0;i<18;i++){
+  const col=document.createElement('div');
+  col.className='p4-col';
+  let txt='';
+  for(let j=0;j<30;j++) txt+=chars4[Math.floor(Math.random()*chars4.length)]+'\n';
+  col.textContent=txt;
+  col.style.cssText=`left:${(i/18)*100}%;animation-duration:${5+Math.random()*8}s;animation-delay:-${Math.random()*10}s;font-size:${10+Math.random()*4}px;`;
+  rainEl.appendChild(col);
+}
+</script>
+</body>
+</html>

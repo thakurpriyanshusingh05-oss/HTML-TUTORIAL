@@ -1,0 +1,96 @@
+skills::
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>skills</title>
+     <style>
+        html{
+             background-color: black;
+             color: white;
+        }
+        #navbar{
+            box-sizing: border-box;
+            display: grid;
+            grid-template-columns: repeat(5,1fr);
+            background-color: rgb(61, 59, 59);
+            font-size: larger;
+            margin-top: 0px;
+        }
+        .icon{
+            align-content: center;
+        }
+         a{
+            text-decoration: none;
+            color: white;
+        }
+        a:hover{
+            color: red;
+        }
+        p{
+            margin: 100px;
+            font-size: xx-large;
+            font-family: cursive;
+            font-style: oblique;
+        }
+        #skill{
+            margin: 100px;
+             box-sizing: border-box;
+             display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 50px;
+            font-size: x-large;
+            text-align: center;
+            line-height: 40px;
+        }
+        .DSA{
+             border-radius: 10px;
+             background-color:rgb(61, 59, 59) ;
+        }
+        .FE{
+            border-radius: 10px;
+             background-color:rgb(61, 59, 59) ;
+        }
+
+          /* media..... */
+        
+        @media (max-width:1024px){
+            #skill{
+                grid-template-columns: repeat(1,1fr);
+                gap: 40px;
+            }
+        }
+         @media (max-width:700px){
+            #skill{
+                 grid-template-columns: repeat(1,1fr);
+            }
+         }
+        </style>
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div id="navbar">
+        <div class="icon"><a href=""><img src="https://thumbs.dreamstime.com/b/ps-initial-logo-company-name-colored-red-black-swoosh-design-isolated-white-background-vector-business-identity-199335889.jpg" width="60px" style="border-radius: 50%;"></a></div>
+        <div class="icon"><a href="index.html"><i class="fa-solid fa-house"></i>Home</a></div>
+        <div class="icon"><a href="about.html"><i class="fa-solid fa-user"></i>About</a></div>
+        <div class="icon"><a href="skills.html"><i class="fa-solid fa-briefcase"></i>Skill</a></div>
+        <div class="icon"><a href="contact.html"><i class="fa-solid fa-comments"></i>Contact</a></div>
+    </div>
+    <p>
+        My Skills
+    </p>
+    <div id="skill">
+        <div class="FE">
+            <span style="color: red; font-size: xx-large;">Frontend</span><br><br>
+            <i class="fa-solid fa-laptop-code" style="font-size: xx-large;"></i><br><br>
+                A frontend proficient with expertise in crafting responsive and user-centric interfaces. Skilled in HTML, CSS and JavaScript to create engaging web experiences
+        </div>
+        <div class="DSA">
+            <span style="color: red; font-size: xx-large;">Problem-Solving Ability</span><br><br>
+            <i class="fa-solid fa-bullhorn" style="font-size: xx-large;"></i><br><br>
+                    Strong analytical thinker with a structured approach to tackling complex challenges. Proficient in optimizing algorithms, debugging code, and developing efficient solutions. Solved a versatile range of DSA questions, enhancing logical reasoning and coding efficiency.
+        </div>
+    </div>
+</body>
+</html>

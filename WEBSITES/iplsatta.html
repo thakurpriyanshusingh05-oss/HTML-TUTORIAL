@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Advanced Money Pool Tracker</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+  text-align: center;
+}
+
+h1 { color: #38bdf8; }
+
+.container {
+  margin-top: 20px;
+}
+
+input, button {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 8px;
+  border: none;
+}
+
+button {
+  background: #22c55e;
+  color: white;
+  cursor: pointer;
+}
+
+table {
+  margin: 20px auto;
+  border-collapse: collapse;
+  width: 80%;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+th { background: #1e293b; }
+
+.green { color: #22c55e; }
+.red { color: #ef4444; }
+
+</style>
+</head>
+
+<body>
+
+<h1>💰 Advanced Money Pool Tracker</h1>
+
+<div class="container">
+  <input type="text" id="name" placeholder="Friend Name">
+  <input type="number" id="amount" placeholder="Amount">
+  <button onclick="addEntry()">Add</button>
+  <button onclick="clearData()">Reset</button>
+</div>
+
+<h2>Total Pool: ₹<span id="total">0</span></h2>
+<h3>Per Person Share: ₹<span id="share">0</span></h3>
+
+<table>
+<thead>
+<tr>
+  <th>Name</th>
+  <th>Added</th>
+  <th>Balance</th>
+</tr>
+</thead>
+<tbody id="tableBody"></tbody>
+</table>
+
+<script>
+let data = JSON.parse(localStorage.getItem("poolData")) || [];
+
+function saveData() {
+  localStorage.setItem("poolData", JSON.stringify(data));
+}
+
+function addEntry() {
+  let name = document.getElementById("name").value.trim();
+  let amount = parseFloat(document.getElementById("amount").value);
+
+  if (!name || isNaN(amount)) {
+    alert("Enter valid details");
+    return;
+  }
+
+  let existing = data.find(p => p.name === name);
+
+  if (existing) {
+    existing.amount += amount;
+  } else {
+    data.push({ name, amount });
+  }
+
+  saveData();
+  updateUI();
+
+  document.getElementById("name").value = "";
+  document.getElementById("amount").value = "";
+}
+
+function updateUI() {
+  let total = data.reduce((sum, p) => sum + p.amount, 0);
+  let share = data.length ? (total / data.length) : 0;
+
+  document.getElementById("total").innerText = total.toFixed(2);
+  document.getElementById("share").innerText = share.toFixed(2);
+
+  let table = document.getElementById("tableBody");
+  table.innerHTML = "";
+
+  data.forEach(p => {
+    let balance = p.amount - share;
+
+    let colorClass = balance >= 0 ? "green" : "red";
+    let text = balance >= 0 
+      ? `Gets ₹${balance.toFixed(2)}`
+      : `Pays ₹${Math.abs(balance).toFixed(2)}`;
+
+    let row = `<tr>
+      <td>${p.name}</td>
+      <td>₹${p.amount.toFixed(2)}</td>
+      <td class="${colorClass}">${text}</td>
+    </tr>`;
+
+    table.innerHTML += row;
+  });
+}
+
+function clearData() {
+  if (confirm("Reset all data?")) {
+    data = [];
+    saveData();
+    updateUI();
+  }
+}
+
+updateUI();
+</script>
+
+</body>
+</html>

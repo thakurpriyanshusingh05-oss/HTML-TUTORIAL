@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class Timetable – CSE-29 | ABES Engineering College</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #18181f;
+    --border: #2a2a38;
+    --text: #e8e8f0;
+    --muted: #6b6b80;
+    --accent: #7c6bff;
+
+    --physics:   #1e3a5f;
+    --physics-t: #60a5fa;
+    --elec:      #1a3d2e;
+    --elec-t:    #4ade80;
+    --calc:      #3d2a1a;
+    --calc-t:    #fb923c;
+    --ds:        #2d1a3d;
+    --ds-t:      #c084fc;
+    --env:       #1a2d1a;
+    --env-t:     #86efac;
+    --ai:        #3d1a1a;
+    --ai-t:      #f87171;
+    --lab:       #1a1a3d;
+    --lab-t:     #818cf8;
+    --va:        #2d2a1a;
+    --va-t:      #fbbf24;
+    --me:        #2a1a2a;
+    --me-t:      #e879f9;
+    --mentor:    #1a2a2a;
+    --mentor-t:  #2dd4bf;
+    --lunch:     #1f1f1f;
+    --lunch-t:   #888;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    min-height: 100vh;
+    padding: 24px 16px 48px;
+    overflow-x: hidden;
+  }
+
+  /* ── Header ── */
+  .header {
+    text-align: center;
+    margin-bottom: 36px;
+    position: relative;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 200px;
+    background: radial-gradient(ellipse at center, rgba(124,107,255,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .college-name {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  .college-name span { color: var(--accent); }
+  .subtitle {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+  .meta-row {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .meta-badge {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .meta-badge strong { color: var(--text); }
+
+  /* ── Day selector ── */
+  .day-nav {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .day-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 8px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .day-btn:hover { border-color: var(--accent); color: var(--text); }
+  .day-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 20px rgba(124,107,255,0.4);
+  }
+  .day-btn.today-marker { position: relative; }
+  .day-btn.today-marker::after {
+    content: 'TODAY';
+    position: absolute;
+    top: -8px;
+    right: -4px;
+    background: #f87171;
+    color: #fff;
+    font-size: 0.55rem;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Timeline view ── */
+  .day-view { display: none; }
+  .day-view.active { display: block; animation: fadeIn 0.3s ease; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .timeline-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-left: 4px;
+  }
+  .timeline-header h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+  }
+  .period-count {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── Period cards ── */
+  .periods-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .period-card {
+    border-radius: 12px;
+    border: 1px solid;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .period-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    border-radius: 4px 0 0 4px;
+    background: currentColor;
+    opacity: 0.6;
+  }
+  .period-card:hover { transform: translateX(4px); box-shadow: -4px 0 20px rgba(0,0,0,0.3); }
+
+  .period-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    background: rgba(255,255,255,0.08);
+    border-radius: 6px;
+    padding: 4px 8px;
+    min-width: 28px;
+    text-align: center;
+    opacity: 0.7;
+  }
+  .period-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    opacity: 0.6;
+    min-width: 110px;
+    white-space: nowrap;
+  }
+  .period-info { flex: 1; }
+  .period-code {
+    font-size: 0.72rem;
+    font-family: 'JetBrains Mono', monospace;
+    opacity: 0.6;
+    margin-bottom: 2px;
+  }
+  .period-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .period-faculty {
+    font-size: 0.78rem;
+    opacity: 0.6;
+    margin-top: 2px;
+  }
+  .period-room {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    background: rgba(255,255,255,0.08);
+    border-radius: 6px;
+    padding: 6px 10px;
+    white-space: nowrap;
+    opacity: 0.8;
+  }
+
+  /* subject colour variants */
+  .c-physics  { background: var(--physics);  border-color: var(--physics-t);  color: var(--physics-t);  }
+  .c-elec     { background: var(--elec);     border-color: var(--elec-t);     color: var(--elec-t);     }
+  .c-calc     { background: var(--calc);     border-color: var(--calc-t);     color: var(--calc-t);     }
+  .c-ds       { background: var(--ds);       border-color: var(--ds-t);       color: var(--ds-t);       }
+  .c-env      { background: var(--env);      border-color: var(--env-t);      color: var(--env-t);      }
+  .c-ai       { background: var(--ai);       border-color: var(--ai-t);       color: var(--ai-t);       }
+  .c-lab      { background: var(--lab);      border-color: var(--lab-t);      color: var(--lab-t);      }
+  .c-va       { background: var(--va);       border-color: var(--va-t);       color: var(--va-t);       }
+  .c-me       { background: var(--me);       border-color: var(--me-t);       color: var(--me-t);       }
+  .c-mentor   { background: var(--mentor);   border-color: var(--mentor-t);   color: var(--mentor-t);   }
+  .c-lunch    { background: var(--lunch);    border-color: #333;              color: var(--lunch-t);    }
+
+  /* ── Legend ── */
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 36px 0 14px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .legend-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 10px;
+  }
+  .legend-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .legend-info { flex: 1; }
+  .legend-code { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--muted); }
+  .legend-name { font-size: 0.85rem; font-weight: 500; margin-top: 1px; }
+  .legend-faculty { font-size: 0.75rem; color: var(--muted); margin-top: 1px; }
+
+  /* ── Full grid toggle ── */
+  .toggle-grid-btn {
+    display: block;
+    margin: 28px auto 0;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 10px 28px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+  }
+  .toggle-grid-btn:hover { border-color: var(--accent); color: var(--text); }
+
+  .full-grid-wrapper { display: none; margin-top: 24px; overflow-x: auto; }
+  .full-grid-wrapper.open { display: block; animation: fadeIn 0.3s ease; }
+
+  table.full-grid {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+    min-width: 900px;
+  }
+  table.full-grid th, table.full-grid td {
+    border: 1px solid var(--border);
+    padding: 8px 10px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  table.full-grid thead th {
+    background: var(--surface2);
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    white-space: nowrap;
+  }
+  table.full-grid tbody td.day-cell {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    background: var(--surface2);
+    white-space: nowrap;
+  }
+  table.full-grid .cell-code { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; opacity: 0.6; }
+  table.full-grid .cell-name { font-size: 0.75rem; font-weight: 600; line-height: 1.3; }
+  table.full-grid .cell-fac { font-size: 0.68rem; opacity: 0.55; }
+
+  footer {
+    text-align: center;
+    margin-top: 48px;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="college-name">ABES Engineering College, <span>Ghaziabad</span></div>
+  <div class="subtitle">Class Time Table &nbsp;·&nbsp; TM-07 &nbsp;·&nbsp; w.e.f. 19.02.2026</div>
+  <div class="meta-row">
+    <span class="meta-badge"><strong>Course:</strong> B.Tech</span>
+    <span class="meta-badge"><strong>Dept:</strong> Computer Science &amp; Engineering</span>
+    <span class="meta-badge"><strong>Section:</strong> I/CSE-29</span>
+    <span class="meta-badge"><strong>Room:</strong> RJ-201</span>
+    <span class="meta-badge"><strong>Session:</strong> 2025-26, Even Semester</span>
+  </div>
+</div>
+
+<!-- Day navigation -->
+<div class="day-nav">
+  <button class="day-btn" data-day="mon" onclick="showDay('mon')">Monday</button>
+  <button class="day-btn" data-day="tue" onclick="showDay('tue')">Tuesday</button>
+  <button class="day-btn" data-day="wed" onclick="showDay('wed')">Wednesday</button>
+  <button class="day-btn" data-day="thu" onclick="showDay('thu')">Thursday</button>
+  <button class="day-btn" data-day="fri" onclick="showDay('fri')">Friday</button>
+</div>
+
+<!-- ════════ Monday ════════ -->
+<div class="day-view" id="day-mon">
+  <div class="timeline-header"><h2>Monday</h2><span class="period-count">8 periods</span></div>
+  <div class="periods-grid">
+    <div class="period-card c-env">
+      <span class="period-num">I</span>
+      <span class="period-time">08:50 – 09:40</span>
+      <div class="period-info"><div class="period-code">25AS203</div><div class="period-name">Environment &amp; Sustainability</div><div class="period-faculty">Dr. Divyanshi Sharma (DSH)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-calc">
+      <span class="period-num">II</span>
+      <span class="period-time">09:40 – 10:30</span>
+      <div class="period-info"><div class="period-code">25AS202</div><div class="period-name">Applied Calculus &amp; Differential Equation</div><div class="period-faculty">Dr. Ranjeet Kaur (RK)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-physics">
+      <span class="period-num">III</span>
+      <span class="period-time">10:40 – 11:30</span>
+      <div class="period-info"><div class="period-code">25AS201</div><div class="period-name">Applied Physics</div><div class="period-faculty">Dr. Isha Mehra (IM)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-elec">
+      <span class="period-num">IV</span>
+      <span class="period-time">11:30 – 12:20</span>
+      <div class="period-info"><div class="period-code">25EL201</div><div class="period-name">Basics of Electrical Engg.</div><div class="period-faculty">Mr. Vikash Tiwari (VT)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-lunch">
+      <span class="period-num">V</span>
+      <span class="period-time">12:20 – 01:10</span>
+      <div class="period-info"><div class="period-name">🍽 Lunch Break</div></div>
+      <span class="period-room">–</span>
+    </div>
+    <div class="period-card c-lab">
+      <span class="period-num">VI–VII</span>
+      <span class="period-time">01:10 – 02:50</span>
+      <div class="period-info"><div class="period-code">25AS251</div><div class="period-name">Physics Lab</div><div class="period-faculty">Dr. Isha Mehra (IM) &amp; Mr. Akhilesh Kumar Pandey (AKP)</div></div>
+      <span class="period-room">KC-310</span>
+    </div>
+    <div class="period-card c-ds">
+      <span class="period-num">VIII</span>
+      <span class="period-time">02:50 – 03:40</span>
+      <div class="period-info"><div class="period-code">25CS201</div><div class="period-name">Data Structure Using C++</div><div class="period-faculty">Mr. Ankur Sharma (ARS)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-ai">
+      <span class="period-num">IX</span>
+      <span class="period-time">03:40 – 04:30</span>
+      <div class="period-info"><div class="period-code">25AI201</div><div class="period-name">Essentials of AI</div><div class="period-faculty">Mr. Rahul Singh (RS)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ Tuesday ════════ -->
+<div class="day-view" id="day-tue">
+  <div class="timeline-header"><h2>Tuesday</h2><span class="period-count">8 periods</span></div>
+  <div class="periods-grid">
+    <div class="period-card c-lab">
+      <span class="period-num">I–II</span>
+      <span class="period-time">08:50 – 10:30</span>
+      <div class="period-info"><div class="period-code">25CS251</div><div class="period-name">Data Structure Lab using C++</div><div class="period-faculty">Mr. Ankur Sharma (ARS)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-elec">
+      <span class="period-num">III</span>
+      <span class="period-time">10:40 – 11:30</span>
+      <div class="period-info"><div class="period-code">25EL201</div><div class="period-name">Basics of Electrical Engg.</div><div class="period-faculty">Mr. Vikash Tiwari (VT)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-calc">
+      <span class="period-num">IV</span>
+      <span class="period-time">11:30 – 12:20</span>
+      <div class="period-info"><div class="period-code">25AS202</div><div class="period-name">Applied Calculus &amp; Differential Equation</div><div class="period-faculty">Dr. Ranjeet Kaur (RK)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-lunch">
+      <span class="period-num">V</span>
+      <span class="period-time">12:20 – 01:10</span>
+      <div class="period-info"><div class="period-name">🍽 Lunch Break</div></div>
+      <span class="period-room">–</span>
+    </div>
+    <div class="period-card c-ai">
+      <span class="period-num">VI</span>
+      <span class="period-time">01:10 – 02:00</span>
+      <div class="period-info"><div class="period-code">25AI201</div><div class="period-name">Essentials of AI</div><div class="period-faculty">Mr. Rahul Singh (RS)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-physics">
+      <span class="period-num">VII</span>
+      <span class="period-time">02:00 – 02:50</span>
+      <div class="period-info"><div class="period-code">25AS201</div><div class="period-name">Applied Physics</div><div class="period-faculty">Dr. Isha Mehra (IM)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-env">
+      <span class="period-num">VIII</span>
+      <span class="period-time">02:50 – 03:40</span>
+      <div class="period-info"><div class="period-code">25AS203</div><div class="period-name">Environment &amp; Sustainability</div><div class="period-faculty">Dr. Divyanshi Sharma (DSH)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-calc">
+      <span class="period-num">IX</span>
+      <span class="period-time">03:40 – 04:30</span>
+      <div class="period-info"><div class="period-code">25AS202</div><div class="period-name">Applied Calculus &amp; Differential Equation</div><div class="period-faculty">Dr. Ranjeet Kaur (RK)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ Wednesday ════════ -->
+<div class="day-view" id="day-wed">
+  <div class="timeline-header"><h2>Wednesday</h2><span class="period-count">7 periods + Mentor-Mentee</span></div>
+  <div class="periods-grid">
+    <div class="period-card c-elec">
+      <span class="period-num">I</span>
+      <span class="period-time">08:50 – 09:40</span>
+      <div class="period-info"><div class="period-code">25EL201</div><div class="period-name">Basics of Electrical Engg.</div><div class="period-faculty">Mr. Vikash Tiwari (VT)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-physics">
+      <span class="period-num">II</span>
+      <span class="period-time">09:40 – 10:30</span>
+      <div class="period-info"><div class="period-code">25AS201</div><div class="period-name">Applied Physics</div><div class="period-faculty">Dr. Isha Mehra (IM)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-calc">
+      <span class="period-num">III</span>
+      <span class="period-time">10:40 – 11:30</span>
+      <div class="period-info"><div class="period-code">25AS202</div><div class="period-name">Applied Calculus &amp; Differential Equation</div><div class="period-faculty">Dr. Ranjeet Kaur (RK)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-ds">
+      <span class="period-num">IV</span>
+      <span class="period-time">11:30 – 12:20</span>
+      <div class="period-info"><div class="period-code">25CS201</div><div class="period-name">Data Structure Using C++</div><div class="period-faculty">Mr. Ankur Sharma (ARS)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-lunch">
+      <span class="period-num">V</span>
+      <span class="period-time">12:20 – 01:10</span>
+      <div class="period-info"><div class="period-name">🍽 Lunch Break</div></div>
+      <span class="period-room">–</span>
+    </div>
+    <div class="period-card c-va">
+      <span class="period-num">VI–VII</span>
+      <span class="period-time">01:10 – 02:50</span>
+      <div class="period-info"><div class="period-code">25VA151</div><div class="period-name">Web Designing Workshop II</div><div class="period-faculty">Mr. Jitendra Kumar Chauhan (JKC)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-mentor">
+      <span class="period-num">VIII–IX</span>
+      <span class="period-time">02:50 – 04:30</span>
+      <div class="period-info"><div class="period-name">Mentor-Mentee Session</div><div class="period-faculty">VT, RK</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ Thursday ════════ -->
+<div class="day-view" id="day-thu">
+  <div class="timeline-header"><h2>Thursday</h2><span class="period-count">8 periods</span></div>
+  <div class="periods-grid">
+    <div class="period-card c-calc">
+      <span class="period-num">I</span>
+      <span class="period-time">08:50 – 09:40</span>
+      <div class="period-info"><div class="period-code">25AS202</div><div class="period-name">Applied Calculus &amp; Differential Equation</div><div class="period-faculty">Dr. Ranjeet Kaur (RK)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-ds">
+      <span class="period-num">II</span>
+      <span class="period-time">09:40 – 10:30</span>
+      <div class="period-info"><div class="period-code">25CS201</div><div class="period-name">Data Structure Using C++</div><div class="period-faculty">Mr. Ankur Sharma (ARS)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-me">
+      <span class="period-num">III–IV</span>
+      <span class="period-time">10:40 – 12:20</span>
+      <div class="period-info"><div class="period-code">25ME252</div><div class="period-name">CAD Lab</div><div class="period-faculty">Mr. Mohit Bansal (MB) &amp; Dr. Naman Jain (DNJ)</div></div>
+      <span class="period-room">RJ Block I Floor (RJ-109)</span>
+    </div>
+    <div class="period-card c-lunch">
+      <span class="period-num">V</span>
+      <span class="period-time">12:20 – 01:10</span>
+      <div class="period-info"><div class="period-name">🍽 Lunch Break</div></div>
+      <span class="period-room">–</span>
+    </div>
+    <div class="period-card c-elec">
+      <span class="period-num">VI</span>
+      <span class="period-time">01:10 – 02:00</span>
+      <div class="period-info"><div class="period-code">25EL201</div><div class="period-name">Basics of Electrical Engg.</div><div class="period-faculty">Mr. Vikash Tiwari (VT)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-va">
+      <span class="period-num">VII</span>
+      <span class="period-time">02:00 – 02:50</span>
+      <div class="period-info"><div class="period-code">25VA251</div><div class="period-name">Web Designing Workshop II</div><div class="period-faculty">Mr. Jitendra Kumar Chauhan (JKC)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-ai">
+      <span class="period-num">VIII</span>
+      <span class="period-time">02:50 – 03:40</span>
+      <div class="period-info"><div class="period-code">25AI201</div><div class="period-name">Essentials of AI</div><div class="period-faculty">Mr. Rahul Singh (RS)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-physics">
+      <span class="period-num">IX</span>
+      <span class="period-time">03:40 – 04:30</span>
+      <div class="period-info"><div class="period-code">25AS201</div><div class="period-name">Applied Physics</div><div class="period-faculty">Dr. Isha Mehra (IM)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ Friday ════════ -->
+<div class="day-view" id="day-fri">
+  <div class="timeline-header"><h2>Friday</h2><span class="period-count">8 periods</span></div>
+  <div class="periods-grid">
+    <div class="period-card c-physics">
+      <span class="period-num">I</span>
+      <span class="period-time">08:50 – 09:40</span>
+      <div class="period-info"><div class="period-code">25AS201</div><div class="period-name">Applied Physics</div><div class="period-faculty">Dr. Isha Mehra (IM)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-calc">
+      <span class="period-num">II</span>
+      <span class="period-time">09:40 – 10:30</span>
+      <div class="period-info"><div class="period-code">25AS202</div><div class="period-name">Applied Calculus &amp; Differential Equation</div><div class="period-faculty">Dr. Ranjeet Kaur (RK)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-lab">
+      <span class="period-num">III–IV</span>
+      <span class="period-time">10:40 – 12:20</span>
+      <div class="period-info"><div class="period-code">25EL151</div><div class="period-name">Basic Electrical Engg. Lab</div><div class="period-faculty">Mr. Vikash Tiwari (VT) &amp; Mr. Manish Kumar Singh (MKS)</div></div>
+      <span class="period-room">RJ-Basement</span>
+    </div>
+    <div class="period-card c-lunch">
+      <span class="period-num">V</span>
+      <span class="period-time">12:20 – 01:10</span>
+      <div class="period-info"><div class="period-name">🍽 Lunch Break</div></div>
+      <span class="period-room">–</span>
+    </div>
+    <div class="period-card c-calc">
+      <span class="period-num">VI</span>
+      <span class="period-time">01:10 – 02:00</span>
+      <div class="period-info"><div class="period-code">25AS202</div><div class="period-name">Applied Calculus &amp; Differential Equation</div><div class="period-faculty">Dr. Ranjeet Kaur (RK)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-ds">
+      <span class="period-num">VII</span>
+      <span class="period-time">02:00 – 02:50</span>
+      <div class="period-info"><div class="period-code">25CS201</div><div class="period-name">Data Structure Using C++</div><div class="period-faculty">Mr. Ankur Sharma (ARS)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-elec">
+      <span class="period-num">VIII</span>
+      <span class="period-time">02:50 – 03:40</span>
+      <div class="period-info"><div class="period-code">25EL201</div><div class="period-name">Basics of Electrical Engg.</div><div class="period-faculty">Mr. Vikash Tiwari (VT)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+    <div class="period-card c-env">
+      <span class="period-num">IX</span>
+      <span class="period-time">03:40 – 04:30</span>
+      <div class="period-info"><div class="period-code">25AS203</div><div class="period-name">Environment &amp; Sustainability</div><div class="period-faculty">Dr. Divyanshi Sharma (DSH)</div></div>
+      <span class="period-room">RJ-201</span>
+    </div>
+  </div>
+</div>
+
+<!-- Subject Legend -->
+<div class="section-title">Subject Legend</div>
+<div class="legend-grid">
+  <div class="legend-card"><div class="legend-dot" style="background:var(--physics-t)"></div><div class="legend-info"><div class="legend-code">25AS201</div><div class="legend-name">Applied Physics</div><div class="legend-faculty">Dr. Isha Mehra (IM)</div></div></div>
+  <div class="legend-card"><div class="legend-dot" style="background:var(--elec-t)"></div><div class="legend-info"><div class="legend-code">25EL201</div><div class="legend-name">Basics of Electrical Engg.</div><div class="legend-faculty">Mr. Vikash Tiwari (VT)</div></div></div>
+  <div class="legend-card"><div class="legend-dot" style="background:var(--calc-t)"></div><div class="legend-info"><div class="legend-code">25AS202</div><div class="legend-name">Applied Calculus &amp; Differential Equation</div><div class="legend-faculty">Dr. Ranjeet Kaur (RK)</div></div></div>
+  <div class="legend-card"><div class="legend-dot" style="background:var(--ds-t)"></div><div class="legend-info"><div class="legend-code">25CS201</div><div class="legend-name">Data Structure Using C++</div><div class="legend-faculty">Mr. Ankur Sharma (ARS)</div></div></div>
+  <div class="legend-card"><div class="legend-dot" style="background:var(--env-t)"></div><div class="legend-info"><div class="legend-code">25AS203</div><div class="legend-name">Environment &amp; Sustainability</div><div class="legend-faculty">Dr. Divyanshi Sharma (DSH)</div></div></div>
+  <div class="legend-card"><div class="legend-dot" style="background:var(--ai-t)"></div><div class="legend-info"><div class="legend-code">25AI201</div><div class="legend-name">Essentials of AI</div><div class="legend-faculty">Mr. Rahul Singh (RS)</div></div></div>
+  <div class="legend-card"><div class="legend-dot" style="background:var(--lab-t)"></div><div class="legend-info"><div class="legend-code">25CS251 / 25AS251 / 25EL151</div><div class="legend-name">Lab Sessions</div><div class="legend-faculty">Various Faculty</div></div></div>
+  <div class="legend-card"><div class="legend-dot" style="background:var(--va-t)"></div><div class="legend-info"><div class="legend-code">25VA251</div><div class="legend-name">Web Designing Workshop II</div><div class="legend-faculty">Mr. Jitendra Kumar Chauhan (JKC)</div></div></div>
+  <div class="legend-card"><div class="legend-dot" style="background:var(--me-t)"></div><div class="legend-info"><div class="legend-code">25ME252</div><div class="legend-name">CAD Lab</div><div class="legend-faculty">MB &amp; DNJ</div></div></div>
+</div>
+
+<!-- Full grid toggle -->
+<button class="toggle-grid-btn" onclick="toggleGrid()">⊞ View Full Week Grid</button>
+<div class="full-grid-wrapper" id="full-grid">
+  <table class="full-grid">
+    <thead>
+      <tr>
+        <th>Day</th>
+        <th>I<br><small>08:50–09:40</small></th>
+        <th>II<br><small>09:40–10:30</small></th>
+        <th>III<br><small>10:40–11:30</small></th>
+        <th>IV<br><small>11:30–12:20</small></th>
+        <th>V<br><small>12:20–01:10</small></th>
+        <th>VI<br><small>01:10–02:00</small></th>
+        <th>VII<br><small>02:00–02:50</small></th>
+        <th>VIII<br><small>02:50–03:40</small></th>
+        <th>IX<br><small>03:40–04:30</small></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="day-cell">Mon</td>
+        <td class="c-env"><div class="cell-code">25AS203</div><div class="cell-name">Env &amp; Sus.</div><div class="cell-fac">DSH</div></td>
+        <td class="c-calc"><div class="cell-code">25AS202</div><div class="cell-name">Calculus</div><div class="cell-fac">RK</div></td>
+        <td class="c-physics"><div class="cell-code">25AS201</div><div class="cell-name">Physics</div><div class="cell-fac">IM</div></td>
+        <td class="c-elec"><div class="cell-code">25EL201</div><div class="cell-name">Elec. Engg.</div><div class="cell-fac">VT</div></td>
+        <td class="c-lunch" style="color:var(--muted)">LUNCH</td>
+        <td class="c-lab" colspan="2"><div class="cell-code">25AS251</div><div class="cell-name">Physics Lab</div><div class="cell-fac">IM, AKP | KC-310</div></td>
+        <td class="c-ds"><div class="cell-code">25CS201</div><div class="cell-name">DS C++</div><div class="cell-fac">ARS</div></td>
+        <td class="c-ai"><div class="cell-code">25AI201</div><div class="cell-name">AI</div><div class="cell-fac">RS</div></td>
+      </tr>
+      <tr>
+        <td class="day-cell">Tue</td>
+        <td class="c-lab" colspan="2"><div class="cell-code">25CS251</div><div class="cell-name">DS Lab C++</div><div class="cell-fac">ARS</div></td>
+        <td class="c-elec"><div class="cell-code">25EL201</div><div class="cell-name">Elec. Engg.</div><div class="cell-fac">VT</div></td>
+        <td class="c-calc"><div class="cell-code">25AS202</div><div class="cell-name">Calculus</div><div class="cell-fac">RK</div></td>
+        <td class="c-lunch" style="color:var(--muted)">LUNCH</td>
+        <td class="c-ai"><div class="cell-code">25AI201</div><div class="cell-name">AI</div><div class="cell-fac">RS</div></td>
+        <td class="c-physics"><div class="cell-code">25AS201</div><div class="cell-name">Physics</div><div class="cell-fac">IM</div></td>
+        <td class="c-env"><div class="cell-code">25AS203</div><div class="cell-name">Env &amp; Sus.</div><div class="cell-fac">DSH</div></td>
+        <td class="c-calc"><div class="cell-code">25AS202</div><div class="cell-name">Calculus</div><div class="cell-fac">RK</div></td>
+      </tr>
+      <tr>
+        <td class="day-cell">Wed</td>
+        <td class="c-elec"><div class="cell-code">25EL201</div><div class="cell-name">Elec. Engg.</div><div class="cell-fac">VT</div></td>
+        <td class="c-physics"><div class="cell-code">25AS201</div><div class="cell-name">Physics</div><div class="cell-fac">IM</div></td>
+        <td class="c-calc"><div class="cell-code">25AS202</div><div class="cell-name">Calculus</div><div class="cell-fac">RK</div></td>
+        <td class="c-ds"><div class="cell-code">25CS201</div><div class="cell-name">DS C++</div><div class="cell-fac">ARS</div></td>
+        <td class="c-lunch" style="color:var(--muted)">LUNCH</td>
+        <td class="c-va" colspan="2"><div class="cell-code">25VA151</div><div class="cell-name">Web Design</div><div class="cell-fac">JKC</div></td>
+        <td class="c-mentor" colspan="2"><div class="cell-name">Mentor-Mentee</div><div class="cell-fac">VT, RK</div></td>
+      </tr>
+      <tr>
+        <td class="day-cell">Thu</td>
+        <td class="c-calc"><div class="cell-code">25AS202</div><div class="cell-name">Calculus</div><div class="cell-fac">RK</div></td>
+        <td class="c-ds"><div class="cell-code">25CS201</div><div class="cell-name">DS C++</div><div class="cell-fac">ARS</div></td>
+        <td class="c-me" colspan="2"><div class="cell-code">25ME252</div><div class="cell-name">CAD Lab</div><div class="cell-fac">MB, DNJ | RJ-109</div></td>
+        <td class="c-lunch" style="color:var(--muted)">LUNCH</td>
+        <td class="c-elec"><div class="cell-code">25EL201</div><div class="cell-name">Elec. Engg.</div><div class="cell-fac">VT</div></td>
+        <td class="c-va"><div class="cell-code">25VA251</div><div class="cell-name">Web Design</div><div class="cell-fac">JKC</div></td>
+        <td class="c-ai"><div class="cell-code">25AI201</div><div class="cell-name">AI</div><div class="cell-fac">RS</div></td>
+        <td class="c-physics"><div class="cell-code">25AS201</div><div class="cell-name">Physics</div><div class="cell-fac">IM</div></td>
+      </tr>
+      <tr>
+        <td class="day-cell">Fri</td>
+        <td class="c-physics"><div class="cell-code">25AS201</div><div class="cell-name">Physics</div><div class="cell-fac">IM</div></td>
+        <td class="c-calc"><div class="cell-code">25AS202</div><div class="cell-name">Calculus</div><div class="cell-fac">RK</div></td>
+        <td class="c-lab" colspan="2"><div class="cell-code">25EL151</div><div class="cell-name">Elec. Lab</div><div class="cell-fac">VT, MKS | Basement</div></td>
+        <td class="c-lunch" style="color:var(--muted)">LUNCH</td>
+        <td class="c-calc"><div class="cell-code">25AS202</div><div class="cell-name">Calculus</div><div class="cell-fac">RK</div></td>
+        <td class="c-ds"><div class="cell-code">25CS201</div><div class="cell-name">DS C++</div><div class="cell-fac">ARS</div></td>
+        <td class="c-elec"><div class="cell-code">25EL201</div><div class="cell-name">Elec. Engg.</div><div class="cell-fac">VT</div></td>
+        <td class="c-env"><div class="cell-code">25AS203</div><div class="cell-name">Env &amp; Sus.</div><div class="cell-fac">DSH</div></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<footer>
+  Academic Coordinator: Dr. Vivek Saxena &nbsp;|&nbsp; Class Mentor-1: Mr. Vikash Tiwari (VT) &nbsp;|&nbsp; Class Mentor-2: Dr. Ranjeet Kaur (RK)<br>
+  Time Table I/C: Dr. Nimisha &amp; Dr. Vikash Singh &nbsp;|&nbsp; HOD: Dr. Jaya Singh
+</footer>
+
+<script>
+  const days = ['mon','tue','wed','thu','fri'];
+  const dayNames = { mon:1, tue:2, wed:3, thu:4, fri:5 };
+
+  function showDay(d) {
+    days.forEach(day => {
+      document.getElementById('day-'+day).classList.remove('active');
+      document.querySelector(`[data-day="${day}"]`).classList.remove('active');
+    });
+    document.getElementById('day-'+d).classList.add('active');
+    document.querySelector(`[data-day="${d}"]`).classList.add('active');
+  }
+
+  function toggleGrid() {
+    const el = document.getElementById('full-grid');
+    el.classList.toggle('open');
+    document.querySelector('.toggle-grid-btn').textContent = 
+      el.classList.contains('open') ? '✕ Hide Full Week Grid' : '⊞ View Full Week Grid';
+  }
+
+  // Auto-select today
+  const today = new Date().getDay(); // 0=Sun,1=Mon...
+  const map = {1:'mon',2:'tue',3:'wed',4:'thu',5:'fri'};
+  const todayKey = map[today];
+  if (todayKey) {
+    document.querySelector(`[data-day="${todayKey}"]`).classList.add('today-marker');
+    showDay(todayKey);
+  } else {
+    showDay('mon');
+  }
+</script>
+</body>
+</html>

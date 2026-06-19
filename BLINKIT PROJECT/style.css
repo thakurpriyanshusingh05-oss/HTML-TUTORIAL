@@ -1,0 +1,127 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+header{
+    display: flex;
+    align-items: center;
+    gap:40px;
+    border-top: 2px solid #ccc;
+    border-bottom: 2px solid #ccc;
+
+}
+
+.headerleft{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.logo{
+    padding: 20px 30px;
+    border-right: 1px solid #ccc;
+}
+.headeraddress{
+    padding: 20px 30px;
+}
+.headeraddress h3{
+    font-size:14px;
+    margin-bottom: 5px;
+}
+.searchbox{
+    flex-grow: 1;
+    background-color: #f8f8f8;
+    display: flex;
+    border-radius: 15px;
+    border:1px solid #f4f4f4;
+}
+.searchbox button{
+    padding:15px;
+    border: none;
+    background-color: transparent;
+}
+.searchbox input{
+   flex-grow: 1;
+   border: none;
+   background-color: transparent;
+}
+.searchbox input:focus{
+    outline: none;
+}
+.headerbtn{
+    display:flex;
+    gap:30px;
+    margin-right:40px;
+
+}
+.headerbtn button{
+    font-size: 16 px;
+    padding:15px;
+    background-color: transparent;
+    border:none;
+}
+.headerbtn button:last-child{
+    background-color: #54b226;
+    color: white;
+     border-radius:5px;
+}
+.bannersection{
+    margin:auto;
+    max-width:1280px;
+}
+.bannersection img{
+    width:100%;
+}
+.orderbanner{
+    display:flex;
+    max-width:1280px;
+    margin:auto;
+}
+.orderbanneritems{
+    flex-basis:28%;
+    margin:1%;
+}
+.orderbanneritems img{
+    width:100%;
+}
+.categorysection{
+    margin:auto;
+    max-width:1280px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.categoryitems{
+    flex-basis:10%;
+}
+.categoryitems img{
+    width:100%;
+}
+.productsection{
+    max-width: 1280px;
+    margin: auto;
+    padding:30px 0px;
+}
+.headingrow{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.headingrow h2{
+    font-size:22px;
+}
+.headingrow a{
+    color:#328839;
+    font-size:18px;
+}
+.productrow{
+    width: 100%;
+    display: flex;
+}
+.productitems{
+    flex-basis:15%;
+    border:1px solid #ccc;
+    display: flex;
+    
+    
+}

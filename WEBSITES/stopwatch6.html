@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEURAL UPRISING — Cyberpunk AI Poster</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@400;700;900&family=VT323&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --cyan:    #00ffee;
+  --pink:    #ff00cc;
+  --yellow:  #ffe600;
+  --purple:  #aa00ff;
+  --red:     #ff003c;
+  --white:   #f0faff;
+  --bg:      #04000c;
+  --bg2:     #080010;
+}
+
+body {
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 50px 20px;
+  cursor: crosshair;
+}
+
+/* ══ POSTER ══ */
+.poster {
+  position: relative;
+  width: 720px;
+  background: var(--bg);
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(0,255,238,0.15),
+    0 0 40px rgba(0,255,238,0.2),
+    0 0 80px rgba(255,0,204,0.15),
+    0 0 160px rgba(0,100,255,0.1);
+}
+
+/* ══ BACKGROUND LAYERS ══ */
+.bg-base {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 30%, rgba(60,0,120,0.5) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 10% 60%, rgba(0,80,160,0.3) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 90% 40%, rgba(180,0,120,0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(40,0,80,0.8) 0%, transparent 70%),
+    linear-gradient(180deg, #04000c 0%, #06000f 50%, #04000c 100%);
+}
+
+/* Scanlines */
+.scanlines {
+  position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 2px,
+    rgba(0,255,238,0.012) 2px, rgba(0,255,238,0.012) 3px
+  );
+  animation: scanShift 8s linear infinite;
+}
+@keyframes scanShift { 0%{background-position:0 0} 100%{background-position:0 100px} }
+
+/* Grid overlay */
+.grid-overlay {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,255,238,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,238,0.04) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: radial-gradient(ellipse at 50% 50%, black 20%, transparent 75%);
+}
+
+/* Diagonal slash accents */
+.slash-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    repeating-linear-gradient(
+      -55deg,
+      transparent 0px, transparent 60px,
+      rgba(255,0,204,0.025) 60px, rgba(255,0,204,0.025) 61px
+    ),
+    repeating-linear-gradient(
+      35deg,
+      transparent 0px, transparent 80px,
+      rgba(0,255,238,0.02) 80px, rgba(0,255,238,0.02) 81px
+    );
+}
+
+/* ══ GLITCH BEAMS ══ */
+.beam { position: absolute; left:0; right:0; height:2px; pointer-events:none; z-index:3; }
+.beam1 {
+  background: linear-gradient(90deg, transparent 0%, rgba(0,255,238,0) 20%, rgba(0,255,238,0.9) 50%, rgba(0,255,238,0) 80%, transparent);
+  animation: beamFall1 5s linear infinite;
+}
+.beam2 {
+  background: linear-gradient(90deg, transparent 0%, rgba(255,0,204,0) 30%, rgba(255,0,204,0.7) 50%, rgba(255,0,204,0) 70%, transparent);
+  animation: beamFall2 7s linear infinite 2.5s;
+}
+@keyframes beamFall1 { 0%{top:-2px;opacity:0} 5%{opacity:1} 95%{opacity:0.5} 100%{top:102%;opacity:0} }
+@keyframes beamFall2 { 0%{top:-2px;opacity:0} 5%{opacity:1} 95%{opacity:0.3} 100%{top:102%;opacity:0} }
+
+/* ══ CITY SKYLINE ══ */
+.city-wrap {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 50%;
+  z-index: 2;
+}
+
+/* ══ GLITCH TITLE EFFECT ══ */
+@keyframes glitch1 {
+  0%,89%,100% { clip-path:none; transform:none; opacity:1; }
+  90% { clip-path:polygon(0 15%,100% 15%,100% 30%,0 30%); transform:translateX(-4px); }
+  91% { clip-path:polygon(0 60%,100% 60%,100% 75%,0 75%); transform:translateX(4px); }
+  92% { clip-path:polygon(0 40%,100% 40%,100% 55%,0 55%); transform:translateX(-3px); }
+  93% { clip-path:none; transform:none; }
+}
+@keyframes glitch2 {
+  0%,94%,100% { clip-path:none; transform:none; opacity:0; }
+  90% { clip-path:polygon(0 15%,100% 15%,100% 30%,0 30%); transform:translateX(4px); opacity:0.7; color:#ff00cc; }
+  91% { clip-path:polygon(0 60%,100% 60%,100% 75%,0 75%); transform:translateX(-4px); opacity:0.7; color:#00ffee; }
+  92% { clip-path:polygon(0 40%,100% 40%,100% 55%,0 55%); transform:translateX(3px); opacity:0.6; }
+  93% { opacity:0; }
+}
+@keyframes glitch3 {
+  0%,94%,100% { clip-path:none; transform:none; opacity:0; }
+  90% { clip-path:polygon(0 15%,100% 15%,100% 30%,0 30%); transform:translateX(-6px); opacity:0.5; color:#ffe600; }
+  91% { clip-path:polygon(0 55%,100% 55%,100% 70%,0 70%); transform:translateX(6px); opacity:0.5; }
+  93% { opacity:0; }
+}
+
+/* ══ NEON GLOW ORBS ══ */
+.orb { position:absolute; border-radius:50%; pointer-events:none; }
+.orb-c { width:350px; height:350px; top:5%; left:50%; transform:translateX(-50%); background:radial-gradient(ellipse, rgba(80,0,180,0.3) 0%, transparent 70%); filter:blur(40px); }
+.orb-l { width:200px; height:400px; top:20%; left:-60px; background:radial-gradient(ellipse, rgba(0,180,255,0.15) 0%, transparent 70%); filter:blur(50px); }
+.orb-r { width:200px; height:400px; top:15%; right:-60px; background:radial-gradient(ellipse, rgba(255,0,180,0.15) 0%, transparent 70%); filter:blur(50px); }
+
+/* ══ CONTENT ══ */
+.content {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 44px 48px 50px;
+}
+
+/* TOP STATUS BAR */
+.status-bar {
+  width: 100%; display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 1px solid rgba(0,255,238,0.1);
+  padding-bottom: 12px; margin-bottom: 0;
+  animation: fadeIn 0.8s ease;
+}
+.sb-left, .sb-right {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px; letter-spacing: 3px;
+  color: rgba(0,255,238,0.4);
+  display: flex; align-items: center; gap: 8px;
+}
+.sb-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 6px var(--cyan);
+  animation: blink 1.4s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+.sb-center {
+  font-family: 'VT323', monospace;
+  font-size: 14px; letter-spacing: 4px;
+  color: rgba(255,0,204,0.5);
+}
+
+/* MAIN TITLE ZONE */
+.title-zone {
+  margin-top: 36px;
+  width: 100%;
+  position: relative;
+  text-align: center;
+  animation: riseUp 1s 0.3s ease forwards; opacity:0;
+}
+.title-pre {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px; letter-spacing: 8px;
+  color: rgba(0,255,238,0.5);
+  display: block; margin-bottom: 8px;
+}
+.title-main {
+  position: relative;
+  display: inline-block;
+}
+.title-t1, .title-t1-g1, .title-t1-g2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 118px;
+  letter-spacing: 8px;
+  line-height: 0.88;
+  display: block;
+}
+.title-t1 {
+  color: #fff;
+  text-shadow:
+    0 0 20px rgba(0,255,238,0.8),
+    0 0 50px rgba(0,200,255,0.4),
+    3px 0 0 rgba(255,0,204,0.3),
+    -3px 0 0 rgba(0,255,238,0.3);
+  animation: glitch1 8s infinite;
+}
+.title-t1-g1 {
+  position: absolute; top:0; left:0; right:0;
+  color: #ff00cc;
+  animation: glitch2 8s infinite;
+}
+.title-t1-g2 {
+  position: absolute; top:0; left:0; right:0;
+  color: #00ffee;
+  animation: glitch3 8s infinite;
+}
+.title-t2 {
+  font-family: 'Orbitron', monospace;
+  font-size: 32px; font-weight: 900;
+  letter-spacing: 22px;
+  display: block; margin-top: 4px;
+  background: linear-gradient(90deg, #ff00cc, #00ffee, #ffe600, #ff00cc);
+  background-size: 300%;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: chromaShift 4s linear infinite;
+  filter: drop-shadow(0 0 10px rgba(0,255,238,0.5));
+}
+@keyframes chromaShift { 0%{background-position:0%} 100%{background-position:300%} }
+
+/* TAG LINE */
+.tagline {
+  margin-top: 14px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px; font-weight: 300;
+  letter-spacing: 5px;
+  color: rgba(180,100,255,0.55);
+  text-transform: uppercase;
+  text-align: center;
+  animation: fadeIn 1s 0.7s forwards; opacity:0;
+}
+
+/* ══ CYBER CIRCLE ══ */
+.cyber-ring-wrap {
+  margin-top: 32px;
+  position: relative;
+  width: 260px; height: 260px;
+  display: flex; align-items: center; justify-content: center;
+  animation: riseUp 1s 0.5s forwards; opacity:0;
+}
+.ring-layer {
+  position: absolute;
+  inset: 0;
+}
+.ring-layer.spin1  { animation: spinCW  8s linear infinite; }
+.ring-layer.spin2  { animation: spinCCW 12s linear infinite; }
+.ring-layer.spin3  { animation: spinCW  20s linear infinite; }
+@keyframes spinCW  { to { transform: rotate(360deg); } }
+@keyframes spinCCW { to { transform: rotate(-360deg); } }
+
+.ring-core {
+  position: relative;
+  width: 120px; height: 120px; border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%,
+    rgba(0,255,238,0.15) 0%,
+    rgba(100,0,200,0.3) 40%,
+    rgba(20,0,50,0.95) 100%);
+  border: 1px solid rgba(0,255,238,0.4);
+  box-shadow:
+    0 0 20px rgba(0,255,238,0.4),
+    0 0 50px rgba(0,200,255,0.2),
+    0 0 80px rgba(150,0,255,0.2),
+    inset 0 0 20px rgba(0,255,238,0.1);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  animation: corePulse 3s ease-in-out infinite;
+}
+@keyframes corePulse {
+  0%,100% { box-shadow: 0 0 20px rgba(0,255,238,0.4),0 0 50px rgba(0,200,255,0.2),0 0 80px rgba(150,0,255,0.2),inset 0 0 20px rgba(0,255,238,0.1); }
+  50% { box-shadow: 0 0 35px rgba(0,255,238,0.7),0 0 70px rgba(0,200,255,0.4),0 0 120px rgba(150,0,255,0.3),inset 0 0 30px rgba(0,255,238,0.2); }
+}
+.core-symbol {
+  font-family: 'Orbitron', monospace;
+  font-size: 28px; font-weight: 900;
+  color: var(--cyan);
+  text-shadow: 0 0 16px var(--cyan), 0 0 32px rgba(0,200,255,0.6);
+  letter-spacing: 2px;
+}
+.core-sub {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 8px; letter-spacing: 3px;
+  color: rgba(0,255,238,0.4);
+  margin-top: 4px;
+}
+
+/* SIDE DATA PANELS */
+.data-panels {
+  position: absolute; inset: 0; pointer-events: none;
+}
+.dp-left, .dp-right {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 6px;
+}
+.dp-left  { left: -20px; }
+.dp-right { right: -20px; align-items: flex-end; }
+.dp-item {
+  font-family: 'VT323', monospace;
+  font-size: 12px; letter-spacing: 2px;
+  color: rgba(255,0,204,0.4);
+  white-space: nowrap;
+}
+.dp-item.cyan { color: rgba(0,255,238,0.4); }
+
+/* ══ DIVIDER ══ */
+.neon-divider {
+  margin-top: 28px;
+  width: 100%; display: flex; align-items: center; gap: 10px;
+  animation: fadeIn 1s 0.9s forwards; opacity:0;
+}
+.nd-line {
+  flex:1; height:1px;
+  background: linear-gradient(90deg, transparent, rgba(0,255,238,0.5), rgba(255,0,204,0.5), transparent);
+}
+.nd-chevron {
+  font-family: 'Orbitron', monospace;
+  font-size: 10px; letter-spacing: 2px;
+  color: rgba(0,255,238,0.5);
+}
+
+/* ══ STATS ROW ══ */
+.stats-row {
+  margin-top: 20px;
+  width: 100%; display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 1px; background: rgba(0,255,238,0.08);
+  border: 1px solid rgba(0,255,238,0.1);
+  animation: riseUp 1s 1s forwards; opacity:0;
+}
+.stat-cell {
+  background: rgba(4,0,12,0.9);
+  padding: 16px 0; text-align: center;
+  position: relative; overflow: hidden;
+}
+.stat-cell::after {
+  content:''; position:absolute; bottom:0; left:20%; right:20%; height:1px;
+  background: linear-gradient(90deg, transparent, rgba(0,255,238,0.3), transparent);
+}
+.stat-cell:hover .stat-v { text-shadow: 0 0 20px var(--cyan), 0 0 40px rgba(0,200,255,0.6); }
+.stat-v {
+  font-family: 'Orbitron', monospace;
+  font-size: 22px; font-weight: 900;
+  color: var(--cyan);
+  text-shadow: 0 0 10px var(--cyan), 0 0 25px rgba(0,200,255,0.4);
+  display: block; transition: text-shadow 0.3s;
+}
+.stat-v.pink { color: var(--pink); text-shadow: 0 0 10px var(--pink); }
+.stat-v.yellow { color: var(--yellow); text-shadow: 0 0 10px var(--yellow); }
+.stat-v.purple { color: var(--purple); text-shadow: 0 0 10px var(--purple); }
+.stat-k {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 8px; letter-spacing: 3px;
+  color: rgba(150,100,255,0.4); text-transform: uppercase;
+  margin-top: 3px; display: block;
+}
+
+/* ══ STOPWATCH ══ */
+.sw-section {
+  margin-top: 24px;
+  width: 100%;
+  animation: riseUp 1s 1.15s forwards; opacity:0;
+}
+.sw-label-row {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+}
+.swl-line { flex:1; height:1px; background: rgba(255,0,204,0.2); }
+.swl-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px; letter-spacing: 5px;
+  color: rgba(255,0,204,0.45);
+  text-transform: uppercase; white-space: nowrap;
+}
+
+.sw-body {
+  background: rgba(2,0,10,0.92);
+  border: 1px solid rgba(0,255,238,0.15);
+  position: relative; overflow: hidden;
+  padding: 24px 32px 22px;
+}
+/* Animated border glow */
+.sw-body::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:1px;
+  background: linear-gradient(90deg, transparent, var(--cyan), rgba(255,0,204,0.8), var(--cyan), transparent);
+  animation: borderSlide 4s linear infinite;
+}
+@keyframes borderSlide { 0%{opacity:0.4} 50%{opacity:1} 100%{opacity:0.4} }
+.sw-body::after {
+  content:''; position:absolute; bottom:0; left:0; right:0; height:1px;
+  background: linear-gradient(90deg, transparent, rgba(255,0,204,0.6), var(--cyan), rgba(255,0,204,0.6), transparent);
+}
+
+/* Corner brackets */
+.sw-brk {
+  position:absolute; width:12px; height:12px;
+  border-color: rgba(0,255,238,0.4); border-style:solid;
+}
+.sw-brk.tl { top:5px; left:5px;  border-width:1.5px 0 0 1.5px; }
+.sw-brk.tr { top:5px; right:5px; border-width:1.5px 1.5px 0 0; }
+.sw-brk.bl { bottom:5px; left:5px;  border-width:0 0 1.5px 1.5px; }
+.sw-brk.br { bottom:5px; right:5px; border-width:0 1.5px 1.5px 0; }
+
+/* Pink corner brackets */
+.sw-brk2 {
+  position:absolute; width:8px; height:8px;
+  border-color: rgba(255,0,204,0.3); border-style:solid;
+}
+.sw-brk2.tl { top:10px; left:10px;  border-width:1px 0 0 1px; }
+.sw-brk2.tr { top:10px; right:10px; border-width:1px 1px 0 0; }
+.sw-brk2.bl { bottom:10px; left:10px;  border-width:0 0 1px 1px; }
+.sw-brk2.br { bottom:10px; right:10px; border-width:0 1px 1px 0; }
+
+/* Time display */
+.sw-time-row {
+  display: flex; align-items: baseline; justify-content: center; gap: 4px;
+  margin-bottom: 4px;
+}
+.sw-digits {
+  font-family: 'VT323', monospace;
+  font-size: 86px; line-height: 1;
+  color: var(--cyan);
+  text-shadow:
+    0 0 10px var(--cyan),
+    0 0 30px rgba(0,200,255,0.7),
+    0 0 60px rgba(0,150,255,0.4),
+    2px 0 0 rgba(255,0,204,0.3),
+    -2px 0 0 rgba(0,255,238,0.2);
+  letter-spacing: 4px;
+  animation: digitalFlicker 8s infinite;
+}
+@keyframes digitalFlicker {
+  0%,96%,100% { opacity:1; }
+  97% { opacity:0.85; }
+  98% { opacity:1; }
+  99% { opacity:0.9; }
+}
+.sw-ms {
+  font-family: 'VT323', monospace;
+  font-size: 36px;
+  color: rgba(255,0,204,0.7);
+  text-shadow: 0 0 10px rgba(255,0,204,0.8);
+  letter-spacing: 1px;
+  padding-bottom: 10px;
+}
+
+/* Progress scanline */
+.sw-scanline {
+  width:100%; height:1px; margin-bottom: 16px;
+  background: rgba(0,255,238,0.06);
+  position:relative; overflow:hidden;
+}
+.sw-scanline-fill {
+  position:absolute; left:-100%; top:0; bottom:0; width:50%;
+  background: linear-gradient(90deg, transparent, rgba(0,255,238,0.5), rgba(255,0,204,0.8), transparent);
+  animation: scanFill 2s linear infinite;
+}
+@keyframes scanFill { 0%{left:-50%} 100%{left:120%} }
+
+/* Laps */
+.sw-laps {
+  min-height: 28px;
+  display: flex; flex-wrap: wrap; gap: 6px; justify-content: center;
+  margin-bottom: 18px;
+}
+.lap-tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px; letter-spacing: 2px;
+  padding: 3px 10px;
+  border: 1px solid rgba(0,255,238,0.2);
+  color: rgba(0,255,238,0.5);
+  background: rgba(0,255,238,0.04);
+  animation: fadeIn 0.25s ease;
+  clip-path: polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);
+}
+
+/* Controls */
+.sw-controls { display: flex; justify-content: center; gap: 10px; }
+.sw-btn {
+  font-family: 'Orbitron', monospace;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 3px;
+  padding: 11px 24px;
+  background: transparent; cursor: pointer;
+  text-transform: uppercase; transition: all 0.2s;
+  position: relative; overflow: hidden;
+  clip-path: polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%);
+}
+.sw-btn::before {
+  content:''; position:absolute; inset:0;
+  opacity:0; transition:opacity 0.2s;
+}
+.sw-btn:hover::before { opacity:1; }
+
+.btn-start {
+  border: 1px solid rgba(0,255,238,0.5);
+  color: var(--cyan);
+}
+.btn-start::before { background: linear-gradient(135deg, rgba(0,255,238,0.12), transparent); }
+.btn-start:hover { box-shadow: 0 0 20px rgba(0,255,238,0.4), inset 0 0 10px rgba(0,255,238,0.06); color:#fff; }
+.btn-start.on {
+  border-color: rgba(255,0,60,0.7);
+  color: #ff4466;
+  box-shadow: 0 0 16px rgba(255,0,60,0.4);
+}
+.btn-start.on::before { background: linear-gradient(135deg, rgba(255,0,60,0.12), transparent); opacity:1; }
+
+.btn-lap {
+  border: 1px solid rgba(255,0,204,0.3);
+  color: rgba(255,0,204,0.65);
+}
+.btn-lap::before { background: linear-gradient(135deg, rgba(255,0,204,0.1), transparent); }
+.btn-lap:hover { box-shadow: 0 0 16px rgba(255,0,204,0.3); color: var(--pink); }
+
+.btn-reset {
+  border: 1px solid rgba(170,0,255,0.25);
+  color: rgba(170,0,255,0.5);
+}
+.btn-reset::before { background: linear-gradient(135deg, rgba(170,0,255,0.08), transparent); }
+.btn-reset:hover { color: var(--purple); border-color: rgba(170,0,255,0.5); }
+
+/* ══ BOTTOM BAR ══ */
+.bottom-bar {
+  margin-top: 22px;
+  width: 100%;
+  border-top: 1px solid rgba(0,255,238,0.08);
+  padding-top: 16px;
+  display: flex; justify-content: space-between; align-items: center;
+  animation: fadeIn 1s 1.4s forwards; opacity:0;
+}
+.bb-item {
+  display: flex; flex-direction: column; gap: 3px; align-items: center;
+}
+.bb-val {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px; letter-spacing: 2px;
+  color: rgba(0,255,238,0.5);
+}
+.bb-key {
+  font-size: 8px; letter-spacing: 3px;
+  color: rgba(150,100,255,0.3); text-transform: uppercase;
+}
+.bb-center {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px; letter-spacing: 8px;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(0,255,238,0.25);
+  text-shadow: 0 0 20px rgba(0,255,238,0.1);
+}
+
+/* ══ PARTICLES ══ */
+.particle { position:absolute; border-radius:50%; pointer-events:none; animation:pFloat linear infinite; }
+@keyframes pFloat {
+  0%   { transform:translateY(0) translateX(0); opacity:0; }
+  10%  { opacity:1; }
+  90%  { opacity:0.4; }
+  100% { transform:translateY(-100vh) translateX(var(--dx)); opacity:0; }
+}
+
+/* shared */
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+@keyframes riseUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+</style>
+</head>
+<body>
+<div class="poster" id="poster">
+
+  <!-- BACKGROUNDS -->
+  <div class="bg-base"></div>
+  <div class="scanlines"></div>
+  <div class="grid-overlay"></div>
+  <div class="slash-bg"></div>
+  <div class="orb orb-c"></div>
+  <div class="orb orb-l"></div>
+  <div class="orb orb-r"></div>
+  <div class="beam beam1"></div>
+  <div class="beam beam2"></div>
+
+  <!-- PARTICLES -->
+  <div id="particles"></div>
+
+  <!-- CITY SKYLINE SVG -->
+  <div class="city-wrap">
+    <svg viewBox="0 0 720 360" width="720" height="360" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+      <defs>
+        <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="rgba(0,0,0,0)"/>
+          <stop offset="100%" stop-color="rgba(4,0,12,0.95)"/>
+        </linearGradient>
+        <linearGradient id="buildG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="rgba(20,5,40,0.9)"/>
+          <stop offset="100%" stop-color="rgba(4,0,12,1)"/>
+        </linearGradient>
+      </defs>
+      <!-- Background buildings (far) -->
+      <g fill="url(#buildG)" opacity="0.5">
+        <rect x="0"   y="200" width="35" height="160"/>
+        <rect x="30"  y="170" width="25" height="190"/>
+        <rect x="50"  y="220" width="30" height="140"/>
+        <rect x="80"  y="150" width="20" height="210"/>
+        <rect x="100" y="190" width="40" height="170"/>
+        <rect x="620" y="160" width="30" height="200"/>
+        <rect x="645" y="180" width="25" height="180"/>
+        <rect x="665" y="140" width="35" height="220"/>
+        <rect x="695" y="200" width="25" height="160"/>
+      </g>
+      <!-- Mid buildings -->
+      <g fill="url(#buildG)" opacity="0.7">
+        <rect x="0"   y="240" width="50" height="120"/>
+        <rect x="45"  y="210" width="35" height="150"/>
+        <rect x="75"  y="230" width="28" height="130"/>
+        <rect x="100" y="190" width="42" height="170"/>
+        <rect x="138" y="220" width="30" height="140"/>
+        <rect x="165" y="200" width="22" height="160"/>
+        <rect x="183" y="180" width="38" height="180"/>
+        <rect x="217" y="240" width="28" height="120"/>
+        <rect x="240" y="210" width="32" height="150"/>
+        <rect x="450" y="220" width="30" height="140"/>
+        <rect x="476" y="195" width="38" height="165"/>
+        <rect x="510" y="215" width="25" height="145"/>
+        <rect x="530" y="185" width="42" height="175"/>
+        <rect x="568" y="230" width="28" height="130"/>
+        <rect x="592" y="200" width="35" height="160"/>
+        <rect x="623" y="215" width="30" height="145"/>
+        <rect x="649" y="195" width="38" height="165"/>
+        <rect x="683" y="235" width="37" height="125"/>
+      </g>
+      <!-- Foreground buildings -->
+      <g fill="rgba(6,0,16,0.98)">
+        <rect x="0"   y="260" width="60" height="100"/>
+        <rect x="55"  y="230" width="45" height="130"/>
+        <rect x="96"  y="250" width="38" height="110"/>
+        <rect x="130" y="220" width="50" height="140"/>
+        <rect x="176" y="240" width="42" height="120"/>
+        <rect x="214" y="210" width="55" height="150"/>
+        <rect x="265" y="255" width="40" height="105"/>
+        <rect x="301" y="270" width="118" height="90"/>
+        <rect x="415" y="250" width="40" height="110"/>
+        <rect x="451" y="215" width="52" height="145"/>
+        <rect x="499" y="235" width="45" height="125"/>
+        <rect x="540" y="205" width="58" height="155"/>
+        <rect x="594" y="245" width="42" height="115"/>
+        <rect x="632" y="225" width="48" height="135"/>
+        <rect x="676" y="250" width="44" height="110"/>
+      </g>
+      <!-- Neon window lights — cyan -->
+      <g fill="rgba(0,255,238,0.35)">
+        <rect x="58"  y="235" width="3" height="3"/><rect x="65"  y="235" width="3" height="3"/>
+        <rect x="58"  y="245" width="3" height="3"/><rect x="65"  y="245" width="3" height="3"/>
+        <rect x="135" y="224" width="3" height="3"/><rect x="143" y="224" width="3" height="3"/>
+        <rect x="135" y="234" width="3" height="3"/><rect x="143" y="234" width="3" height="3"/>
+        <rect x="220" y="215" width="3" height="3"/><rect x="228" y="215" width="3" height="3"/>
+        <rect x="220" y="225" width="3" height="3"/>
+        <rect x="455" y="220" width="3" height="3"/><rect x="463" y="220" width="3" height="3"/>
+        <rect x="455" y="230" width="3" height="3"/><rect x="463" y="230" width="3" height="3"/>
+        <rect x="545" y="210" width="3" height="3"/><rect x="553" y="210" width="3" height="3"/>
+        <rect x="545" y="220" width="3" height="3"/>
+        <rect x="636" y="230" width="3" height="3"/><rect x="644" y="230" width="3" height="3"/>
+      </g>
+      <!-- Neon window lights — pink -->
+      <g fill="rgba(255,0,204,0.4)">
+        <rect x="102" y="254" width="3" height="3"/><rect x="109" y="254" width="3" height="3"/>
+        <rect x="102" y="264" width="3" height="3"/>
+        <rect x="180" y="244" width="3" height="3"/><rect x="187" y="244" width="3" height="3"/>
+        <rect x="270" y="259" width="3" height="3"/><rect x="277" y="259" width="3" height="3"/>
+        <rect x="420" y="254" width="3" height="3"/><rect x="427" y="254" width="3" height="3"/>
+        <rect x="503" y="239" width="3" height="3"/><rect x="510" y="239" width="3" height="3"/>
+        <rect x="598" y="249" width="3" height="3"/><rect x="605" y="249" width="3" height="3"/>
+        <rect x="680" y="254" width="3" height="3"/><rect x="687" y="254" width="3" height="3"/>
+      </g>
+      <!-- Antenna dots -->
+      <g fill="rgba(255,0,60,0.8)">
+        <circle cx="152" cy="218" r="2"/><circle cx="236" cy="208" r="2"/>
+        <circle cx="472" cy="192" r="2"/><circle cx="560" cy="203" r="2"/>
+      </g>
+      <!-- Ground glow -->
+      <rect x="0" y="340" width="720" height="20" fill="url(#skyG)" opacity="0.3"/>
+      <rect x="0" y="0" width="720" height="360" fill="url(#skyG)"/>
+    </svg>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- STATUS BAR -->
+    <div class="status-bar">
+      <div class="sb-left">
+        <div class="sb-dot"></div>
+        <span>SYS.ONLINE</span>
+      </div>
+      <div class="sb-center">// CYBER.AI.2077 //</div>
+      <div class="sb-right">
+        <span>JACK.IN</span>
+        <div class="sb-dot" style="background:var(--pink);box-shadow:0 0 6px var(--pink);"></div>
+      </div>
+    </div>
+
+    <!-- TITLE -->
+    <div class="title-zone">
+      <span class="title-pre">// INITIALIZING NEURAL CORE //</span>
+      <div class="title-main">
+        <span class="title-t1">NEURAL</span>
+        <span class="title-t1-g1">NEURAL</span>
+        <span class="title-t1-g2">NEURAL</span>
+      </div>
+      <span class="title-t2">UPRISING</span>
+    </div>
+
+    <div class="tagline">Jack in · Drop out · Rewrite reality</div>
+
+    <!-- CYBER RING -->
+    <div class="cyber-ring-wrap">
+      <!-- Outer rotating ring -->
+      <div class="ring-layer spin1">
+        <svg viewBox="0 0 260 260" width="260" height="260" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="130" cy="130" r="124" fill="none" stroke="rgba(0,255,238,0.12)" stroke-width="1"/>
+          <circle cx="130" cy="130" r="118" fill="none" stroke="rgba(0,255,238,0.06)" stroke-width="0.5" stroke-dasharray="3 9"/>
+          <!-- Tick marks -->
+          <g stroke="rgba(0,255,238,0.35)" stroke-width="1.2">
+            <line x1="130" y1="6"   x2="130" y2="22"/>
+            <line x1="130" y1="238" x2="130" y2="254"/>
+            <line x1="6"   y1="130" x2="22"  y2="130"/>
+            <line x1="238" y1="130" x2="254" y2="130"/>
+            <line x1="35"  y1="35"  x2="46"  y2="46"/>
+            <line x1="214" y1="35"  x2="225" y2="46"/>
+            <line x1="35"  y1="225" x2="46"  y2="214"/>
+            <line x1="214" y1="225" x2="225" y2="214"/>
+          </g>
+          <g stroke="rgba(255,0,204,0.2)" stroke-width="0.8">
+            <line x1="70"  y1="11"  x2="74"  y2="22"/>
+            <line x1="190" y1="11"  x2="186" y2="22"/>
+            <line x1="11"  y1="70"  x2="22"  y2="74"/>
+            <line x1="11"  y1="190" x2="22"  y2="186"/>
+            <line x1="249" y1="70"  x2="238" y2="74"/>
+            <line x1="249" y1="190" x2="238" y2="186"/>
+          </g>
+          <!-- Diamonds at 4 cardinal points -->
+          <g fill="rgba(0,255,238,0.6)">
+            <polygon points="130,4  133,8  130,12 127,8"/>
+            <polygon points="130,248 133,252 130,256 127,252"/>
+            <polygon points="4,130  8,133  12,130 8,127"/>
+            <polygon points="248,130 252,133 256,130 252,127"/>
+          </g>
+        </svg>
+      </div>
+      <!-- Mid ring -->
+      <div class="ring-layer spin2" style="inset:20px;">
+        <svg viewBox="0 0 220 220" width="220" height="220" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="110" cy="110" r="104" fill="none" stroke="rgba(255,0,204,0.15)" stroke-width="1" stroke-dasharray="6 12"/>
+          <circle cx="110" cy="110" r="96"  fill="none" stroke="rgba(255,0,204,0.08)" stroke-width="0.5"/>
+          <g stroke="rgba(255,0,204,0.25)" stroke-width="1">
+            <line x1="110" y1="6"   x2="110" y2="20"/>
+            <line x1="110" y1="200" x2="110" y2="214"/>
+            <line x1="6"   y1="110" x2="20"  y2="110"/>
+            <line x1="200" y1="110" x2="214" y2="110"/>
+          </g>
+          <g fill="rgba(255,0,204,0.5)">
+            <polygon points="110,4 113,9 110,14 107,9"/>
+            <polygon points="110,206 113,211 110,216 107,211"/>
+            <polygon points="4,110 9,113 14,110 9,107"/>
+            <polygon points="206,110 211,113 216,110 211,107"/>
+          </g>
+        </svg>
+      </div>
+      <!-- Inner ring -->
+      <div class="ring-layer spin3" style="inset:50px;">
+        <svg viewBox="0 0 160 160" width="160" height="160" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="80" cy="80" r="74" fill="none" stroke="rgba(170,0,255,0.2)" stroke-width="1" stroke-dasharray="2 8"/>
+          <g stroke="rgba(170,0,255,0.3)" stroke-width="0.8">
+            <line x1="80" y1="6"   x2="80" y2="16"/>
+            <line x1="80" y1="144" x2="80" y2="154"/>
+            <line x1="6"  y1="80" x2="16"  y2="80"/>
+            <line x1="144" y1="80" x2="154" y2="80"/>
+          </g>
+        </svg>
+      </div>
+      <!-- Core -->
+      <div class="ring-core">
+        <span class="core-symbol">AI</span>
+        <span class="core-sub">V.7.7.7</span>
+      </div>
+      <!-- Side data -->
+      <div class="data-panels">
+        <div class="dp-left">
+          <span class="dp-item cyan">NN:ACTIVE</span>
+          <span class="dp-item">MEM:∞TB</span>
+          <span class="dp-item cyan">FPS:9999</span>
+        </div>
+        <div class="dp-right">
+          <span class="dp-item">LAT:4MS</span>
+          <span class="dp-item cyan">CPU:100%</span>
+          <span class="dp-item">SYN:LOCK</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIVIDER -->
+    <div class="neon-divider">
+      <div class="nd-line"></div>
+      <span class="nd-chevron">◈ SYS ◈</span>
+      <div class="nd-line"></div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-cell">
+        <span class="stat-v">9.8B</span>
+        <span class="stat-k">Neurons</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-v pink">4 MS</span>
+        <span class="stat-k">Latency</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-v yellow">99.9%</span>
+        <span class="stat-k">Uptime</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-v purple">∞</span>
+        <span class="stat-k">Runtime</span>
+      </div>
+    </div>
+
+    <!-- STOPWATCH -->
+    <div class="sw-section">
+      <div class="sw-label-row">
+        <div class="swl-line"></div>
+        <span class="swl-label">⬡ SYSTEM RUNTIME COUNTER ⬡</span>
+        <div class="swl-line"></div>
+      </div>
+
+      <div class="sw-body">
+        <div class="sw-brk tl"></div><div class="sw-brk tr"></div>
+        <div class="sw-brk bl"></div><div class="sw-brk br"></div>
+        <div class="sw-brk2 tl"></div><div class="sw-brk2 tr"></div>
+        <div class="sw-brk2 bl"></div><div class="sw-brk2 br"></div>
+
+        <div class="sw-time-row">
+          <span class="sw-digits" id="sw-digits">00:00:00</span>
+          <span class="sw-ms" id="sw-ms">.000</span>
+        </div>
+
+        <div class="sw-scanline"><div class="sw-scanline-fill"></div></div>
+
+        <div class="sw-laps" id="sw-laps"></div>
+
+        <div class="sw-controls">
+          <button class="sw-btn btn-start" id="sw-start">▶ EXECUTE</button>
+          <button class="sw-btn btn-lap"   id="sw-lap">◈ LAP</button>
+          <button class="sw-btn btn-reset" id="sw-reset">↺ PURGE</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM BAR -->
+    <div class="bottom-bar">
+      <div class="bb-item">
+        <span class="bb-val" id="bb-laps">00</span>
+        <span class="bb-key">Laps</span>
+      </div>
+      <span class="bb-center">NEURAL UPRISING</span>
+      <div class="bb-item">
+        <span class="bb-val" id="bb-best">--:--</span>
+        <span class="bb-key">Best</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── PARTICLES ──
+const pEl = document.getElementById('particles');
+const pColors = ['#00ffee','#ff00cc','#ffe600','#aa00ff','#00ccff'];
+for (let i = 0; i < 50; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const sz = Math.random() * 3 + 1;
+  const col = pColors[Math.floor(Math.random() * pColors.length)];
+  const dx = (Math.random() - 0.5) * 120;
+  p.style.cssText = `
+    width:${sz}px;height:${sz}px;
+    left:${Math.random()*100}%;bottom:${Math.random()*30}%;
+    background:${col};
+    box-shadow:0 0 ${sz*3}px ${col};
+    --dx:${dx}px;
+    animation-duration:${6+Math.random()*10}s;
+    animation-delay:-${Math.random()*10}s;
+  `;
+  pEl.appendChild(p);
+}
+
+// ── STOPWATCH ──
+let elapsed=0, startTime=0, running=false, rafId=null;
+let laps=[], lapCount=0, bestLap=Infinity;
+
+const digEl   = document.getElementById('sw-digits');
+const msEl    = document.getElementById('sw-ms');
+const startBtn= document.getElementById('sw-start');
+const lapBtn  = document.getElementById('sw-lap');
+const resetBtn= document.getElementById('sw-reset');
+const lapsEl  = document.getElementById('sw-laps');
+const bbLaps  = document.getElementById('bb-laps');
+const bbBest  = document.getElementById('bb-best');
+
+const pad = (n,l=2) => String(Math.floor(n)).padStart(l,'0');
+const fmt = ms => { const s=Math.floor(ms/1000)%60, m=Math.floor(ms/60000)%60; return `${pad(m)}:${pad(s)}`; };
+
+function tick() {
+  const total = elapsed + (running ? Date.now()-startTime : 0);
+  digEl.textContent = `${pad(Math.floor(total/3600000))}:${pad(Math.floor(total/60000)%60)}:${pad(Math.floor(total/1000)%60)}`;
+  msEl.textContent  = `.${pad(total%1000,3)}`;
+  if (running) rafId = requestAnimationFrame(tick);
+}
+
+startBtn.addEventListener('click', () => {
+  if (!running) {
+    startTime=Date.now(); running=true;
+    startBtn.textContent='⏸ PAUSE'; startBtn.classList.add('on');
+    rafId=requestAnimationFrame(tick);
+  } else {
+    elapsed+=Date.now()-startTime; running=false;
+    cancelAnimationFrame(rafId);
+    startBtn.textContent='▶ EXECUTE'; startBtn.classList.remove('on');
+  }
+});
+
+lapBtn.addEventListener('click', () => {
+  if (!running && elapsed===0) return;
+  const total = elapsed + (running ? Date.now()-startTime : 0);
+  const lapT  = total - laps.reduce((a,b)=>a+b,0);
+  laps.push(lapT); lapCount++;
+  if (lapT < bestLap) { bestLap=lapT; bbBest.textContent=fmt(bestLap); }
+  bbLaps.textContent = pad(lapCount);
+  const tag = document.createElement('div');
+  tag.className='lap-tag';
+  tag.textContent=`L${pad(lapCount)} ${fmt(lapT)}`;
+  lapsEl.appendChild(tag);
+});
+
+resetBtn.addEventListener('click', () => {
+  running=false; cancelAnimationFrame(rafId);
+  elapsed=0; laps=[]; lapCount=0; bestLap=Infinity;
+  startBtn.textContent='▶ EXECUTE'; startBtn.classList.remove('on');
+  digEl.textContent='00:00:00'; msEl.textContent='.000';
+  lapsEl.innerHTML=''; bbLaps.textContent='00'; bbBest.textContent='--:--';
+});
+</script>
+</body>
+</html>

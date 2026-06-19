@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICC Cricket World Cup 2023 — Glimpses of Glory</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --navy: #0A1628;
+    --navy-mid: #0F1F3D;
+    --navy-light: #162847;
+    --white: #F5F0E8;
+    --cream: #EDE0C4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 18px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(to bottom, rgba(10,22,40,0.95) 0%, transparent 100%);
+    backdrop-filter: blur(4px);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.7);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(201,168,76,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.07) 0%, transparent 50%),
+                linear-gradient(135deg, #050D1A 0%, #0A1628 40%, #0F1F3D 100%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image: 
+      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+  .hero-circle {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.15);
+  }
+  .hero-circle-1 { width: 600px; height: 600px; top: -100px; right: -100px; }
+  .hero-circle-2 { width: 900px; height: 900px; bottom: -300px; left: -200px; opacity: 0.5; }
+  .hero-circle-3 { width: 300px; height: 300px; top: 20%; right: 15%; border-color: rgba(201,168,76,0.08); }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center;
+    max-width: 900px;
+    padding: 0 40px;
+    animation: heroFadeIn 1.4s ease both;
+  }
+  @keyframes heroFadeIn {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 28px;
+    animation: heroFadeIn 1.4s 0.2s ease both;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    line-height: 1;
+    font-weight: 900;
+    color: var(--white);
+    margin-bottom: 12px;
+    animation: heroFadeIn 1.4s 0.35s ease both;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 3vw, 2.8rem);
+    font-weight: 700;
+    color: rgba(245,240,232,0.75);
+    margin-bottom: 32px;
+    animation: heroFadeIn 1.4s 0.5s ease both;
+  }
+  .hero-line {
+    width: 80px; height: 2px;
+    background: var(--gold);
+    margin: 0 auto 32px;
+    animation: heroFadeIn 1.4s 0.65s ease both;
+  }
+  .hero-desc {
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: rgba(245,240,232,0.6);
+    letter-spacing: 0.02em;
+    max-width: 500px;
+    margin: 0 auto 56px;
+    animation: heroFadeIn 1.4s 0.8s ease both;
+  }
+  .hero-stats {
+    display: flex; justify-content: center; gap: 56px;
+    animation: heroFadeIn 1.4s 1s ease both;
+  }
+  .hero-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 900;
+    color: var(--gold);
+    display: block;
+  }
+  .hero-stat-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.45);
+    display: block;
+    margin-top: 4px;
+  }
+
+  .scroll-indicator {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    animation: heroFadeIn 1.4s 1.4s ease both;
+  }
+  .scroll-indicator span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.35);
+  }
+  .scroll-line {
+    width: 1px; height: 60px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.1); }
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 120px 60px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 40px; height: 1px;
+    background: var(--gold);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  /* SCALE SECTION */
+  .scale-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .big-number {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(5rem, 10vw, 9rem);
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    position: relative;
+  }
+  .big-number::after {
+    content: '';
+    display: block;
+    width: 100px; height: 3px;
+    background: var(--gold);
+    margin-top: 20px;
+  }
+  .big-number-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.5);
+    margin-top: 12px;
+  }
+  .scale-list { list-style: none; margin-top: 40px; }
+  .scale-list li {
+    padding: 22px 0;
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+    display: flex; align-items: flex-start; gap: 20px;
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(245,240,232,0.75);
+  }
+  .scale-list li::before {
+    content: '◆';
+    color: var(--gold);
+    font-size: 0.6rem;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+  .scale-list strong {
+    color: var(--white);
+    font-weight: 600;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* STADIUM */
+  .stadium-section {
+    position: relative;
+    padding: 120px 60px;
+    overflow: hidden;
+  }
+  .stadium-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--navy-light) 0%, var(--navy-mid) 100%);
+  }
+  .stadium-content {
+    position: relative; z-index: 2;
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .stadium-visual {
+    position: relative;
+  }
+  .stadium-ring {
+    width: 100%; padding-top: 100%;
+    border-radius: 50%;
+    border: 2px solid rgba(201,168,76,0.3);
+    position: relative;
+  }
+  .stadium-ring-inner {
+    position: absolute; inset: 20px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.15);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    text-align: center;
+  }
+  .stadium-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--gold);
+  }
+  .stadium-num-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.45);
+    margin-top: 6px;
+  }
+  .stadium-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .stadium-tag {
+    display: inline-block;
+    padding: 6px 18px;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .stadium-desc {
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(245,240,232,0.65);
+    line-height: 1.8;
+  }
+
+  /* INDIA SECTION */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-top: 60px;
+  }
+  .card {
+    background: linear-gradient(135deg, rgba(22,40,71,0.9) 0%, rgba(15,31,61,0.9) 100%);
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 44px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s, border-color 0.4s;
+  }
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(to right, var(--gold), transparent);
+  }
+  .card:hover { transform: translateY(-8px); border-color: rgba(201,168,76,0.4); }
+  .card-icon {
+    font-size: 2.2rem;
+    margin-bottom: 28px;
+    display: block;
+  }
+  .card-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 18px;
+  }
+  .card-text {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: rgba(245,240,232,0.65);
+    line-height: 1.75;
+  }
+
+  /* KOHLI */
+  .kohli-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: center;
+  }
+  .kohli-text .section-title { margin-bottom: 32px; }
+  .kohli-stat-block {
+    margin-top: 48px;
+    padding: 36px;
+    background: rgba(201,168,76,0.06);
+    border-left: 3px solid var(--gold);
+  }
+  .kohli-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .kohli-stat-desc {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.5);
+    margin-top: 8px;
+  }
+  .kohli-img-container {
+    position: relative;
+  }
+  .kohli-img-frame {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: linear-gradient(135deg, var(--navy-light) 0%, var(--navy-mid) 100%);
+    border: 1px solid rgba(201,168,76,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 6rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .kohli-img-frame::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(201,168,76,0.07) 0%, transparent 70%);
+  }
+  .kohli-badge {
+    position: absolute;
+    bottom: -20px; left: -20px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    color: var(--navy);
+  }
+  .kohli-badge-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1;
+  }
+  .kohli-badge-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  /* FINAL SECTION */
+  .final-section {
+    padding: 120px 60px;
+    background: linear-gradient(to bottom, transparent, var(--navy-mid), transparent);
+    position: relative;
+  }
+  .final-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .turning-point {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-top: 60px;
+  }
+  .catch-visual {
+    background: linear-gradient(135deg, rgba(22,40,71,0.9) 0%, rgba(15,31,61,0.9) 100%);
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 60px;
+    text-align: center;
+    position: relative;
+  }
+  .catch-emoji { font-size: 5rem; display: block; margin-bottom: 24px; }
+  .catch-caption {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.35);
+  }
+  .catch-detail {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-style: italic;
+    color: var(--gold);
+    margin: 16px 0 8px;
+  }
+  .turn-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 24px;
+  }
+  .turn-text {
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(245,240,232,0.65);
+    line-height: 1.85;
+    margin-bottom: 24px;
+  }
+
+  /* SCORECARD */
+  .scorecard-section {
+    padding: 120px 60px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .scorecard-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 60px;
+  }
+  .scorecard-table th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--navy);
+    background: var(--gold);
+    padding: 20px 28px;
+    text-align: left;
+  }
+  .scorecard-table td {
+    padding: 28px;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+    font-size: 0.95rem;
+    color: rgba(245,240,232,0.75);
+    font-weight: 300;
+  }
+  .scorecard-table tr:hover td { background: rgba(201,168,76,0.04); }
+  .team-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .result-banner {
+    text-align: center;
+    margin-top: 48px;
+    padding: 32px;
+    border: 1px solid rgba(201,168,76,0.3);
+    position: relative;
+  }
+  .result-banner::before {
+    content: '';
+    position: absolute; inset: 4px;
+    border: 1px solid rgba(201,168,76,0.08);
+  }
+  .result-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  /* RUNGETTERS */
+  .runners-section {
+    padding: 120px 60px;
+    background: linear-gradient(135deg, var(--navy-mid) 0%, var(--navy) 100%);
+  }
+  .runners-inner { max-width: 1300px; margin: 0 auto; }
+  .bar-chart { margin-top: 60px; }
+  .bar-item {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-bottom: 32px;
+  }
+  .bar-player {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    color: rgba(245,240,232,0.7);
+    width: 200px;
+    flex-shrink: 0;
+    text-align: right;
+  }
+  .bar-track {
+    flex: 1;
+    height: 44px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(201,168,76,0.08);
+    position: relative;
+    overflow: hidden;
+  }
+  .bar-fill {
+    position: absolute; top: 0; left: 0; bottom: 0;
+    background: linear-gradient(to right, var(--gold), var(--gold-light));
+    transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    width: 0;
+  }
+  .bar-fill.animate { width: var(--w); }
+  .bar-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--gold);
+    width: 60px;
+    flex-shrink: 0;
+  }
+
+  /* CHAMPIONS */
+  .champions-section {
+    text-align: center;
+    padding: 160px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .champ-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(201,168,76,0.08) 0%, transparent 70%);
+  }
+  .champ-ring {
+    position: absolute; border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.08);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .champ-ring-1 { width: 500px; height: 500px; }
+  .champ-ring-2 { width: 750px; height: 750px; }
+  .champ-ring-3 { width: 1000px; height: 1000px; }
+  .champ-content { position: relative; z-index: 2; }
+  .champ-trophy { font-size: 5rem; margin-bottom: 32px; display: block; animation: float 3s ease-in-out infinite; }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  .champ-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .champ-subtitle {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+  }
+  .champ-desc {
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(245,240,232,0.55);
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  /* VIEWERSHIP */
+  .viewership-section {
+    padding: 120px 60px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .view-chart {
+    margin-top: 70px;
+    height: 280px;
+    position: relative;
+    display: flex; align-items: flex-end;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    border-left: 1px solid rgba(201,168,76,0.2);
+    padding: 0 60px;
+    gap: 80px;
+  }
+  .view-bar-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .view-bar-col {
+    width: 60px;
+    background: linear-gradient(to top, var(--gold), var(--gold-light));
+    border-radius: 2px 2px 0 0;
+    transition: height 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+  }
+  .view-bar-col::after {
+    content: attr(data-val);
+    position: absolute;
+    top: -32px; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+  .view-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.4);
+    text-align: center;
+    margin-top: 16px;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid rgba(201,168,76,0.12);
+    padding: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--gold);
+  }
+  .footer-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.3);
+  }
+
+  /* DIVIDER */
+  .gold-divider {
+    max-width: 1300px;
+    margin: 0 auto;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: 0.2;
+  }
+
+  /* ANIMATIONS */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+  .fade-in-delay-1 { transition-delay: 0.1s; }
+  .fade-in-delay-2 { transition-delay: 0.2s; }
+  .fade-in-delay-3 { transition-delay: 0.3s; }
+  .fade-in-delay-4 { transition-delay: 0.4s; }
+
+  @media (max-width: 900px) {
+    nav { padding: 18px 24px; }
+    .nav-links { display: none; }
+    section { padding: 80px 24px; }
+    .scale-section, .stadium-content, .kohli-section, .turning-point { grid-template-columns: 1fr; gap: 40px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">CWC 2023</div>
+  <ul class="nav-links">
+    <li><a href="#scale">Scale</a></li>
+    <li><a href="#india">India</a></li>
+    <li><a href="#kohli">Kohli</a></li>
+    <li><a href="#final">Final</a></li>
+    <li><a href="#champions">Champions</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-circle hero-circle-1"></div>
+  <div class="hero-circle hero-circle-2"></div>
+  <div class="hero-circle hero-circle-3"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">ICC Cricket World Cup 2023</div>
+    <h1 class="hero-title"><em>Glimpses</em> of Glory</h1>
+    <div class="hero-subtitle">& The Great Final</div>
+    <div class="hero-line"></div>
+    <p class="hero-desc">A Visual Journey through the Moments that Defined a Generation</p>
+    <div class="hero-stats">
+      <div>
+        <span class="hero-stat-num">1.25M</span>
+        <span class="hero-stat-label">Total Attendance</span>
+      </div>
+      <div>
+        <span class="hero-stat-num">48</span>
+        <span class="hero-stat-label">Matches Played</span>
+      </div>
+      <div>
+        <span class="hero-stat-num">59M</span>
+        <span class="hero-stat-label">Peak Viewers</span>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+
+<!-- SCALE -->
+<section id="scale">
+  <div class="scale-section fade-in">
+    <div>
+      <div class="section-label">Global Phenomenon</div>
+      <div class="big-number">1.25M</div>
+      <div class="big-number-label">Total Attendance</div>
+      <ul class="scale-list">
+        <li><div><strong>5.9 Crore</strong><br>Peak concurrent digital viewership across the tournament</div></li>
+        <li><div><strong>10 Host Cities</strong><br>Spanning the length and breadth of India</div></li>
+        <li><div><strong>48 Matches</strong><br>Of intense, high-stakes competition across 45 days</div></li>
+      </ul>
+    </div>
+    <div>
+      <div class="section-label">Unprecedented Scale</div>
+      <h2 class="section-title">Cricket's pulse was felt everywhere.</h2>
+      <p style="font-size:1rem;font-weight:300;color:rgba(245,240,232,0.6);line-height:1.85;margin-top:24px;">
+        The 2023 edition was a digital and physical powerhouse, smashing records across the globe. From packed stadiums to concurrent streaming peaks, the world had never witnessed cricket at this scale before.
+      </p>
+      <p style="font-size:1rem;font-weight:300;color:rgba(245,240,232,0.6);line-height:1.85;margin-top:20px;">
+        Hosted entirely in India for the first time, the tournament captured the imagination of a nation — and the entire cricketing world followed along.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- STADIUM -->
+<div class="stadium-section" id="stadium">
+  <div class="stadium-bg"></div>
+  <div class="stadium-content">
+    <div class="stadium-visual fade-in">
+      <div class="stadium-ring">
+        <div class="stadium-ring-inner">
+          <div class="stadium-num">132K</div>
+          <div class="stadium-num-label">Capacity</div>
+        </div>
+      </div>
+    </div>
+    <div class="fade-in fade-in-delay-1">
+      <div class="section-label">The Colosseum of Cricket</div>
+      <h2 class="section-title stadium-name">Narendra Modi Stadium</h2>
+      <div class="stadium-tag">Ahmedabad · Grand Opening &amp; The Final</div>
+      <p class="stadium-desc">
+        The world's largest cricket stadium roared with 132,000 voices as it hosted both the grand opening ceremony and the climactic final — a fitting home for one of cricket's most unforgettable spectacles.
+      </p>
+      <p class="stadium-desc" style="margin-top:20px;">
+        A sea of blue filled every tier as India marched through the tournament undefeated, culminating in the ultimate showdown on this hallowed ground.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- INDIA -->
+<section id="india">
+  <div class="section-label fade-in">Tournament Dominance</div>
+  <h2 class="section-title fade-in fade-in-delay-1">The Indian Juggernaut</h2>
+  <div class="cards-grid">
+    <div class="card fade-in">
+      <span class="card-icon">🔥</span>
+      <div class="card-title">10-Win Streak</div>
+      <p class="card-text">India marched into the final undefeated, showcasing a lethal blend of batting brilliance and bowling mastery that crushed every opponent in their path.</p>
+    </div>
+    <div class="card fade-in fade-in-delay-1">
+      <span class="card-icon">⚡</span>
+      <div class="card-title">Shami's Fury</div>
+      <p class="card-text">The highest wicket-taker of the tournament with 24 wickets, including a record-breaking 7-fer in the semi-final. Mohammed Shami was unstoppable when it mattered most.</p>
+    </div>
+    <div class="card fade-in fade-in-delay-2">
+      <span class="card-icon">🛡️</span>
+      <div class="card-title">Clinical Defense</div>
+      <p class="card-text">Team India's bowling unit defended modest totals with ease, silencing opposition batters across every venue and condition encountered on the subcontinent.</p>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- KOHLI -->
+<section id="kohli">
+  <div class="kohli-section">
+    <div class="kohli-text fade-in">
+      <div class="section-label">The King's Landmark</div>
+      <h2 class="section-title">Virat Kohli:<br><em style="font-style:italic;color:var(--gold);">50th Century</em></h2>
+      <p style="font-size:1rem;font-weight:300;color:rgba(245,240,232,0.65);line-height:1.85;">
+        At the Wankhede Stadium, the world witnessed history as Virat Kohli surpassed Sachin Tendulkar's legendary record of 49 ODI centuries — a moment 15 years in the making.
+      </p>
+      <p style="font-size:1rem;font-weight:300;color:rgba(245,240,232,0.65);line-height:1.85;margin-top:16px;">
+        With 765 runs in a single edition, he cemented his status as the "Greatest of the Era," winning the Player of the Tournament award in dominant fashion.
+      </p>
+      <div class="kohli-stat-block">
+        <div style="display:flex;gap:48px;">
+          <div>
+            <div class="kohli-stat-num">765</div>
+            <div class="kohli-stat-desc">Runs this tournament</div>
+          </div>
+          <div>
+            <div class="kohli-stat-num">50</div>
+            <div class="kohli-stat-desc">ODI centuries</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="kohli-img-container fade-in fade-in-delay-1">
+      <div class="kohli-img-frame">👑</div>
+      <div class="kohli-badge">
+        <div class="kohli-badge-num">🏆</div>
+        <div class="kohli-badge-label">Player of<br>Tournament</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- FINAL -->
+<div class="final-section" id="final">
+  <div class="final-inner">
+    <div class="section-label fade-in">The Grand Final</div>
+    <h2 class="section-title fade-in fade-in-delay-1">The Turning Point</h2>
+    <div class="turning-point">
+      <div class="catch-visual fade-in">
+        <span class="catch-emoji">🤿</span>
+        <div class="catch-detail">Travis Head · 18 Metres</div>
+        <div class="catch-caption">The diving catch that changed everything</div>
+      </div>
+      <div class="fade-in fade-in-delay-1">
+        <div class="turn-title">The Catch that Changed it All</div>
+        <p class="turn-text">
+          Rohit Sharma was on a rampage, threatening a massive total. In a moment of pure athleticism, Travis Head sprinted 18 meters to pluck a stunning diving catch.
+        </p>
+        <p class="turn-text">
+          This dismissal broke India's momentum and silenced a stadium of 100,000+ voices — setting the stage for Australia's tactical takeover of the biggest final in ODI history.
+        </p>
+        <div style="padding:24px;border:1px solid rgba(201,168,76,0.2);margin-top:32px;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(245,240,232,0.35);margin-bottom:8px;">India finished on</div>
+          <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--white);">240 <span style="font-size:1rem;color:rgba(245,240,232,0.45);">/ 50 overs</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MASTERCLASS -->
+<section>
+  <div class="kohli-section fade-in">
+    <div>
+      <div class="section-label">The Masterclass</div>
+      <h2 class="section-title">Travis Head's<br><em style="font-style:italic;color:var(--gold);">137(120)</em></h2>
+      <p style="font-size:1rem;font-weight:300;color:rgba(245,240,232,0.65);line-height:1.85;">
+        After a shaky start at 47/3, Travis Head played one of the most calculated yet aggressive knocks in World Cup final history.
+      </p>
+      <p style="font-size:1rem;font-weight:300;color:rgba(245,240,232,0.65);line-height:1.85;margin-top:16px;">
+        His century under immense pressure defused India's spinners and secured Australia's destiny — making him only the 7th player to score a ton in a Cricket World Cup Final.
+      </p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:20px;" class="fade-in fade-in-delay-1">
+      <div style="padding:40px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);text-align:center;">
+        <div style="font-family:'Playfair Display',serif;font-size:3.5rem;font-weight:900;color:var(--gold);">137</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(245,240,232,0.4);margin-top:8px;">Runs off 120 balls</div>
+      </div>
+      <div style="padding:40px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);text-align:center;">
+        <div style="font-family:'Playfair Display',serif;font-size:3.5rem;font-weight:900;color:var(--white);">7th</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(245,240,232,0.4);margin-top:8px;">Player to ton in CWC Final</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- SCORECARD -->
+<div class="scorecard-section" id="scorecard">
+  <div class="section-label fade-in">Grand Finale Scorecard</div>
+  <h2 class="section-title fade-in fade-in-delay-1">India vs Australia<br><span style="color:var(--gold);">Narendra Modi Stadium</span></h2>
+  <table class="scorecard-table fade-in fade-in-delay-2">
+    <thead>
+      <tr>
+        <th>Innings</th>
+        <th>Score</th>
+        <th>Top Performers</th>
+        <th>Key Bowling</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><div class="team-name">🇮🇳 India</div></td>
+        <td style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--white);">240 <span style="font-size:0.85rem;color:rgba(245,240,232,0.4);">(50 Overs)</span></td>
+        <td>K.L. Rahul <span style="color:var(--gold);">66</span>, V. Kohli <span style="color:var(--gold);">54</span></td>
+        <td>M. Starc <span style="color:var(--gold);">3/55</span></td>
+      </tr>
+      <tr>
+        <td><div class="team-name">🇦🇺 Australia</div></td>
+        <td style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--white);">241/4 <span style="font-size:0.85rem;color:rgba(245,240,232,0.4);">(43 Overs)</span></td>
+        <td>T. Head <span style="color:var(--gold);">137</span>, M. Labuschagne <span style="color:var(--gold);">58*</span></td>
+        <td>J. Bumrah <span style="color:var(--gold);">2/43</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="result-banner fade-in fade-in-delay-3">
+    <div class="result-text">🏆 Australia won by 6 wickets</div>
+  </div>
+</div>
+
+<!-- RUN GETTERS -->
+<div class="runners-section" id="runners">
+  <div class="runners-inner">
+    <div class="section-label fade-in">Elite Run Getters</div>
+    <h2 class="section-title fade-in fade-in-delay-1">Tournament's Finest Batters</h2>
+    <div class="bar-chart">
+      <div class="bar-item fade-in">
+        <div class="bar-player">Virat Kohli (Ind)</div>
+        <div class="bar-track"><div class="bar-fill" style="--w:100%" data-target="100"></div></div>
+        <div class="bar-num">765</div>
+      </div>
+      <div class="bar-item fade-in fade-in-delay-1">
+        <div class="bar-player">Rohit Sharma (Ind)</div>
+        <div class="bar-track"><div class="bar-fill" style="--w:78%" data-target="78"></div></div>
+        <div class="bar-num">597</div>
+      </div>
+      <div class="bar-item fade-in fade-in-delay-2">
+        <div class="bar-player">Quinton de Kock (SA)</div>
+        <div class="bar-track"><div class="bar-fill" style="--w:77.6%" data-target="77.6"></div></div>
+        <div class="bar-num">594</div>
+      </div>
+      <div class="bar-item fade-in fade-in-delay-3">
+        <div class="bar-player">Rachin Ravindra (NZ)</div>
+        <div class="bar-track"><div class="bar-fill" style="--w:75.5%" data-target="75.5"></div></div>
+        <div class="bar-num">578</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VIEWERSHIP -->
+<div class="viewership-section">
+  <div class="section-label fade-in">Digital Viewership</div>
+  <h2 class="section-title fade-in fade-in-delay-1">Streaming Records Shattered</h2>
+  <p style="font-size:1rem;font-weight:300;color:rgba(245,240,232,0.6);line-height:1.85;max-width:600px;margin-top:20px;" class="fade-in fade-in-delay-2">
+    The final broke all global streaming records — cementing the 2023 World Cup's place as the most-watched cricket event in history.
+  </p>
+  <div class="view-chart fade-in fade-in-delay-3">
+    <div class="view-bar-group">
+      <div class="view-bar-col" style="height:60px;background:linear-gradient(to top,rgba(201,168,76,0.4),rgba(232,201,122,0.4));" data-val="~5M">
+      </div>
+      <div class="view-label">League Stage</div>
+    </div>
+    <div class="view-bar-group">
+      <div class="view-bar-col" style="height:140px;" data-val="~25M">
+      </div>
+      <div class="view-label">Semi-Finals</div>
+    </div>
+    <div class="view-bar-group">
+      <div class="view-bar-col" style="height:240px;" data-val="59M">
+      </div>
+      <div class="view-label">Grand Final</div>
+    </div>
+  </div>
+</div>
+
+<!-- CHAMPIONS -->
+<div class="champions-section" id="champions">
+  <div class="champ-bg"></div>
+  <div class="champ-ring champ-ring-1"></div>
+  <div class="champ-ring champ-ring-2"></div>
+  <div class="champ-ring champ-ring-3"></div>
+  <div class="champ-content fade-in">
+    <span class="champ-trophy">🏆</span>
+    <h2 class="champ-title">Champions Once More</h2>
+    <div class="champ-subtitle">Australia — 6 Time World Champions</div>
+    <p class="champ-desc">
+      Tactical brilliance, elite fielding, and a calm mindset under pressure allowed Pat Cummins and his team to conquer the "Sea of Blue" — and etch their name in cricketing immortality once more.
+    </p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div style="border-top:1px solid rgba(201,168,76,0.12);">
+  <footer>
+    <div class="footer-logo">ICC CWC 2023</div>
+    <div class="footer-text">Glimpses of Glory &amp; The Great Final</div>
+    <div class="footer-text">A Visual Journey · 2023</div>
+  </footer>
+</div>
+
+<script>
+  // Intersection observer for fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+        // Animate bars
+        el.target.querySelectorAll('.bar-fill').forEach(bar => {
+          bar.classList.add('animate');
+        });
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Also trigger bars when their parent becomes visible
+  const barObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.bar-fill').forEach(bar => {
+          setTimeout(() => bar.classList.add('animate'), 300);
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.bar-chart').forEach(el => barObserver.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+skills ::
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>about</title>
+    <style>
+        html{
+             background-color: black;
+             color: white;
+        }
+
+        #navbar{
+            box-sizing: border-box;
+            display: grid;
+            grid-template-columns: repeat(5,1fr);
+            background-color: rgb(61, 59, 59);
+            font-size: larger;
+            margin-top: 0px;
+        }
+        .icon{
+            align-content: center;
+        }
+        a{
+            text-decoration: none;
+            color: white;
+        }
+        a:hover{
+            color: red;
+        }
+        p{
+            font-size: 40px;
+            font-style: oblique;
+            font-family: cursive;
+            margin: 100px;
+            margin-bottom: 20px;
+        }
+        #descp{
+            font-size: x-large;
+            line-height: 40px;
+             margin: 100px;
+             margin-bottom: 40px;
+             margin-top: 20px;
+        }
+    #info{
+        box-sizing: border-box;
+            display: grid;
+            margin: 100px;
+            margin-top: 40px;
+            grid-template-columns: repeat(2,1fr);
+            font-size: x-large;
+    }
+     /* media..... */
+        
+        @media (max-width:1024px){
+            #info{
+                grid-template-columns: repeat(1,1fr);
+            }
+        }
+         @media (max-width:700px){
+            #info{
+                 grid-template-columns: repeat(1,1fr);
+            }
+         }
+        </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+    <div id="navbar">
+        <div class="icon"><a href=""><img src="https://thumbs.dreamstime.com/b/ps-initial-logo-company-name-colored-red-black-swoosh-design-isolated-white-background-vector-business-identity-199335889.jpg" width="60px" style="border-radius: 50%;"></a></div>
+        <div class="icon"><a href="index.html"><i class="fa-solid fa-house"></i>Home</a></div>
+        <div class="icon"><a href="about.html"><i class="fa-solid fa-user"></i>About</a></div>
+        <div class="icon"><a href="skills.html"><i class="fa-solid fa-briefcase"></i>Skill</a></div>
+        <div class="icon"><a href="contact.html"><i class="fa-solid fa-comments"></i>Contact</a></div>
+    </div>
+    <p>About Me</p>
+    <div id="descp"><span style="font-size: xx-large; font-style:italic;font-family: cursive; color: red;">I'm Priyanshu Singh</span><br>I am skilled in frontend development proficient in HTML , CSS and Java Script. I excel in problem <br>solving and had a experience to tackel  problems in DSA .<br> Passionate about exploring the realm of data science . Additionally, I enjoy sharing insights and knowledge.</div>
+    <div id="info">
+        <div class="info1">
+            <ul><b>Birthday  :  </b>10/08/2007</ul>
+            <ul><b>Degree  : </b>B.Tech</ul>
+            <ul><b>City : </b>Ghaziabad</ul>
+            <ul></ul>
+        </div>
+        <div class="info2">
+            <ul><b>Age : </b>18</ul>
+            <ul><b>Phone : </b>+91 7678639005</ul>
+            <ul><b>E-Mail :</b>thakurpriyanshusingh05@gmail.com</ul>
+            <ul></ul>
+        </div>
+
+    </div>
+</body>
+</html>

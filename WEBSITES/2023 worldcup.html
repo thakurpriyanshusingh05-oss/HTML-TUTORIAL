@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICC Cricket World Cup 2023</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Bebas+Neue&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #D4AF37;
+    --gold-light: #F5E17A;
+    --deep-green: #0A2A1A;
+    --mid-green: #0D4A2A;
+    --cricket-green: #1A6B3A;
+    --cream: #FFF8E7;
+    --orange: #FF6B00;
+    --red: #CC2200;
+    --white: #FFFFFF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Crimson Text', Georgia, serif;
+    background: var(--deep-green);
+    color: var(--cream);
+    overflow-x: hidden;
+  }
+
+  /* ---- HERO ---- */
+  .hero {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 60% 40%, #1A6B3A 0%, #0A2A1A 60%, #050F0A 100%);
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(212,175,55,0.03) 80px, rgba(212,175,55,0.03) 81px),
+      repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(212,175,55,0.03) 80px, rgba(212,175,55,0.03) 81px);
+    pointer-events: none;
+  }
+
+  /* Cricket ball decorative circles */
+  .ball-deco {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(212,175,55,0.15);
+    animation: pulse-ring 4s ease-in-out infinite;
+  }
+  .ball-deco:nth-child(1) { width: 600px; height: 600px; top: -100px; right: -150px; animation-delay: 0s; }
+  .ball-deco:nth-child(2) { width: 400px; height: 400px; top: -50px; right: -100px; animation-delay: 0.5s; border-color: rgba(212,175,55,0.25); }
+  .ball-deco:nth-child(3) { width: 200px; height: 200px; bottom: 50px; left: 5%; animation-delay: 1s; }
+
+  @keyframes pulse-ring {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.05); opacity: 1; }
+  }
+
+  .hero-badge {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 6px 20px;
+    margin-bottom: 24px;
+    animation: fadeDown 1s ease both;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 12vw, 11rem);
+    line-height: 0.9;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    animation: fadeUp 1s ease 0.2s both;
+  }
+
+  .hero-title .icc { 
+    display: block; 
+    color: var(--gold); 
+    -webkit-text-stroke: 1px var(--gold-light);
+  }
+  .hero-title .world { display: block; color: var(--white); }
+  .hero-title .cup { 
+    display: block; 
+    color: transparent;
+    -webkit-text-stroke: 2px var(--gold);
+  }
+
+  .hero-year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 6vw, 5rem);
+    color: var(--orange);
+    letter-spacing: 0.3em;
+    animation: fadeUp 1s ease 0.4s both;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-subtitle {
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: rgba(255,248,231,0.7);
+    margin-top: 16px;
+    letter-spacing: 0.1em;
+    animation: fadeUp 1s ease 0.6s both;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-flag-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 40px;
+    animation: fadeUp 1s ease 0.8s both;
+    position: relative;
+    z-index: 2;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 20px;
+  }
+
+  .flag-chip {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(212,175,55,0.3);
+    padding: 6px 16px;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.15em;
+    font-size: 0.85rem;
+    color: var(--cream);
+    transition: all 0.3s;
+    cursor: default;
+  }
+  .flag-chip:hover { background: rgba(212,175,55,0.2); border-color: var(--gold); color: var(--gold); }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    animation: bounce 2s ease infinite;
+    color: var(--gold);
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.2em;
+    font-size: 0.75rem;
+    text-align: center;
+  }
+  .scroll-indicator::after {
+    content: '↓';
+    display: block;
+    font-size: 1.4rem;
+    margin-top: 4px;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ---- NAV ---- */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(5, 15, 10, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(212,175,55,0.3);
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: rgba(255,248,231,0.7);
+    text-decoration: none;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.15em;
+    font-size: 0.85rem;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ---- SECTIONS ---- */
+  section {
+    padding: 100px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.5em;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    color: var(--white);
+  }
+
+  .section-title span { color: var(--gold); }
+
+  .section-intro {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: rgba(255,248,231,0.75);
+    max-width: 650px;
+    margin-bottom: 60px;
+  }
+
+  /* ---- TIMELINE ---- */
+  #moments { background: linear-gradient(to bottom, var(--deep-green), #061510); }
+  #moments > section { padding-top: 0; }
+
+  .moments-wrapper { position: relative; padding-top: 100px; }
+
+  .timeline-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    transform: translateX(-50%);
+  }
+
+  .moment-card {
+    display: flex;
+    gap: 60px;
+    align-items: flex-start;
+    margin-bottom: 80px;
+    position: relative;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .moment-card.visible { opacity: 1; transform: translateY(0); }
+
+  .moment-card:nth-child(odd) { flex-direction: row; }
+  .moment-card:nth-child(even) { flex-direction: row-reverse; }
+
+  .moment-card::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 20px;
+    width: 14px;
+    height: 14px;
+    background: var(--gold);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 20px var(--gold);
+    z-index: 2;
+  }
+
+  .moment-content {
+    flex: 1;
+    max-width: calc(50% - 60px);
+  }
+
+  .moment-card:nth-child(odd) .moment-content:first-child { text-align: right; padding-right: 40px; }
+  .moment-card:nth-child(even) .moment-content:first-child { text-align: right; padding-right: 40px; }
+  .moment-card:nth-child(odd) .moment-content:last-child { padding-left: 40px; }
+  .moment-card:nth-child(even) .moment-content:last-child { padding-left: 40px; }
+
+  .moment-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 6rem;
+    line-height: 1;
+    color: rgba(212,175,55,0.1);
+    display: block;
+  }
+
+  .moment-tag {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    color: var(--orange);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .moment-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+
+  .moment-desc {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: rgba(255,248,231,0.7);
+  }
+
+  .moment-stat {
+    display: inline-block;
+    margin-top: 14px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    border-left: 3px solid var(--gold);
+    padding-left: 12px;
+  }
+
+  .moment-image-box {
+    flex: 1;
+    max-width: calc(50% - 60px);
+    border: 1px solid rgba(212,175,55,0.2);
+    padding: 30px;
+    background: rgba(26, 107, 58, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .moment-image-box::before {
+    content: attr(data-emoji);
+    position: absolute;
+    font-size: 8rem;
+    opacity: 0.15;
+    right: 10px;
+    bottom: 10px;
+  }
+
+  .moment-image-box .match-info {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+
+  .moment-image-box .score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .moment-image-box .venue {
+    font-style: italic;
+    color: rgba(255,248,231,0.5);
+    font-size: 0.9rem;
+    margin-top: 10px;
+  }
+
+  /* ---- STATS GRID ---- */
+  .stats-bg {
+    background: var(--mid-green);
+    padding: 80px 0;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    background: rgba(212,175,55,0.1);
+    border: 1px solid rgba(212,175,55,0.2);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .stat-box {
+    padding: 40px 30px;
+    background: var(--mid-green);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  .stat-box:hover { background: rgba(26, 107, 58, 0.8); }
+
+  .stat-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    transform: scaleX(0);
+    transition: transform 0.4s;
+  }
+  .stat-box:hover::before { transform: scaleX(1); }
+
+  .stat-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    color: rgba(255,248,231,0.6);
+    margin-top: 8px;
+    display: block;
+  }
+
+  /* ---- TEAMS ---- */
+  .teams-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+  }
+
+  .team-card {
+    border: 1px solid rgba(212,175,55,0.15);
+    padding: 24px 16px;
+    text-align: center;
+    cursor: default;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    background: rgba(26, 107, 58, 0.08);
+  }
+
+  .team-card:hover {
+    border-color: var(--gold);
+    background: rgba(212,175,55,0.08);
+    transform: translateY(-4px);
+  }
+
+  .team-flag { font-size: 2.8rem; display: block; margin-bottom: 10px; }
+  .team-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.15em;
+    color: var(--cream);
+    display: block;
+  }
+
+  .team-result {
+    font-size: 0.8rem;
+    color: rgba(255,248,231,0.5);
+    font-style: italic;
+    margin-top: 6px;
+    display: block;
+  }
+
+  .team-card.winner { border-color: var(--gold); background: rgba(212,175,55,0.12); }
+  .team-card.winner .team-name { color: var(--gold); }
+  .team-card.finalist { border-color: rgba(212,175,55,0.5); }
+
+  .winner-crown {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 1rem;
+  }
+
+  /* ---- FINAL MATCH ---- */
+  .final-section {
+    background: linear-gradient(135deg, #050F0A 0%, #0D4A2A 50%, #050F0A 100%);
+    padding: 100px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .final-section::before {
+    content: '🏆';
+    position: absolute;
+    font-size: 30rem;
+    opacity: 0.03;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .vs-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    margin: 60px 0;
+    flex-wrap: wrap;
+  }
+
+  .final-team {
+    text-align: center;
+  }
+
+  .final-flag { font-size: 5rem; display: block; margin-bottom: 16px; }
+
+  .final-team-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    letter-spacing: 0.2em;
+  }
+
+  .final-score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem;
+    color: var(--gold);
+    line-height: 1;
+    margin-top: 10px;
+  }
+
+  .vs-divider {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: rgba(212,175,55,0.4);
+    letter-spacing: 0.3em;
+  }
+
+  .winner-banner {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold));
+    color: var(--deep-green);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.3em;
+    padding: 16px 50px;
+    margin-top: 40px;
+    animation: shimmer 3s ease infinite;
+  }
+
+  @keyframes shimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .final-details {
+    margin-top: 30px;
+    font-style: italic;
+    color: rgba(255,248,231,0.6);
+    font-size: 1.1rem;
+  }
+
+  /* ---- TOP PERFORMERS ---- */
+  .performers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .performer-card {
+    border: 1px solid rgba(212,175,55,0.2);
+    padding: 32px 28px;
+    background: rgba(26, 107, 58, 0.1);
+    position: relative;
+    transition: all 0.3s;
+    overflow: hidden;
+  }
+
+  .performer-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  }
+
+  .performer-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    height: 2px;
+    width: 0;
+    background: var(--gold);
+    transition: width 0.4s;
+  }
+  .performer-card:hover::after { width: 100%; }
+
+  .performer-category {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    color: var(--orange);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .performer-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .performer-country {
+    font-size: 0.9rem;
+    color: rgba(255,248,231,0.5);
+    font-style: italic;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .performer-stat-big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .performer-stat-label {
+    font-size: 0.85rem;
+    color: rgba(255,248,231,0.6);
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* ---- FOOTER ---- */
+  footer {
+    background: #020A05;
+    border-top: 1px solid rgba(212,175,55,0.2);
+    padding: 40px;
+    text-align: center;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .footer-text {
+    color: rgba(255,248,231,0.35);
+    font-size: 0.9rem;
+    font-style: italic;
+  }
+
+  /* ---- DIVIDER ---- */
+  .gold-divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0;
+  }
+
+  /* ---- ANIMATIONS ---- */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 900px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .teams-grid { grid-template-columns: repeat(3, 1fr); }
+    .performers-grid { grid-template-columns: 1fr; }
+    .moment-card, .moment-card:nth-child(even) { flex-direction: column; }
+    .moment-content, .moment-card:nth-child(odd) .moment-content:first-child,
+    .moment-card:nth-child(even) .moment-content:first-child { 
+      max-width: 100%; text-align: left; padding: 0; 
+    }
+    .moment-image-box { max-width: 100%; }
+    .timeline-line { display: none; }
+    .moment-card::before { display: none; }
+    nav { padding: 0 20px; }
+    .nav-links { gap: 16px; }
+    section { padding: 60px 20px; }
+  }
+
+  @media (max-width: 600px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .teams-grid { grid-template-columns: repeat(2, 1fr); }
+    .vs-container { gap: 30px; }
+    .final-score { font-size: 3.5rem; }
+    .nav-links { display: none; }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--deep-green); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">ICC WC 2023</div>
+  <ul class="nav-links">
+    <li><a href="#moments">Moments</a></li>
+    <li><a href="#teams">Teams</a></li>
+    <li><a href="#final">Final</a></li>
+    <li><a href="#performers">Stars</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="ball-deco"></div>
+  <div class="ball-deco"></div>
+  <div class="ball-deco"></div>
+
+  <div class="hero-badge">India · October–November 2023</div>
+  <h1 class="hero-title">
+    <span class="icc">ICC</span>
+    <span class="world">CRICKET</span>
+    <span class="cup">WORLD CUP</span>
+  </h1>
+  <div class="hero-year">2 0 2 3</div>
+  <p class="hero-subtitle">The Greatest Show in Cricket — Relived</p>
+
+  <div class="hero-flag-row">
+    <span class="flag-chip">🇮🇳 INDIA</span>
+    <span class="flag-chip">🇦🇺 AUSTRALIA</span>
+    <span class="flag-chip">🇿🇦 SOUTH AFRICA</span>
+    <span class="flag-chip">🏏 10 NATIONS</span>
+    <span class="flag-chip">📍 10 VENUES</span>
+    <span class="flag-chip">48 MATCHES</span>
+  </div>
+
+  <div class="scroll-indicator">SCROLL TO EXPLORE</div>
+</div>
+
+<hr class="gold-divider">
+
+<!-- STATS -->
+<div class="stats-bg">
+  <div class="stats-grid">
+    <div class="stat-box">
+      <span class="stat-number">48</span>
+      <span class="stat-label">Total Matches</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-number">10</span>
+      <span class="stat-label">Nations Competed</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-number">1,250+</span>
+      <span class="stat-label">Runs by Top Scorer</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-number">10</span>
+      <span class="stat-label">Venues Across India</span>
+    </div>
+  </div>
+</div>
+
+<hr class="gold-divider">
+
+<!-- MOMENTS -->
+<div id="moments">
+<section class="moments-wrapper">
+  <div class="section-label">The Story of the Tournament</div>
+  <h2 class="section-title">Defining <span>Moments</span></h2>
+  <p class="section-intro">A 45-day cricketing odyssey across 10 Indian cities. These are the moments that made history, broke records, and left the world breathless.</p>
+
+  <div class="timeline-line"></div>
+
+  <!-- MOMENT 1 -->
+  <div class="moment-card">
+    <div class="moment-content">
+      <span class="moment-number">01</span>
+      <span class="moment-tag">Opening Ceremony · October 5</span>
+      <h3 class="moment-title">The Grand Curtain Raiser</h3>
+      <p class="moment-desc">The 13th edition of the Cricket World Cup kicked off with a spectacular opening ceremony at the Narendra Modi Stadium, Ahmedabad — the world's largest cricket ground. 10 nations marched in under the blazing lights as billions tuned in globally, heralding the start of cricket's greatest festival.</p>
+      <span class="moment-stat">132,000 Capacity Stadium</span>
+    </div>
+    <div class="moment-image-box" data-emoji="🏟️">
+      <div class="match-info">TOURNAMENT OPENER</div>
+      <div class="score">ENG vs NZ</div>
+      <p style="color:rgba(255,248,231,0.6); margin-top:12px; font-size:0.95rem;">England 282 · New Zealand 283/8<br>New Zealand won by 9 wickets</p>
+      <div class="venue">📍 Narendra Modi Stadium, Ahmedabad</div>
+    </div>
+  </div>
+
+  <!-- MOMENT 2 -->
+  <div class="moment-card">
+    <div class="moment-image-box" data-emoji="🔥">
+      <div class="match-info">GROUP STAGE · OCTOBER 8</div>
+      <div class="score">IND 428/5</div>
+      <p style="color:rgba(255,248,231,0.6); margin-top:12px; font-size:0.95rem;">India 428/5 vs Afghanistan<br>India won by 8 wickets</p>
+      <div class="venue">📍 Arun Jaitley Stadium, Delhi</div>
+    </div>
+    <div class="moment-content">
+      <span class="moment-number">02</span>
+      <span class="moment-tag">India's Unstoppable Run Begins</span>
+      <h3 class="moment-title">India's Batting Masterclass</h3>
+      <p class="moment-desc">Rohit Sharma led India to a stunning 428/5 against Afghanistan, signalling the host nation's intent. Virat Kohli compiled a masterful innings while Rohit himself smashed a blistering half-century from just 28 balls. India would go unbeaten throughout the group stage, winning all 9 matches.</p>
+      <span class="moment-stat">9 Consecutive Group Stage Wins</span>
+    </div>
+  </div>
+
+  <!-- MOMENT 3 -->
+  <div class="moment-card">
+    <div class="moment-content">
+      <span class="moment-number">03</span>
+      <span class="moment-tag">October 15 · El Clasico of Cricket</span>
+      <h3 class="moment-title">India vs Pakistan — The Billion-Dollar Game</h3>
+      <p class="moment-desc">The most anticipated match in world cricket did not disappoint. Before a packed Narendra Modi Stadium and 1.4 billion eyes on TV, India defeated Pakistan in a nail-biting thriller. Rohit Sharma's blazing century set the platform before Siraj and Bumrah dismantled Pakistan's chase. Cricket's greatest rivalry delivered once more.</p>
+      <span class="moment-stat">IND won by 7 wickets</span>
+    </div>
+    <div class="moment-image-box" data-emoji="⚔️">
+      <div class="match-info">GROUP STAGE · HIGH VOLTAGE</div>
+      <div class="score">PAK 191 · IND 193/3</div>
+      <p style="color:rgba(255,248,231,0.6); margin-top:12px; font-size:0.95rem;">Pakistan 191 all out<br>India chased in 30.3 overs</p>
+      <div class="venue">📍 Narendra Modi Stadium, Ahmedabad</div>
+    </div>
+  </div>
+
+  <!-- MOMENT 4 -->
+  <div class="moment-card">
+    <div class="moment-image-box" data-emoji="🏏">
+      <div class="match-info">RECORD BREAKING</div>
+      <div class="score">50th ODI 💯</div>
+      <p style="color:rgba(255,248,231,0.6); margin-top:12px; font-size:0.95rem;">Virat Kohli surpassed<br>Sachin Tendulkar's record of<br>49 ODI centuries</p>
+      <div class="venue">📍 Wankhede Stadium, Mumbai</div>
+    </div>
+    <div class="moment-content">
+      <span class="moment-number">04</span>
+      <span class="moment-tag">November 2 · History Rewritten</span>
+      <h3 class="moment-title">Kohli's 50th ODI Century</h3>
+      <p class="moment-desc">In one of sport's most emotional moments, Virat Kohli scored his 50th ODI century against South Africa at Wankhede Stadium, surpassing Sachin Tendulkar's legendary record of 49. The crowd erupted as Kohli raised his bat — tears, cheers, and history all at once. Kohli ended the tournament as the highest run-scorer with 765 runs.</p>
+      <span class="moment-stat">765 Runs in the Tournament</span>
+    </div>
+  </div>
+
+  <!-- MOMENT 5 -->
+  <div class="moment-card">
+    <div class="moment-content">
+      <span class="moment-number">05</span>
+      <span class="moment-tag">Semi-Final · November 15</span>
+      <h3 class="moment-title">India's Dominant Semi-Final</h3>
+      <p class="moment-desc">India dismantled New Zealand in the semi-final at Wankhede Stadium with a comprehensive performance. Shami's devastating spell of 7/57 — the best bowling figures in World Cup knockout history — ripped through the New Zealand lineup. Rohit Sharma's breezy 47 and Shreyas Iyer's half-century set a formidable target as India marched into the final unbeaten.</p>
+      <span class="moment-stat">Mohammed Shami — 7/57</span>
+    </div>
+    <div class="moment-image-box" data-emoji="💥">
+      <div class="match-info">SEMI-FINAL · WANKHEDE</div>
+      <div class="score">IND 397/4</div>
+      <p style="color:rgba(255,248,231,0.6); margin-top:12px; font-size:0.95rem;">India 397/4 (50 overs)<br>New Zealand 327 all out</p>
+      <div class="venue">📍 Wankhede Stadium, Mumbai</div>
+    </div>
+  </div>
+
+  <!-- MOMENT 6 -->
+  <div class="moment-card">
+    <div class="moment-image-box" data-emoji="🌪️">
+      <div class="match-info">SEMI-FINAL 2 · NOVEMBER 16</div>
+      <div class="score">SA 212 · AUS 215/3</div>
+      <p style="color:rgba(255,248,231,0.6); margin-top:12px; font-size:0.95rem;">Australia squeezed through<br>in a tense chase</p>
+      <div class="venue">📍 Eden Gardens, Kolkata</div>
+    </div>
+    <div class="moment-content">
+      <span class="moment-number">06</span>
+      <span class="moment-tag">Semi-Final · November 16</span>
+      <h3 class="moment-title">Australia's Great Escape</h3>
+      <p class="moment-desc">Unbeaten South Africa entered as one of the tournament's most impressive sides, but Australia — as they have done so often — found a way. In a gripping chase at Eden Gardens, David Warner and Mitchell Marsh's partnership turned the match. Australia barely scraped through by 3 wickets, setting up a dream final against the host nation India.</p>
+      <span class="moment-stat">AUS won by 3 wickets</span>
+    </div>
+  </div>
+
+</section>
+</div>
+
+<hr class="gold-divider">
+
+<!-- TEAMS -->
+<section id="teams">
+  <div class="section-label">All Participants</div>
+  <h2 class="section-title">The <span>10 Nations</span></h2>
+  <p class="section-intro">Ten cricketing nations converged on India, each carrying the dreams of millions. Only one could lift the golden trophy.</p>
+
+  <div class="teams-grid">
+    <div class="team-card winner">
+      <span class="winner-crown">🏆</span>
+      <span class="team-flag">🇦🇺</span>
+      <span class="team-name">Australia</span>
+      <span class="team-result">CHAMPIONS</span>
+    </div>
+    <div class="team-card finalist">
+      <span class="team-flag">🇮🇳</span>
+      <span class="team-name">India</span>
+      <span class="team-result">Runners-Up</span>
+    </div>
+    <div class="team-card">
+      <span class="team-flag">🇿🇦</span>
+      <span class="team-name">South Africa</span>
+      <span class="team-result">Semi-Final</span>
+    </div>
+    <div class="team-card">
+      <span class="team-flag">🇳🇿</span>
+      <span class="team-name">New Zealand</span>
+      <span class="team-result">Semi-Final</span>
+    </div>
+    <div class="team-card">
+      <span class="team-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+      <span class="team-name">England</span>
+      <span class="team-result">Group Stage</span>
+    </div>
+    <div class="team-card">
+      <span class="team-flag">🇵🇰</span>
+      <span class="team-name">Pakistan</span>
+      <span class="team-result">Group Stage</span>
+    </div>
+    <div class="team-card">
+      <span class="team-flag">🇱🇰</span>
+      <span class="team-name">Sri Lanka</span>
+      <span class="team-result">Group Stage</span>
+    </div>
+    <div class="team-card">
+      <span class="team-flag">🇧🇩</span>
+      <span class="team-name">Bangladesh</span>
+      <span class="team-result">Group Stage</span>
+    </div>
+    <div class="team-card">
+      <span class="team-flag">🇦🇫</span>
+      <span class="team-name">Afghanistan</span>
+      <span class="team-result">Group Stage</span>
+    </div>
+    <div class="team-card">
+      <span class="team-flag">🇳🇱</span>
+      <span class="team-name">Netherlands</span>
+      <span class="team-result">Group Stage</span>
+    </div>
+  </div>
+</section>
+
+<hr class="gold-divider">
+
+<!-- FINAL -->
+<div id="final" class="final-section">
+  <div class="section-label" style="color:var(--gold); font-family:'Bebas Neue',sans-serif; font-size:0.8rem; letter-spacing:0.5em;">The Grand Final · November 19, 2023</div>
+  <h2 style="font-family:'Playfair Display',serif; font-size:clamp(2.5rem,5vw,4rem); font-weight:900; color:var(--white); margin:16px 0;">
+    The <span style="color:var(--gold);">Final</span>
+  </h2>
+  <p style="font-size:1.15rem; color:rgba(255,248,231,0.65); font-style:italic; max-width:550px; margin:0 auto;">Narendra Modi Stadium, Ahmedabad — before 132,000 spectators, the ultimate cricketing confrontation</p>
+
+  <div class="vs-container">
+    <div class="final-team">
+      <span class="final-flag">🇮🇳</span>
+      <div class="final-team-name" style="color:#FF6B00;">India</div>
+      <div class="final-score">240</div>
+      <div style="color:rgba(255,248,231,0.5); font-size:0.95rem; margin-top:6px; font-style:italic;">All out in 50 overs</div>
+    </div>
+
+    <div style="text-align:center;">
+      <div class="vs-divider">VS</div>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:0.7rem; letter-spacing:0.3em; color:rgba(212,175,55,0.5); margin-top:12px;">FINAL</div>
+    </div>
+
+    <div class="final-team">
+      <span class="final-flag">🇦🇺</span>
+      <div class="final-team-name" style="color:var(--gold);">Australia</div>
+      <div class="final-score" style="color:var(--gold-light);">241/4</div>
+      <div style="color:rgba(255,248,231,0.5); font-size:0.95rem; margin-top:6px; font-style:italic;">Won with 42 balls remaining</div>
+    </div>
+  </div>
+
+  <div class="winner-banner">🏆 &nbsp; Australia — World Champions 2023 &nbsp; 🏆</div>
+
+  <p class="final-details">Travis Head's magnificent 137 off 120 balls turned the final on its head.<br>Australia claimed their 6th ODI World Cup title — a record tally.</p>
+
+  <div style="margin-top:50px; display:flex; gap:30px; justify-content:center; flex-wrap:wrap;">
+    <div style="border:1px solid rgba(212,175,55,0.3); padding:20px 30px; text-align:center; min-width:160px;">
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:2.5rem; color:var(--gold);">137</div>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:0.7rem; letter-spacing:0.3em; color:rgba(255,248,231,0.5); margin-top:4px;">Travis Head Runs</div>
+    </div>
+    <div style="border:1px solid rgba(212,175,55,0.3); padding:20px 30px; text-align:center; min-width:160px;">
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:2.5rem; color:var(--gold);">4/29</div>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:0.7rem; letter-spacing:0.3em; color:rgba(255,248,231,0.5); margin-top:4px;">Cummins' Figures</div>
+    </div>
+    <div style="border:1px solid rgba(212,175,55,0.3); padding:20px 30px; text-align:center; min-width:160px;">
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:2.5rem; color:var(--gold);">6th</div>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:0.7rem; letter-spacing:0.3em; color:rgba(255,248,231,0.5); margin-top:4px;">AUS World Cup Title</div>
+    </div>
+  </div>
+</div>
+
+<hr class="gold-divider">
+
+<!-- PERFORMERS -->
+<section id="performers">
+  <div class="section-label">Hall of Stars</div>
+  <h2 class="section-title">Tournament <span>Superstars</span></h2>
+  <p class="section-intro">These players transcended the ordinary and carved their names into the annals of cricketing history.</p>
+
+  <div class="performers-grid">
+    <div class="performer-card">
+      <span class="performer-category">🏆 Player of the Tournament</span>
+      <div class="performer-name">Virat Kohli</div>
+      <span class="performer-country">🇮🇳 India</span>
+      <div class="performer-stat-big">765</div>
+      <span class="performer-stat-label">Tournament Runs · 3 Centuries · Avg 95.62</span>
+    </div>
+    <div class="performer-card">
+      <span class="performer-category">🎯 Top Wicket-Taker</span>
+      <div class="performer-name">Mohammed Shami</div>
+      <span class="performer-country">🇮🇳 India</span>
+      <div class="performer-stat-big">24</div>
+      <span class="performer-stat-label">Wickets · Best 7/57 · Avg 10.70</span>
+    </div>
+    <div class="performer-card">
+      <span class="performer-category">⭐ Final Hero</span>
+      <div class="performer-name">Travis Head</div>
+      <span class="performer-country">🇦🇺 Australia</span>
+      <div class="performer-stat-big">137</div>
+      <span class="performer-stat-label">Runs in Final · 120 Balls · 15 Fours · 4 Sixes</span>
+    </div>
+    <div class="performer-card">
+      <span class="performer-category">🔥 Rohit Sharma</span>
+      <div class="performer-name">Rohit Sharma</div>
+      <span class="performer-country">🇮🇳 India (Captain)</span>
+      <div class="performer-stat-big">597</div>
+      <span class="performer-stat-label">Runs · 5 Fifties · Led India unbeaten 10 matches</span>
+    </div>
+    <div class="performer-card">
+      <span class="performer-category">🐐 Veteran Campaigner</span>
+      <div class="performer-name">David Warner</div>
+      <span class="performer-country">🇦🇺 Australia</span>
+      <div class="performer-stat-big">535</div>
+      <span class="performer-stat-label">Runs · Final World Cup Campaign</span>
+    </div>
+    <div class="performer-card">
+      <span class="performer-category">💎 Breakout Star</span>
+      <div class="performer-name">Quinton de Kock</div>
+      <span class="performer-country">🇿🇦 South Africa</span>
+      <div class="performer-stat-big">594</div>
+      <span class="performer-stat-label">Runs · 4 Centuries · SA's Anchor</span>
+    </div>
+  </div>
+</section>
+
+<hr class="gold-divider">
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">ICC Cricket World Cup 2023</span>
+  <p class="footer-text">
+    A celebration of cricket's greatest tournament — 10 nations, 48 matches, one golden trophy.<br>
+    October 5 – November 19, 2023 · Across India 🇮🇳
+  </p>
+  <div style="margin-top:20px; color:rgba(212,175,55,0.3); font-family:'Bebas Neue',sans-serif; letter-spacing:0.2em; font-size:0.8rem;">
+    DESIGNED WITH PASSION FOR CRICKET
+  </div>
+</footer>
+
+<script>
+  // Scroll animation for timeline cards
+  const cards = document.querySelectorAll('.moment-card');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  cards.forEach(card => observer.observe(card));
+
+  // Stat counter animation
+  const statNumbers = document.querySelectorAll('.stat-number');
+  const statObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
+        entry.target.classList.add('counted');
+        const target = entry.target.textContent;
+        if (!isNaN(target) && !target.includes('+')) {
+          let start = 0;
+          const end = parseInt(target);
+          const step = end / 50;
+          const timer = setInterval(() => {
+            start += step;
+            if (start >= end) {
+              entry.target.textContent = target;
+              clearInterval(timer);
+            } else {
+              entry.target.textContent = Math.floor(start);
+            }
+          }, 30);
+        }
+      }
+    });
+  }, { threshold: 0.5 });
+
+  statNumbers.forEach(num => statObserver.observe(num));
+
+  // Smooth active nav
+  const sections = document.querySelectorAll('[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 120;
+      if (scrollY >= sectionTop) current = section.getAttribute('id');
+    });
+    navLinks.forEach(link => {
+      link.style.color = link.getAttribute('href') === '#' + current 
+        ? 'var(--gold)' 
+        : 'rgba(255,248,231,0.7)';
+    });
+  });
+
+  // Subtle parallax on hero title
+  window.addEventListener('scroll', () => {
+    const hero = document.querySelector('.hero');
+    if (hero) {
+      const y = window.scrollY;
+      hero.style.backgroundPositionY = y * 0.4 + 'px';
+    }
+  });
+</script>
+
+</body>
+</html>

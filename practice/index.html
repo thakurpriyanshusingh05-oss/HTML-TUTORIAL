@@ -1,0 +1,82 @@
+main page ::
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Priyanshu Singh</title>
+    <style>
+        html{
+             background-color:black;
+             color: white;
+        }
+        
+        #navbar{
+            box-sizing: border-box;
+            display: grid;
+            grid-template-columns: repeat(5,1fr);
+            background-color: rgb(61, 59, 59);
+            font-size: larger;
+            margin-top: 0px;
+            justify-content: center;
+        }
+        .icon{
+            align-content: center;
+        }
+        a{
+            text-decoration: none;
+            color: white;
+        }
+        a:hover{
+            color: red;
+        }
+        #intro{
+            box-sizing: border-box;
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            margin: 100px;
+            gap: 150px;
+           margin-bottom: 20px;
+        }
+        .intromsg{
+            font-size: x-large;
+            font-family:cursive;
+            line-height: 50px;
+        }
+        .image{
+           width: 400px;
+            border: solid,red,5px;
+            padding:25px;
+            
+        }
+        /* media..... */
+        
+        @media (max-width:1024px){
+            #intro{
+                grid-template-columns: repeat(1,1fr);
+            }
+        }
+         @media (max-width:700px){
+            #intro{
+                 grid-template-columns: repeat(1,1fr);
+            }
+         }
+    </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div>
+    <div id="navbar">
+        <div class="icon"><a href=""><img src="https://thumbs.dreamstime.com/b/ps-initial-logo-company-name-colored-red-black-swoosh-design-isolated-white-background-vector-business-identity-199335889.jpg" width="60px" style="border-radius: 50%;"></a></div>
+        <div class="icon"><a href="home.html"><i class="fa-solid fa-house"></i>Home</a></div>
+        <div class="icon"><a href="about.html"><i class="fa-solid fa-user"></i>About</a></div>
+        <div class="icon"><a href="skills.html"><i class="fa-solid fa-briefcase"></i>Skill</a></div>
+        <div class="icon"><a href="contact.html"><i class="fa-solid fa-comments"></i>Contact</a></div>
+    </div>
+    <div id="intro">
+        <div class="intromsg">
+           <span style="color: red; font-style: oblique; font-size: xx-large;">Hi there ! I'm Priyanshu Singh</span><br><br>A B.Tech Computer Science Engineering student passionate about technology and innovation. Currently diving deep into Data Structures and Algorithms (DSA) with c++ and Web Designing excited to enhance my problem-solving skills and make projects and to explore new opportunities.</div>
+        <div class="image"><img src="priyanshu.jpeg.jpeg" width="400px" style="border-radius: 4%;"></div>
+    </div>
+</body>
+</html>

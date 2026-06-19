@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSK IPL 2026 — Summer of Yellove</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --yellow: #F5C518;
+  --yellow-deep: #D4A017;
+  --yellow-glow: rgba(245,197,24,0.35);
+  --blue-csk: #1A3A8F;
+  --blue-light: #3A6ADF;
+  --dark: #050505;
+  --dark2: #0D0D0D;
+  --dark3: #141414;
+  --dark4: #1C1C1C;
+  --text-muted: #666;
+  --text-dim: #444;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--dark);
+  color: #eee;
+  font-family: 'Rajdhani', sans-serif;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ─── ANIMATED BACKGROUND ─── */
+.bg-canvas {
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(245,197,24,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 90% 80%, rgba(26,58,143,0.08) 0%, transparent 60%),
+    #050505;
+}
+
+.bg-grid {
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  pointer-events: none; z-index: 0;
+  background-image:
+    linear-gradient(rgba(245,197,24,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,197,24,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ─── STARS ─── */
+.stars {
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  pointer-events: none; z-index: 0;
+}
+.star {
+  position: absolute; border-radius: 50%;
+  background: var(--yellow);
+  animation: twinkle var(--dur) ease-in-out infinite var(--delay);
+}
+@keyframes twinkle {
+  0%,100% { opacity:0.05; transform:scale(1); }
+  50% { opacity:0.7; transform:scale(1.4); }
+}
+
+/* ─── NAVBAR ─── */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 40px;
+  background: rgba(5,5,5,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(245,197,24,0.12);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 12px;
+}
+.nav-emblem {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--yellow), #FF9500);
+  display: flex; align-items:center; justify-content:center;
+  font-family: 'Bebas Neue'; font-size: 16px; color: #000;
+  box-shadow: 0 0 20px var(--yellow-glow);
+  border: 2px solid rgba(255,255,255,0.15);
+}
+.nav-brand {
+  font-family: 'Bebas Neue'; font-size: 22px; color: var(--yellow);
+  letter-spacing: 3px;
+}
+.nav-brand span { color: #aaa; font-size: 13px; display:block; font-family:'Rajdhani'; letter-spacing: 2px; margin-top:-4px; }
+.nav-links {
+  display: flex; gap: 28px; list-style: none;
+}
+.nav-links a {
+  color: #888; text-decoration: none; font-size: 13px;
+  font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--yellow); }
+.nav-live {
+  display: flex; align-items:center; gap: 8px;
+  background: rgba(245,197,24,0.08);
+  border: 1px solid rgba(245,197,24,0.25);
+  border-radius: 30px; padding: 6px 16px;
+  font-size: 12px; font-weight: 700; color: var(--yellow);
+  letter-spacing: 2px;
+}
+.live-dot {
+  width: 7px; height: 7px; background: #ff4444;
+  border-radius: 50%; animation: blink 1s infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+/* ─── HERO ─── */
+.hero {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 120px 20px 60px;
+  overflow: hidden;
+}
+
+.hero-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(245,197,24,0.06);
+  animation: ringPulse 6s ease-in-out infinite;
+}
+@keyframes ringPulse { 0%,100%{transform:scale(1);opacity:0.5} 50%{transform:scale(1.05);opacity:1} }
+
+.hero-season-tag {
+  display: inline-flex; align-items:center; gap: 8px;
+  background: rgba(26,58,143,0.25);
+  border: 1px solid rgba(58,106,223,0.4);
+  border-radius: 30px; padding: 8px 22px;
+  font-size: 12px; font-weight: 700;
+  color: #7AADFF; letter-spacing: 3px;
+  text-transform: uppercase; margin-bottom: 28px;
+  animation: fadeInDown 0.8s ease both;
+}
+@keyframes fadeInDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+
+.hero-csk-logo {
+  width: 120px; height: 120px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--yellow) 0%, #FF9500 100%);
+  display: flex; align-items:center; justify-content:center;
+  font-family: 'Bebas Neue'; font-size: 42px; color: #000;
+  margin: 0 auto 28px;
+  box-shadow: 0 0 60px rgba(245,197,24,0.5), 0 0 120px rgba(245,197,24,0.2);
+  border: 4px solid rgba(255,255,255,0.2);
+  animation: fadeInScale 1s ease 0.2s both, logoPulse 4s ease-in-out 1.2s infinite;
+}
+@keyframes fadeInScale { from{opacity:0;transform:scale(0.7)} to{opacity:1;transform:scale(1)} }
+@keyframes logoPulse { 0%,100%{box-shadow:0 0 60px rgba(245,197,24,0.5),0 0 120px rgba(245,197,24,0.2)} 50%{box-shadow:0 0 80px rgba(245,197,24,0.8),0 0 160px rgba(245,197,24,0.35)} }
+
+.hero-title {
+  font-family: 'Bebas Neue';
+  font-size: clamp(64px, 14vw, 130px);
+  line-height: 0.9;
+  color: var(--yellow);
+  letter-spacing: 4px;
+  text-shadow: 0 0 80px rgba(245,197,24,0.3);
+  animation: fadeInUp 1s ease 0.4s both;
+}
+@keyframes fadeInUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+
+.hero-subtitle {
+  font-family: 'Bebas Neue';
+  font-size: clamp(22px, 5vw, 40px);
+  color: #fff; letter-spacing: 10px;
+  margin-top: 6px;
+  animation: fadeInUp 1s ease 0.55s both;
+}
+.hero-subtitle em { color: var(--yellow); font-style: normal; }
+
+.hero-tagline {
+  margin-top: 20px;
+  font-size: 15px; letter-spacing: 4px; color: #555;
+  text-transform: uppercase; font-weight: 600;
+  animation: fadeInUp 1s ease 0.7s both;
+}
+
+.hero-divider {
+  width: 100%; max-width: 500px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--yellow), transparent);
+  margin: 28px auto;
+  animation: fadeInUp 1s ease 0.85s both;
+}
+
+.hero-stats {
+  display: flex; gap: 40px; justify-content: center; flex-wrap: wrap;
+  animation: fadeInUp 1s ease 1s both;
+}
+.hero-stat { text-align: center; }
+.hero-stat-num {
+  font-family: 'Orbitron'; font-size: 30px; font-weight: 900;
+  color: var(--yellow); line-height: 1;
+}
+.hero-stat-label {
+  font-size: 11px; letter-spacing: 2px; color: #555;
+  text-transform: uppercase; font-weight: 700; margin-top: 4px;
+}
+
+.scroll-hint {
+  position: absolute; bottom: 30px; left:50%; transform:translateX(-50%);
+  display: flex; flex-direction: column; align-items:center; gap: 6px;
+  color: #333; font-size: 11px; letter-spacing: 3px;
+  animation: fadeInUp 1.5s ease 1.5s both;
+}
+.scroll-arrow {
+  width: 20px; height: 20px;
+  border-right: 1.5px solid #333; border-bottom: 1.5px solid #333;
+  transform: rotate(45deg);
+  animation: bounce 1.5s ease-in-out infinite;
+}
+@keyframes bounce { 0%,100%{transform:rotate(45deg) translateY(0)} 50%{transform:rotate(45deg) translateY(5px)} }
+
+/* ─── NEXT MATCH FEATURE ─── */
+.next-match-section {
+  position: relative; z-index: 1;
+  padding: 0 20px 60px;
+}
+.section-eyebrow {
+  text-align: center;
+  font-size: 11px; letter-spacing: 5px; color: var(--yellow);
+  text-transform: uppercase; font-weight: 700; margin-bottom: 16px;
+  opacity: 0.7;
+}
+.next-match-card {
+  max-width: 800px; margin: 0 auto;
+  background: linear-gradient(135deg, #0D0D0D 0%, #141208 50%, #0D0D0D 100%);
+  border: 1px solid rgba(245,197,24,0.25);
+  border-radius: 24px;
+  padding: 36px 40px;
+  position: relative; overflow: hidden;
+  box-shadow: 0 0 60px rgba(245,197,24,0.05), 0 30px 80px rgba(0,0,0,0.5);
+}
+.next-match-card::before {
+  content: '';
+  position: absolute; top:0; left:0; right:0; height:2px;
+  background: linear-gradient(90deg, transparent, var(--yellow), transparent);
+}
+.next-match-card::after {
+  content: '';
+  position: absolute; top:-50%; left:-50%;
+  width:200%; height:200%;
+  background: radial-gradient(ellipse at center, rgba(245,197,24,0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+.nm-teams {
+  display: flex; align-items:center; justify-content:center; gap: 30px;
+  margin-bottom: 32px;
+}
+.nm-team { text-align: center; }
+.nm-logo {
+  width: 80px; height: 80px; border-radius: 50%;
+  display: flex; align-items:center; justify-content:center;
+  font-size: 32px; margin: 0 auto 10px;
+  border: 2px solid rgba(255,255,255,0.08);
+  position: relative;
+}
+.nm-logo::after {
+  content: '';
+  position: absolute; inset: -4px;
+  border-radius: 50%;
+  border: 1px solid rgba(245,197,24,0.15);
+}
+.nm-team-name {
+  font-family: 'Bebas Neue'; font-size: 18px; color: #ddd; letter-spacing: 2px;
+}
+.nm-team-short {
+  font-size: 11px; color: #555; letter-spacing: 2px; font-weight: 700;
+}
+.nm-vs {
+  text-align: center; flex-shrink: 0;
+}
+.nm-vs-text {
+  font-family: 'Bebas Neue'; font-size: 48px; color: rgba(245,197,24,0.15);
+  line-height: 1; display: block;
+}
+.nm-date-badge {
+  background: rgba(245,197,24,0.1);
+  border: 1px solid rgba(245,197,24,0.25);
+  border-radius: 8px; padding: 5px 14px;
+  font-family: 'Bebas Neue'; font-size: 16px; color: var(--yellow);
+  letter-spacing: 1px; margin-top: 6px; display: inline-block;
+}
+.countdown-row {
+  display: flex; gap: 12px; justify-content:center; margin-bottom: 24px;
+}
+.cd-box {
+  flex: 1; max-width: 90px;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(245,197,24,0.15);
+  border-radius: 14px; padding: 14px 8px;
+  text-align: center; position: relative; overflow: hidden;
+}
+.cd-box::before {
+  content: '';
+  position: absolute; bottom:0; left:0; right:0; height:1px;
+  background: linear-gradient(90deg, transparent, rgba(245,197,24,0.3), transparent);
+}
+.cd-num {
+  font-family: 'Orbitron'; font-size: clamp(24px, 5vw, 36px); font-weight: 900;
+  color: var(--yellow);
+  text-shadow: 0 0 20px rgba(245,197,24,0.4);
+  line-height: 1;
+}
+.cd-label {
+  font-size: 9px; color: #555; letter-spacing: 3px;
+  text-transform: uppercase; font-weight: 700; margin-top: 6px;
+}
+.nm-meta {
+  display: flex; gap: 24px; justify-content:center; flex-wrap:wrap;
+}
+.nm-meta-item {
+  display: flex; align-items:center; gap: 8px;
+  font-size: 13px; color: #777; font-weight: 600; letter-spacing: 1px;
+}
+.nm-meta-item .icon-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); flex-shrink:0;
+}
+
+/* ─── SCHEDULE SECTION ─── */
+.schedule-section {
+  position: relative; z-index: 1;
+  padding: 20px 20px 80px;
+}
+.section-header {
+  text-align: center; margin-bottom: 32px;
+}
+.section-number {
+  font-family: 'Orbitron'; font-size: 80px; font-weight: 900;
+  color: rgba(245,197,24,0.04);
+  position: absolute; left:50%; transform:translateX(-50%);
+  letter-spacing: -4px; user-select: none; pointer-events: none;
+  white-space: nowrap;
+}
+.section-title-main {
+  font-family: 'Bebas Neue'; font-size: clamp(36px, 8vw, 60px);
+  color: #fff; letter-spacing: 4px; position: relative;
+}
+.section-title-main span { color: var(--yellow); }
+.section-underline {
+  width: 80px; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--yellow), transparent);
+  margin: 10px auto 0;
+}
+
+/* Filter tabs */
+.filter-tabs {
+  display: flex; gap: 8px; justify-content:center;
+  flex-wrap: wrap; margin-bottom: 32px;
+}
+.ftab {
+  padding: 8px 22px;
+  background: transparent;
+  border: 1px solid rgba(245,197,24,0.2);
+  border-radius: 30px;
+  color: #666; font-family: 'Rajdhani'; font-size: 13px;
+  font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; transition: all 0.25s;
+}
+.ftab:hover { border-color: rgba(245,197,24,0.5); color: #ccc; }
+.ftab.active {
+  background: var(--yellow); border-color: var(--yellow);
+  color: #000; box-shadow: 0 0 20px rgba(245,197,24,0.3);
+}
+
+/* Match cards grid */
+.matches-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  max-width: 1200px; margin: 0 auto;
+}
+.match-card {
+  background: var(--dark3);
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 0;
+  overflow: hidden;
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  position: relative;
+  cursor: pointer;
+  animation: cardIn 0.5s ease both;
+}
+@keyframes cardIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+.match-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(245,197,24,0.3);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 30px rgba(245,197,24,0.06);
+}
+.match-card.past { opacity: 0.4; filter: grayscale(0.6); }
+.match-card.next-up {
+  border-color: rgba(245,197,24,0.4);
+  box-shadow: 0 0 40px rgba(245,197,24,0.1);
+}
+
+/* Card top stripe */
+.card-stripe {
+  height: 3px;
+  background: linear-gradient(90deg, var(--yellow), #FF9500);
+}
+.card-stripe.away {
+  background: linear-gradient(90deg, var(--blue-light), #5A8FFF);
+}
+
+/* Card body */
+.card-body { padding: 18px 20px 16px; }
+
+.card-top-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 16px;
+}
+.card-date {
+  font-family: 'Bebas Neue'; font-size: 16px;
+  color: var(--yellow); letter-spacing: 1px;
+}
+.card-venue-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  padding: 4px 10px; border-radius: 20px;
+  text-transform: uppercase;
+}
+.card-venue-tag.home {
+  background: rgba(245,197,24,0.1);
+  color: var(--yellow);
+  border: 1px solid rgba(245,197,24,0.2);
+}
+.card-venue-tag.away {
+  background: rgba(58,106,223,0.1);
+  color: #7AADFF;
+  border: 1px solid rgba(58,106,223,0.25);
+}
+
+.card-teams-row {
+  display: flex; align-items:center; gap: 10px; margin-bottom: 14px;
+}
+.card-team-left, .card-team-right {
+  flex: 1; display: flex; align-items:center; gap: 10px;
+}
+.card-team-right { flex-direction: row-reverse; text-align: right; }
+.card-team-logo {
+  width: 46px; height: 46px; border-radius: 50%;
+  display: flex; align-items:center; justify-content:center;
+  font-size: 20px; flex-shrink: 0;
+  border: 1.5px solid rgba(255,255,255,0.08);
+}
+.card-team-info-name {
+  font-family: 'Rajdhani'; font-size: 14px; font-weight: 700;
+  color: #ccc; line-height: 1.2; letter-spacing: 0.5px;
+}
+.card-team-info-short {
+  font-size: 10px; color: #555; letter-spacing: 1px; font-weight: 600;
+}
+.card-vs-badge {
+  font-family: 'Bebas Neue'; font-size: 14px; color: #2a2a2a;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 6px; padding: 4px 8px; flex-shrink: 0;
+}
+
+/* Card bottom */
+.card-bottom-row {
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  padding-top: 12px;
+}
+.card-time-info {
+  display: flex; align-items:center; gap: 6px;
+  font-size: 12px; color: #555; font-weight: 600; letter-spacing: 0.5px;
+}
+.card-time-dot {
+  width: 5px; height: 5px; border-radius:50%; background: var(--yellow);
+  animation: blink 1s infinite;
+}
+.card-countdown-mini {
+  font-family: 'Orbitron'; font-size: 11px;
+  color: var(--yellow); letter-spacing: 1px;
+}
+.card-past-label {
+  font-size: 10px; color: #333; letter-spacing: 2px;
+  font-weight: 700; text-transform: uppercase;
+}
+.next-up-badge {
+  position: absolute; top: 14px; right: -24px;
+  background: var(--yellow);
+  color: #000; font-size: 9px; font-weight: 700;
+  letter-spacing: 2px; padding: 4px 36px;
+  transform: rotate(45deg); transform-origin: center;
+  text-transform: uppercase;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  position: relative; z-index: 1;
+  border-top: 1px solid rgba(245,197,24,0.08);
+  background: #030303;
+  padding: 40px 20px;
+  text-align: center;
+}
+.footer-logo {
+  font-family: 'Bebas Neue'; font-size: 36px;
+  color: var(--yellow); letter-spacing: 6px;
+  text-shadow: 0 0 30px rgba(245,197,24,0.3);
+  margin-bottom: 10px;
+}
+.footer-tagline {
+  font-size: 12px; letter-spacing: 4px; color: #333;
+  text-transform: uppercase; font-weight: 600;
+}
+.footer-tagline span { color: #555; }
+.footer-copy {
+  margin-top: 24px; font-size: 11px; color: #222;
+  letter-spacing: 2px;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb { background: rgba(245,197,24,0.3); border-radius: 2px; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  nav { padding: 12px 20px; }
+  .nav-links { display: none; }
+  .next-match-card { padding: 24px 20px; }
+  .nm-teams { gap: 16px; }
+  .nm-logo { width: 60px; height: 60px; font-size: 24px; }
+  .matches-grid { grid-template-columns: 1fr; }
+  .hero-stats { gap: 24px; }
+}
+@media (max-width: 480px) {
+  .countdown-row { gap: 8px; }
+  .cd-box { padding: 10px 6px; }
+}
+</style>
+</head>
+<body>
+
+<!-- BACKGROUND -->
+<div class="bg-canvas"></div>
+<div class="bg-grid"></div>
+<div class="stars" id="stars"></div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-emblem">CSK</div>
+    <div class="nav-brand">
+      Chennai Super Kings
+      <span>IPL 2026 · Summer of Yellove</span>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#next">Next Match</a></li>
+    <li><a href="#schedule">Schedule</a></li>
+  </ul>
+  <div class="nav-live">
+    <div class="live-dot"></div>
+    TATA IPL 2026
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <!-- Decorative rings -->
+  <div class="hero-ring" style="width:600px;height:600px;top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+  <div class="hero-ring" style="width:900px;height:900px;top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:2s"></div>
+  <div class="hero-ring" style="width:1200px;height:1200px;top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:4s"></div>
+
+  <div class="hero-season-tag">
+    🏆 TATA Indian Premier League &nbsp;·&nbsp; Season 2026
+  </div>
+
+  <div class="hero-csk-logo">🦁</div>
+
+  <h1 class="hero-title">Chennai<br>Super Kings</h1>
+  <div class="hero-subtitle">SUMMER OF <em>YELLOVE</em></div>
+  <div class="hero-tagline">🦁 Whistle Podu &nbsp;·&nbsp; Yellove Forever &nbsp;·&nbsp; 5x Champions 🏆</div>
+
+  <div class="hero-divider"></div>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">14</div>
+      <div class="hero-stat-label">Matches</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">8</div>
+      <div class="hero-stat-label">Home Games</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">6</div>
+      <div class="hero-stat-label">Away Games</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">5</div>
+      <div class="hero-stat-label">Titles Won</div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>SCROLL</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- NEXT MATCH -->
+<section class="next-match-section" id="next">
+  <div class="section-eyebrow">⚡ Upcoming Fixture</div>
+  <div class="next-match-card" id="nextMatchCard">
+    <!-- Rendered by JS -->
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section class="schedule-section" id="schedule">
+  <div class="section-header" style="position:relative;padding:20px 0 32px">
+    <div class="section-title-main">Full <span>Schedule</span></div>
+    <div class="section-underline"></div>
+  </div>
+
+  <div class="filter-tabs">
+    <button class="ftab active" onclick="filterMatches('all',this)">All Matches</button>
+    <button class="ftab" onclick="filterMatches('home',this)">🏠 Home</button>
+    <button class="ftab" onclick="filterMatches('away',this)">✈️ Away</button>
+    <button class="ftab" onclick="filterMatches('upcoming',this)">⏱ Upcoming</button>
+    <button class="ftab" onclick="filterMatches('past',this)">✅ Completed</button>
+  </div>
+
+  <div class="matches-grid" id="matchesGrid"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">🦁 CSK 🦁</div>
+  <div class="footer-tagline">
+    Chennai Super Kings &nbsp;<span>·</span>&nbsp; IPL 2026 &nbsp;<span>·</span>&nbsp; Summer of Yellove
+  </div>
+  <div class="footer-copy">Made with 💛 for every CSK fan · Whistle Podu!</div>
+</footer>
+
+<script>
+// ─── DATA ───
+const TEAMS = {
+  'CSK':                   { name:'Chennai Super Kings',   short:'CSK', emoji:'🦁', bg:'linear-gradient(135deg,#F5C518,#FF9500)' },
+  'Rajasthan Royals':      { name:'Rajasthan Royals',      short:'RR',  emoji:'👑', bg:'linear-gradient(135deg,#FF69B4,#C41E7A)' },
+  'Punjab Kings':          { name:'Punjab Kings',          short:'PBKS',emoji:'⚔️', bg:'linear-gradient(135deg,#DC143C,#8B0000)' },
+  'RCB':                   { name:'Royal Challengers Bengaluru', short:'RCB', emoji:'🔴', bg:'linear-gradient(135deg,#CC0000,#8B0000)' },
+  'Delhi Capitals':        { name:'Delhi Capitals',        short:'DC',  emoji:'🔵', bg:'linear-gradient(135deg,#1A4AFF,#003399)' },
+  'Kolkata Knight Riders': { name:'Kolkata Knight Riders', short:'KKR', emoji:'💜', bg:'linear-gradient(135deg,#6600CC,#3A0075)' },
+  'Sunrisers Hyderabad':   { name:'Sunrisers Hyderabad',   short:'SRH', emoji:'🌅', bg:'linear-gradient(135deg,#FF5500,#CC3300)' },
+  'Mumbai Indians':        { name:'Mumbai Indians',        short:'MI',  emoji:'🔷', bg:'linear-gradient(135deg,#005DA0,#003D6B)' },
+  'Gujarat Titans':        { name:'Gujarat Titans',        short:'GT',  emoji:'⚡', bg:'linear-gradient(135deg,#1C4A8C,#0D2666)' },
+  'Lucknow Super Giants':  { name:'Lucknow Super Giants',  short:'LSG', emoji:'🩵', bg:'linear-gradient(135deg,#00BCD4,#006F7F)' },
+};
+
+const matches = [
+  { date:'2026-03-30', time:'19:30', opponent:'Rajasthan Royals',      venue:'Guwahati',  type:'away' },
+  { date:'2026-04-03', time:'19:30', opponent:'Punjab Kings',           venue:'Chennai',   type:'home' },
+  { date:'2026-04-05', time:'19:30', opponent:'RCB',                    venue:'Bengaluru', type:'away' },
+  { date:'2026-04-11', time:'19:30', opponent:'Delhi Capitals',         venue:'Chennai',   type:'home' },
+  { date:'2026-04-14', time:'19:30', opponent:'Kolkata Knight Riders',  venue:'Chennai',   type:'home' },
+  { date:'2026-04-18', time:'19:30', opponent:'Sunrisers Hyderabad',    venue:'Hyderabad', type:'away' },
+  { date:'2026-04-23', time:'19:30', opponent:'Mumbai Indians',         venue:'Mumbai',    type:'away' },
+  { date:'2026-04-26', time:'15:30', opponent:'Gujarat Titans',         venue:'Ahmedabad', type:'away' },
+  { date:'2026-05-02', time:'19:30', opponent:'Mumbai Indians',         venue:'Chennai',   type:'home' },
+  { date:'2026-05-05', time:'19:30', opponent:'Delhi Capitals',         venue:'Delhi',     type:'away' },
+  { date:'2026-05-10', time:'15:30', opponent:'Sunrisers Hyderabad',    venue:'Chennai',   type:'home' },
+  { date:'2026-05-15', time:'19:30', opponent:'Lucknow Super Giants',   venue:'Lucknow',   type:'away' },
+  { date:'2026-05-18', time:'19:30', opponent:'Sunrisers Hyderabad',    venue:'Chennai',   type:'home' },
+  { date:'2026-05-21', time:'19:30', opponent:'Gujarat Titans',         venue:'Chennai',   type:'home' },
+];
+
+// ─── HELPERS ───
+const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+const DAYS   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+function getMatchDateTime(m) {
+  const [h,min] = m.time.split(':').map(Number);
+  const d = new Date(m.date); d.setHours(h,min,0,0); return d;
+}
+
+function pad(n) { return String(n).padStart(2,'0'); }
+
+function formatDate(dateStr) {
+  const [,mo,d] = dateStr.split('-').map(Number);
+  return `${d} ${MONTHS[mo-1]}`;
+}
+
+function formatDay(dateStr) {
+  const [y,mo,d] = dateStr.split('-').map(Number);
+  return DAYS[new Date(y,mo-1,d).getDay()];
+}
+
+function getCountdown(target) {
+  const diff = target - new Date();
+  if (diff <= 0) return null;
+  return {
+    d: Math.floor(diff/86400000),
+    h: Math.floor((diff%86400000)/3600000),
+    m: Math.floor((diff%3600000)/60000),
+    s: Math.floor((diff%60000)/1000)
+  };
+}
+
+function getNextMatch() {
+  const now = new Date();
+  return matches.find(m => getMatchDateTime(m) > now);
+}
+
+// ─── STARS ───
+function createStars() {
+  const container = document.getElementById('stars');
+  for (let i = 0; i < 60; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() < 0.7 ? 1 : 2;
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      --dur:${2 + Math.random()*4}s;
+      --delay:${Math.random()*5}s;
+    `;
+    container.appendChild(s);
+  }
+}
+
+// ─── NEXT MATCH ───
+function renderNextMatch() {
+  const nm = getNextMatch();
+  const card = document.getElementById('nextMatchCard');
+  if (!nm) { card.style.display='none'; return; }
+
+  const t = TEAMS[nm.opponent] || { emoji:'🏏', bg:'#333', name:nm.opponent, short:'OPP' };
+  const cd = getCountdown(getMatchDateTime(nm));
+  const timeStr = nm.time === '19:30' ? '7:30 PM IST' : '3:30 PM IST';
+
+  card.innerHTML = `
+    <div class="nm-teams">
+      <div class="nm-team">
+        <div class="nm-logo" style="background:linear-gradient(135deg,#F5C518,#FF9500)">🦁</div>
+        <div class="nm-team-name">Chennai</div>
+        <div class="nm-team-short">SUPER KINGS</div>
+      </div>
+      <div class="nm-vs">
+        <span class="nm-vs-text">VS</span>
+        <div class="nm-date-badge">${formatDate(nm.date)} · ${formatDay(nm.date).toUpperCase()}</div>
+      </div>
+      <div class="nm-team">
+        <div class="nm-logo" style="background:${t.bg}">${t.emoji}</div>
+        <div class="nm-team-name">${t.name.split(' ').slice(0,2).join(' ')}</div>
+        <div class="nm-team-short">${t.short}</div>
+      </div>
+    </div>
+    <div class="countdown-row">
+      <div class="cd-box"><div class="cd-num" id="cd-d">${cd ? pad(cd.d) : '--'}</div><div class="cd-label">Days</div></div>
+      <div class="cd-box"><div class="cd-num" id="cd-h">${cd ? pad(cd.h) : '--'}</div><div class="cd-label">Hours</div></div>
+      <div class="cd-box"><div class="cd-num" id="cd-m">${cd ? pad(cd.m) : '--'}</div><div class="cd-label">Mins</div></div>
+      <div class="cd-box"><div class="cd-num" id="cd-s">${cd ? pad(cd.s) : '--'}</div><div class="cd-label">Secs</div></div>
+    </div>
+    <div class="nm-meta">
+      <div class="nm-meta-item"><div class="icon-dot"></div> ${timeStr}</div>
+      <div class="nm-meta-item"><div class="icon-dot"></div> ${nm.venue}</div>
+      <div class="nm-meta-item"><div class="icon-dot"></div> ${nm.type === 'home' ? '🏠 Home Match' : '✈️ Away Match'}</div>
+    </div>
+  `;
+}
+
+// ─── GRID ───
+let currentFilter = 'all';
+
+function filterMatches(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.ftab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGrid();
+}
+
+function renderGrid() {
+  const now = new Date();
+  const nextM = getNextMatch();
+  let list = matches;
+
+  if (currentFilter === 'home')     list = matches.filter(m => m.type === 'home');
+  else if (currentFilter === 'away') list = matches.filter(m => m.type === 'away');
+  else if (currentFilter === 'upcoming') list = matches.filter(m => getMatchDateTime(m) > now);
+  else if (currentFilter === 'past') list = matches.filter(m => getMatchDateTime(m) <= now);
+
+  const grid = document.getElementById('matchesGrid');
+  if (list.length === 0) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px;color:#333;font-size:14px;letter-spacing:3px">NO MATCHES FOUND</div>`;
+    return;
+  }
+
+  grid.innerHTML = list.map((m, i) => {
+    const t = TEAMS[m.opponent] || { emoji:'🏏', bg:'#333', name:m.opponent, short:'OPP' };
+    const isPast = getMatchDateTime(m) <= now;
+    const isNext = nextM && m.date === nextM.date && m.opponent === nextM.opponent;
+    const cd = isPast ? null : getCountdown(getMatchDateTime(m));
+    const timeStr = m.time === '19:30' ? '7:30 PM IST' : '3:30 PM IST';
+
+    let bottomRight = '';
+    if (isPast) {
+      bottomRight = `<span class="card-past-label">Completed</span>`;
+    } else if (isNext) {
+      bottomRight = `<span class="card-countdown-mini" id="mini-next">LIVE SOON</span>`;
+    } else if (cd && cd.d === 0) {
+      bottomRight = `<span class="card-countdown-mini" id="mini-${i}">${pad(cd.h)}:${pad(cd.m)}:${pad(cd.s)}</span>`;
+    } else if (cd) {
+      bottomRight = `<span class="card-countdown-mini">${cd.d}d ${pad(cd.h)}h away</span>`;
+    }
+
+    return `
+      <div class="match-card ${m.type} ${isPast ? 'past' : ''} ${isNext ? 'next-up' : ''}" style="animation-delay:${i*0.05}s">
+        <div class="card-stripe ${m.type}"></div>
+        ${isNext ? '<div class="next-up-badge">NEXT</div>' : ''}
+        <div class="card-body">
+          <div class="card-top-row">
+            <div class="card-date">${formatDate(m.date)} &nbsp;·&nbsp; ${formatDay(m.date)}</div>
+            <div class="card-venue-tag ${m.type}">${m.type === 'home' ? '🏠 HOME' : '✈️ AWAY'}</div>
+          </div>
+          <div class="card-teams-row">
+            <div class="card-team-left">
+              <div class="card-team-logo" style="background:linear-gradient(135deg,#F5C518,#FF9500)">🦁</div>
+              <div>
+                <div class="card-team-info-name">Chennai<br>Super Kings</div>
+                <div class="card-team-info-short">CSK</div>
+              </div>
+            </div>
+            <div class="card-vs-badge">VS</div>
+            <div class="card-team-right">
+              <div class="card-team-logo" style="background:${t.bg}">${t.emoji}</div>
+              <div>
+                <div class="card-team-info-name">${t.name.split(' ').slice(0,2).join('<br>')}</div>
+                <div class="card-team-info-short">${t.short}</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-bottom-row">
+            <div class="card-time-info">
+              ${!isPast ? '<div class="card-time-dot"></div>' : ''}
+              ${timeStr} · ${m.venue}
+            </div>
+            ${bottomRight}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ─── COUNTDOWN TICK ───
+function tick() {
+  const nm = getNextMatch();
+  if (nm) {
+    const cd = getCountdown(getMatchDateTime(nm));
+    if (cd) {
+      const dEl = document.getElementById('cd-d');
+      const hEl = document.getElementById('cd-h');
+      const mEl = document.getElementById('cd-m');
+      const sEl = document.getElementById('cd-s');
+      if (dEl) dEl.textContent = pad(cd.d);
+      if (hEl) hEl.textContent = pad(cd.h);
+      if (mEl) mEl.textContent = pad(cd.m);
+      if (sEl) sEl.textContent = pad(cd.s);
+    }
+  }
+  // Update mini countdowns
+  matches.forEach((m, i) => {
+    const el = document.getElementById(`mini-${i}`);
+    if (el) {
+      const cd2 = getCountdown(getMatchDateTime(m));
+      if (cd2 && cd2.d === 0) {
+        el.textContent = `${pad(cd2.h)}:${pad(cd2.m)}:${pad(cd2.s)}`;
+      }
+    }
+  });
+}
+
+// ─── INIT ───
+createStars();
+renderNextMatch();
+renderGrid();
+setInterval(tick, 1000);
+</script>
+</body>
+</html>

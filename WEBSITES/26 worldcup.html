@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>India vs West Indies | T20 World Cup 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Barlow+Condensed:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ind-orange: #FF671F;
+    --wi-gold: #FFC72C;
+    --bg-dark: #08090D;
+    --bg-card: #0F1117;
+    --text-main: #F0F2F8;
+    --text-muted: #7B8090;
+    --accent-glow: #4FC3F7;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg-dark); color:var(--text-main); font-family:'Rajdhani',sans-serif; overflow-x:hidden; }
+
+  /* ── HERO ── */
+  .hero {
+    position:relative; min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    overflow:hidden; padding:40px 20px 80px;
+  }
+  .hero-bg {
+    position:absolute; inset:0;
+    background:radial-gradient(ellipse 80% 60% at 50% 40%, #1a1230 0%, #08090D 70%);
+    z-index:0;
+  }
+  .hero-bg::after {
+    content:''; position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(255,255,255,0.02) 59px,rgba(255,255,255,0.02) 60px),
+      repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(255,255,255,0.02) 59px,rgba(255,255,255,0.02) 60px);
+  }
+  .pitch-glow {
+    position:absolute; width:320px; height:80px;
+    background:radial-gradient(ellipse,rgba(79,195,247,0.12),transparent 70%);
+    bottom:28%; left:50%; transform:translateX(-50%); z-index:0;
+  }
+  .tournament-label {
+    position:relative; z-index:2;
+    font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:600; letter-spacing:4px; text-transform:uppercase;
+    color:var(--wi-gold); background:rgba(255,199,44,0.08); border:1px solid rgba(255,199,44,0.25);
+    padding:6px 20px; border-radius:2px; margin-bottom:32px; animation:fadeDown 0.6s ease forwards;
+  }
+  .matchup {
+    position:relative; z-index:2; display:flex; align-items:center;
+    margin-bottom:24px; animation:fadeUp 0.8s ease 0.2s both;
+  }
+  .team-block { display:flex; flex-direction:column; align-items:center; width:240px; }
+  .team-flag-wrap {
+    width:110px; height:110px; border-radius:50%; overflow:hidden;
+    border:3px solid; margin-bottom:14px;
+  }
+  .team-ind .team-flag-wrap { border-color:var(--ind-orange); box-shadow:0 0 28px rgba(255,103,31,0.4); }
+  .team-wi  .team-flag-wrap { border-color:var(--wi-gold);   box-shadow:0 0 28px rgba(255,199,44,0.3); }
+  .team-flag-wrap img { width:100%; height:100%; object-fit:cover; }
+  .team-name { font-family:'Bebas Neue',sans-serif; font-size:44px; letter-spacing:3px; }
+  .team-ind .team-name { color:var(--ind-orange); }
+  .team-wi  .team-name { color:var(--wi-gold); }
+  .team-subtitle { font-size:12px; letter-spacing:2px; color:var(--text-muted); text-transform:uppercase; }
+  .vs-divider { display:flex; align-items:center; justify-content:center; width:110px; }
+  .vs-text {
+    font-family:'Bebas Neue',sans-serif; font-size:68px;
+    background:linear-gradient(180deg,#fff 30%,var(--text-muted));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; line-height:1;
+  }
+  .venue-tag {
+    position:relative; z-index:2; font-size:13px; letter-spacing:2px; color:var(--text-muted);
+    text-transform:uppercase; margin-bottom:32px; animation:fadeUp 0.8s ease 0.35s both;
+  }
+  .venue-tag span { color:var(--accent-glow); }
+  .score-banner {
+    position:relative; z-index:2; display:flex; overflow:hidden;
+    border-radius:12px; border:1px solid rgba(255,255,255,0.08); margin-bottom:20px;
+    animation:fadeUp 0.8s ease 0.45s both; box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  }
+  .score-half { padding:28px 44px; display:flex; flex-direction:column; align-items:center; min-width:190px; }
+  .score-half.ind { background:linear-gradient(135deg,rgba(0,53,128,0.9),rgba(0,30,80,0.95)); }
+  .score-half.wi  { background:linear-gradient(135deg,rgba(20,10,5,0.95),rgba(70,15,25,0.9)); }
+  .score-half .innings { font-size:11px; letter-spacing:2px; color:var(--text-muted); text-transform:uppercase; margin-bottom:4px; display:flex; align-items:center; gap:7px; }
+  .score-half .innings img { width:20px; height:13px; object-fit:cover; border-radius:2px; border:1px solid rgba(255,255,255,0.2); }
+  .score-half .runs { font-family:'Bebas Neue',sans-serif; font-size:64px; line-height:1; letter-spacing:2px; }
+  .score-half.ind .runs { color:#fff; }
+  .score-half.wi  .runs { color:var(--wi-gold); }
+  .score-half .overs { font-size:14px; color:var(--text-muted); margin-top:4px; }
+  .score-divider-mid { width:2px; background:linear-gradient(180deg,transparent,rgba(255,255,255,0.15),transparent); }
+  .result-pill {
+    position:relative; z-index:2; background:linear-gradient(90deg,var(--ind-orange),#ff8c42); color:#fff;
+    font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+    padding:9px 28px; border-radius:40px; box-shadow:0 4px 20px rgba(255,103,31,0.4);
+    animation:fadeUp 0.8s ease 0.55s both;
+  }
+
+  /* ── LAYOUT ── */
+  section { max-width:1100px; margin:0 auto; padding:56px 24px; }
+  .section-label { font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:4px; text-transform:uppercase; color:var(--wi-gold); margin-bottom:6px; }
+  .section-title { font-family:'Bebas Neue',sans-serif; font-size:44px; letter-spacing:2px; margin-bottom:30px; display:flex; align-items:center; gap:14px; }
+  .section-title img { width:36px; height:24px; object-fit:cover; border-radius:3px; border:1px solid rgba(255,255,255,0.15); }
+
+  /* ── HIGHLIGHTS ── */
+  .highlights-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+  .highlight-card { background:var(--bg-card); border:1px solid rgba(255,255,255,0.07); border-radius:10px; padding:20px 22px; position:relative; overflow:hidden; }
+  .highlight-card::before { content:attr(data-emoji); position:absolute; right:16px; top:14px; font-size:32px; opacity:0.15; }
+  .highlight-title { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--text-muted); margin-bottom:4px; }
+  .highlight-value { font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:1.5px; display:flex; align-items:center; gap:8px; }
+  .highlight-sub { font-size:13px; color:var(--text-muted); margin-top:3px; }
+  .hflag { width:22px; height:15px; object-fit:cover; border-radius:2px; border:1px solid rgba(255,255,255,0.2); flex-shrink:0; }
+
+  /* ── SCORECARD ── */
+  .card { background:var(--bg-card); border:1px solid rgba(255,255,255,0.07); border-radius:12px; overflow:hidden; margin-bottom:22px; }
+  .card-header { padding:15px 22px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.07); }
+  .card-header h3 { font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:2px; display:flex; align-items:center; gap:10px; }
+  .card-header h3 img { width:28px; height:19px; object-fit:cover; border-radius:3px; border:1px solid rgba(255,255,255,0.15); }
+  .innings-badge { font-size:11px; letter-spacing:2px; text-transform:uppercase; padding:4px 12px; border-radius:20px; background:rgba(255,255,255,0.06); color:var(--text-muted); }
+  .win-badge { background:rgba(111,207,151,0.1); color:#6fcf97; }
+  table { width:100%; border-collapse:collapse; }
+  thead th { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--text-muted); padding:10px 16px; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); background:rgba(255,255,255,0.02); }
+  thead th:not(:first-child) { text-align:center; }
+  tbody tr { border-bottom:1px solid rgba(255,255,255,0.04); transition:background 0.2s; }
+  tbody tr:hover { background:rgba(255,255,255,0.03); }
+  tbody tr:last-child { border:none; }
+  tbody td { padding:10px 16px; font-size:15px; }
+  tbody td:not(:first-child) { text-align:center; color:var(--text-muted); }
+  .player-name { font-weight:600; color:var(--text-main); }
+  .dismissal { font-size:12px; color:var(--text-muted); margin-top:1px; }
+  .hi-r { color:var(--wi-gold) !important; font-weight:700; }
+  .hi-w { color:#ef9a9a !important; font-weight:700; }
+  .total-row td { background:rgba(255,255,255,0.04); font-weight:700; font-size:16px; color:var(--text-main) !important; border-top:1px solid rgba(255,255,255,0.1); }
+
+  /* ── PLAYER CARDS ── */
+  .players-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(185px,1fr)); gap:18px; }
+  .player-card {
+    background:var(--bg-card); border:1px solid rgba(255,255,255,0.07); border-radius:12px;
+    overflow:hidden; position:relative; transition:transform 0.3s, box-shadow 0.3s; cursor:default;
+  }
+  .player-card:hover { transform:translateY(-7px); }
+  .player-card.ind-card { border-top:3px solid var(--ind-orange); }
+  .player-card.ind-card:hover { box-shadow:0 18px 42px rgba(255,103,31,0.22); }
+  .player-card.wi-card  { border-top:3px solid var(--wi-gold); }
+  .player-card.wi-card:hover  { box-shadow:0 18px 42px rgba(255,199,44,0.22); }
+
+  /* Avatar block — replaces photos */
+  .player-avatar {
+    width:100%; height:180px;
+    display:flex; align-items:center; justify-content:center;
+    position:relative; overflow:hidden;
+  }
+  .ind-card .player-avatar {
+    background:linear-gradient(145deg, #0a1628 0%, #051040 60%, #0d1a38 100%);
+  }
+  .wi-card .player-avatar {
+    background:linear-gradient(145deg, #1a0808 0%, #3a1000 60%, #200a00 100%);
+  }
+  /* decorative cricket-ball ring */
+  .player-avatar::before {
+    content:'';
+    position:absolute; width:130px; height:130px; border-radius:50%;
+    border:1px solid rgba(255,255,255,0.05);
+    top:50%; left:50%; transform:translate(-50%,-50%);
+  }
+  .player-avatar::after {
+    content:'';
+    position:absolute; width:100px; height:100px; border-radius:50%;
+    border:1px dashed rgba(255,255,255,0.06);
+    top:50%; left:50%; transform:translate(-50%,-50%);
+  }
+  .avatar-initials {
+    font-family:'Bebas Neue',sans-serif;
+    font-size:52px; letter-spacing:3px; line-height:1;
+    position:relative; z-index:1;
+    user-select:none;
+  }
+  .ind-card .avatar-initials { color:rgba(255,103,31,0.85); }
+  .wi-card  .avatar-initials { color:rgba(255,199,44,0.85); }
+
+  /* flag badge */
+  .flag-badge {
+    position:absolute; top:10px; right:10px; z-index:3;
+    width:30px; height:20px; border-radius:3px; overflow:hidden;
+    border:1px solid rgba(255,255,255,0.3); box-shadow:0 2px 8px rgba(0,0,0,0.6);
+  }
+  .flag-badge img { width:100%; height:100%; object-fit:cover; }
+
+  /* jersey number badge */
+  .jersey-num {
+    position:absolute; bottom:10px; left:12px; z-index:3;
+    font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:2px;
+    color:rgba(255,255,255,0.3);
+  }
+
+  .player-card-body { padding:12px 14px 16px; }
+  .player-card-name { font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:1.5px; margin-bottom:1px; line-height:1.15; }
+  .player-card-role { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--text-muted); margin-bottom:10px; }
+  .player-card-stats { display:flex; gap:7px; }
+  .pstat { display:flex; flex-direction:column; align-items:center; background:rgba(255,255,255,0.04); padding:5px 8px; border-radius:6px; min-width:44px; }
+  .pstat-val { font-family:'Bebas Neue',sans-serif; font-size:19px; line-height:1; }
+  .pstat-lbl { font-size:8px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-muted); }
+  .ind-card .pstat-val { color:var(--ind-orange); }
+  .wi-card  .pstat-val { color:var(--wi-gold); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeDown { from{opacity:0;transform:translateY(-16px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeUp   { from{opacity:0;transform:translateY(20px)}  to{opacity:1;transform:translateY(0)} }
+  .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.7s ease,transform 0.7s ease; }
+  .reveal.in-view { opacity:1; transform:translateY(0); }
+
+  footer { text-align:center; padding:38px 20px; border-top:1px solid rgba(255,255,255,0.06); color:var(--text-muted); font-size:13px; letter-spacing:1px; }
+  footer strong { color:var(--wi-gold); }
+
+  @media(max-width:680px){
+    .matchup{flex-direction:column;gap:16px} .team-block{width:220px} .vs-divider{width:auto}
+    .score-half{padding:20px 22px;min-width:130px} .score-half .runs{font-size:46px}
+    .highlights-grid{grid-template-columns:1fr} .section-title{font-size:32px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="pitch-glow"></div>
+
+  <div class="tournament-label">🏆 ICC T20 World Cup 2026 · Group Stage · 1 March 2026</div>
+
+  <div class="matchup">
+    <div class="team-block team-ind">
+      <div class="team-flag-wrap">
+        <img src="https://flagcdn.com/w160/in.png" alt="India">
+      </div>
+      <div class="team-name">INDIA</div>
+      <div class="team-subtitle">Men in Blue</div>
+    </div>
+    <div class="vs-divider"><div class="vs-text">VS</div></div>
+    <div class="team-block team-wi">
+      <div class="team-flag-wrap">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/18/WestIndiesCricketFlagPre1999.svg" alt="West Indies">
+      </div>
+      <div class="team-name">W.I.</div>
+      <div class="team-subtitle">The Windies</div>
+    </div>
+  </div>
+
+  <div class="venue-tag">📍 Eden Gardens, <span>Kolkata</span> · 19:00 IST</div>
+
+  <div class="score-banner">
+    <div class="score-half wi">
+      <div class="innings">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/18/WestIndiesCricketFlagPre1999.svg" alt="WI"> WEST INDIES
+      </div>
+      <div class="runs">195<small style="font-size:28px">/4</small></div>
+      <div class="overs">20.0 overs</div>
+    </div>
+    <div class="score-divider-mid"></div>
+    <div class="score-half ind">
+      <div class="innings">
+        <img src="https://flagcdn.com/w40/in.png" alt="IND"> INDIA
+      </div>
+      <div class="runs">199<small style="font-size:28px">/5</small></div>
+      <div class="overs">19.2 overs · Won</div>
+    </div>
+  </div>
+
+  <div class="result-pill">🇮🇳 India Won by 5 Wickets</div>
+</div>
+
+
+<!-- ═══ HIGHLIGHTS ═══ -->
+<section class="reveal">
+  <div class="section-label">Match Highlights</div>
+  <div class="section-title">KEY MOMENTS</div>
+  <div class="highlights-grid">
+    <div class="highlight-card" data-emoji="🏏">
+      <div class="highlight-title">Player of the Match</div>
+      <div class="highlight-value" style="color:var(--ind-orange)">
+        <img src="https://flagcdn.com/w40/in.png" class="hflag" alt="IND"> Sanju Samson
+      </div>
+      <div class="highlight-sub">97★ off 50 balls · SR 194 · 12×4 · 4×6</div>
+    </div>
+    <div class="highlight-card" data-emoji="🎯">
+      <div class="highlight-title">Best Bowling — India</div>
+      <div class="highlight-value" style="color:var(--accent-glow)">
+        <img src="https://flagcdn.com/w40/in.png" class="hflag" alt="IND"> Jasprit Bumrah
+      </div>
+      <div class="highlight-sub">2/36 off 4 overs · Economy 9.00</div>
+    </div>
+    <div class="highlight-card" data-emoji="⚡">
+      <div class="highlight-title">Top Scorer — West Indies</div>
+      <div class="highlight-value" style="color:var(--wi-gold)">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/18/WestIndiesCricketFlagPre1999.svg" class="hflag" alt="WI"> Jason Holder
+      </div>
+      <div class="highlight-sub">37★ off 22 balls · SR 168 · 3×6</div>
+    </div>
+    <div class="highlight-card" data-emoji="🌪">
+      <div class="highlight-title">Best Bowling — West Indies</div>
+      <div class="highlight-value" style="color:#ef9a9a;font-size:21px">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/18/WestIndiesCricketFlagPre1999.svg" class="hflag" alt="WI"> Holder &amp; Joseph (2 wkts each)
+      </div>
+      <div class="highlight-sub">Holder 2/38 · Joseph 2/42</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ WI BATTING ═══ -->
+<section class="reveal">
+  <div class="section-label">1st Innings</div>
+  <div class="section-title">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/1/18/WestIndiesCricketFlagPre1999.svg" alt="WI"> WEST INDIES BATTING
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <h3><img src="https://upload.wikimedia.org/wikipedia/commons/1/18/WestIndiesCricketFlagPre1999.svg" alt="WI"> West Indies · 195/4 (20 Ov)</h3>
+      <span class="innings-badge">1st Innings</span>
+    </div>
+    <table>
+      <thead><tr><th>Batter</th><th>R</th><th>B</th><th>4s</th><th>6s</th><th>SR</th></tr></thead>
+      <tbody>
+        <tr><td><div class="player-name">Shai Hope</div><div class="dismissal">b Varun Chakravarthy</div></td><td class="hi-r">32</td><td>33</td><td>3</td><td>1</td><td>96.97</td></tr>
+        <tr><td><div class="player-name">Roston Chase</div><div class="dismissal">c Samson b Bumrah</div></td><td class="hi-r">40</td><td>25</td><td>5</td><td>1</td><td>160.00</td></tr>
+        <tr><td><div class="player-name">Shimron Hetmyer</div><div class="dismissal">c Kishan b Bumrah</div></td><td class="hi-r">27</td><td>12</td><td>1</td><td>2</td><td>225.00</td></tr>
+        <tr><td><div class="player-name">Sherfane Rutherford</div><div class="dismissal">c Kishan b Pandya</div></td><td>14</td><td>9</td><td>0</td><td>1</td><td>155.56</td></tr>
+        <tr><td><div class="player-name">Rovman Powell</div><div class="dismissal">Not Out</div></td><td class="hi-r">34</td><td>19</td><td>3</td><td>2</td><td>178.95</td></tr>
+        <tr><td><div class="player-name">Jason Holder</div><div class="dismissal">Not Out</div></td><td class="hi-r">37</td><td>22</td><td>2</td><td>3</td><td>168.18</td></tr>
+        <tr class="total-row"><td>Total</td><td>195</td><td>—</td><td>14</td><td>10</td><td>9.75</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <h3><img src="https://flagcdn.com/w40/in.png" alt="IND"> India Bowling</h3>
+    </div>
+    <table>
+      <thead><tr><th>Bowler</th><th>O</th><th>M</th><th>R</th><th>W</th><th>ER</th></tr></thead>
+      <tbody>
+        <tr><td class="player-name">Arshdeep Singh</td><td>4</td><td>0</td><td>43</td><td>0</td><td>10.75</td></tr>
+        <tr><td class="player-name">Hardik Pandya</td><td>4</td><td>0</td><td>40</td><td class="hi-w">1</td><td>10.00</td></tr>
+        <tr><td class="player-name">Axar Patel</td><td>4</td><td>0</td><td>35</td><td>0</td><td>8.75</td></tr>
+        <tr><td class="player-name">Jasprit Bumrah</td><td>4</td><td>0</td><td>36</td><td class="hi-w">2</td><td>9.00</td></tr>
+        <tr><td class="player-name">Varun Chakravarthy</td><td>4</td><td>0</td><td>40</td><td class="hi-w">1</td><td>10.00</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<!-- ═══ INDIA BATTING ═══ -->
+<section class="reveal">
+  <div class="section-label">2nd Innings</div>
+  <div class="section-title">
+    <img src="https://flagcdn.com/w40/in.png" alt="IND"> INDIA BATTING
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <h3><img src="https://flagcdn.com/w40/in.png" alt="IND"> India · 199/5 (19.2 Ov)</h3>
+      <span class="innings-badge win-badge">Won ✓</span>
+    </div>
+    <table>
+      <thead><tr><th>Batter</th><th>R</th><th>B</th><th>4s</th><th>6s</th><th>SR</th></tr></thead>
+      <tbody>
+        <tr><td><div class="player-name">Abhishek Sharma</div><div class="dismissal">c Hetmyer b Hosein</div></td><td>10</td><td>11</td><td>2</td><td>0</td><td>90.91</td></tr>
+        <tr><td><div class="player-name">Sanju Samson ⭐</div><div class="dismissal">Not Out</div></td><td class="hi-r">97</td><td>50</td><td>12</td><td>4</td><td>194.00</td></tr>
+        <tr><td><div class="player-name">Ishan Kishan</div><div class="dismissal">c Hetmyer b Holder</div></td><td>10</td><td>6</td><td>2</td><td>0</td><td>166.67</td></tr>
+        <tr><td><div class="player-name">Suryakumar Yadav</div><div class="dismissal">c Rutherford b Joseph</div></td><td>18</td><td>16</td><td>1</td><td>1</td><td>112.50</td></tr>
+        <tr><td><div class="player-name">Tilak Varma</div><div class="dismissal">c Hetmyer b Holder</div></td><td class="hi-r">27</td><td>15</td><td>4</td><td>1</td><td>180.00</td></tr>
+        <tr><td><div class="player-name">Hardik Pandya</div><div class="dismissal">c Holder b Joseph</div></td><td>17</td><td>14</td><td>2</td><td>0</td><td>121.43</td></tr>
+        <tr><td><div class="player-name">Shivam Dube</div><div class="dismissal">Not Out</div></td><td>8</td><td>4</td><td>2</td><td>0</td><td>200.00</td></tr>
+        <tr class="total-row"><td>Total</td><td>199</td><td>—</td><td>25</td><td>6</td><td>10.29</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <h3><img src="https://upload.wikimedia.org/wikipedia/commons/1/18/WestIndiesCricketFlagPre1999.svg" alt="WI"> West Indies Bowling</h3>
+    </div>
+    <table>
+      <thead><tr><th>Bowler</th><th>O</th><th>M</th><th>R</th><th>W</th><th>ER</th></tr></thead>
+      <tbody>
+        <tr><td class="player-name">Akeal Hosein</td><td>2</td><td>0</td><td>22</td><td class="hi-w">1</td><td>11.00</td></tr>
+        <tr><td class="player-name">Matthew Forde</td><td>3</td><td>0</td><td>22</td><td>0</td><td>7.33</td></tr>
+        <tr><td class="player-name">Jason Holder</td><td>4</td><td>0</td><td>38</td><td class="hi-w">2</td><td>9.50</td></tr>
+        <tr><td class="player-name">Gudakesh Motie</td><td>2</td><td>0</td><td>18</td><td>0</td><td>9.00</td></tr>
+        <tr><td class="player-name">Shamar Joseph</td><td>4</td><td>0</td><td>42</td><td class="hi-w">2</td><td>10.50</td></tr>
+        <tr><td class="player-name">Romario Shepherd</td><td>2.2</td><td>0</td><td>34</td><td>0</td><td>14.57</td></tr>
+        <tr><td class="player-name">Roston Chase</td><td>2</td><td>0</td><td>18</td><td>0</td><td>9.00</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<!-- ═══ INDIA PLAYER CARDS ═══ -->
+<section class="reveal">
+  <div class="section-label">India XI · Player Profiles</div>
+  <div class="section-title"><img src="https://flagcdn.com/w40/in.png" alt="IND"> INDIA PLAYERS</div>
+  <div class="players-grid">
+
+    <div class="player-card ind-card">
+      <div class="player-avatar">
+        <div class="flag-badge"><img src="https://flagcdn.com/w40/in.png" alt="India"></div>
+        <div class="avatar-initials">SS</div>
+        <div class="jersey-num">🏏 WK</div>
+      </div>
+      <div class="player-card-body">
+        <div class="player-card-name">Sanju Samson ⭐</div>
+        <div class="player-card-role">Wicketkeeper · Batter</div>
+        <div class="player-card-stats">
+          <div class="pstat"><div class="pstat-val">97</div><div class="pstat-lbl">Runs</div></div>
+          <div class="pstat"><div class="pstat-val">50</div><div class="pstat-lbl">Balls</div></div>
+          <div class="pstat"><div class="pstat-val">194</div><div class="pstat-lbl">SR</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card ind-card">
+      <div class="player-avatar">
+        <div class="flag-badge"><img src="https://flagcdn.com/w40/in.png" alt="India"></div>
+        <div class="avatar-initials">AS</div>
+        <div class="jersey-num">🏏 OPN</div>
+      </div>
+      <div class="player-card-body">
+        <div class="player-card-name">Abhishek Sharma</div>
+        <div class="player-card-role">Opener · All-Rounder</div>
+        <div class="player-card-stats">
+          <div class="pstat"><div class="pstat-val">10</div><div class="pstat-lbl">Runs</div></div>
+          <div class="pstat"><div class="pstat-val">11</div><div class="pstat-lbl">Balls</div></div>
+          <div class="pstat"><div class="pstat-val">91</div><div class="pstat-lbl">SR</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card ind-card">
+      <div class="player-avatar">
+        <div class="flag-badge"><img src="https://flagcdn.com/w40/in.png" alt="India"></div>
+        <div class="avatar-initials">IK</div>
+        <div class="jersey-num">🏏 WK</div>
+      </div>
+      <div class="player-card-body">
+        <div class="player-card-name">Ishan Kishan</div>
+        <div class="player-card-role">Wicketkeeper · Batter</div>
+        <div class="player-card-stats">
+          <div class="pstat"><div class="pstat-val">10</div><div class="pstat-lbl">Runs</div></div>
+          <div class="pstat"><div class="pstat-val">6</div><div class="pstat-lbl">Balls</div></div>
+          <div class="pstat"><div class="pstat-val">167</div><div class="pstat-lbl">SR</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card ind-card">
+      <div class="player-avatar">
+        <div class="flag-badge"><img src="https://flagcdn.com/w40/in.png" alt="India"></div>
+        <div class="avatar-initials">SKY</div>
+        <div class="jersey-num">🏏 BAT</div>
+      </div>
+      <div class="player-card-body">
+        <div class="player-card-name">Suryakumar Yadav</div>
+        <div class="player-card-role">Batter · SKY</div>
+        <div class="player-card-stats">
+          <div class="pstat"><div class="pstat-val">18</div><div class="pstat-lbl">Runs</div></div>
+          <div class="pstat"><div class="pstat-val">16</div><div class="pstat-lbl">Balls</div></div>
+          <div class="pstat"><div class="pstat-val">113</div><div class="pstat-lbl">SR</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card ind-card">
+      <div class="player-avatar">
+        <div class="flag-badge"><img src="https://flagcdn.com/w40/in.png" alt="India"></div>
+        <div class="avatar-initials">TV</div>
+        <div class="jersey-num">🏏 BAT</div>
+      </div>
+      <div class="player-card-body">
+        <div class="player-card-name">Tilak Varma</div>
+        <div class="player-card-role">Batter</div>
+        <div class="player-card-stats">
+          <div class="pstat"><div class="pstat-val">27</div><div class="pstat-lbl">Runs</div></div>
+          <div class="pstat"><div class="pstat-val">15</div><div class="pstat-lbl">Balls</div></div>
+          <div class="pstat"><div class="pstat-val">180</div><div class="pstat-lbl">SR</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card ind-card">
+      <div class="player-avatar">
+        <div class="flag-badge"><img src="https://flagcdn.com/w40/in.png" alt="India"></div>
+        <div class="avatar-initials">HP</div>
+        <div class="jersey-num">🏏 AR</div>
+      </div>
+      <div class="player-card-body">
+        <div class="player-card-name">Hardik Pandya</div>
+        <div class="player-card-role">All-Rounder</div>
+        <div class="player-card-stats">
+          <div class="pstat"><div class="pstat-val">17</div><div class="pstat-lbl">Runs</div></div>
+          <div class="pstat"><div class="pstat-val">1</div><div class="pstat-lbl">Wkt</div></div>
+          <div class="pstat"><div class="pstat-val">40</div><div class="pstat-lbl">R Con</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card ind-card">
+      <div class="player-avatar">
+        <div class="flag-badge"><img src="https://flagcdn.com/w40/in.png" alt="India"></div>
+        <div class="avatar-initials">SD</div>
+        <div class="jersey-num">🏏 AR</div>
+      </div>
+      <div class="player-card-body">
+        <div class="player-card-name">Shivam Dube</div>
+        <div class="player-card-role">All-Rounder</div>
+        <div class="player-card-stats">
+          <div class="pstat"><div class="pstat-val">8</div><div class="pstat-lbl">Runs</div></div>
+          <div class="pstat"><div class="pstat-val">4</div><div class="pstat-lbl">Balls</div></div>
+          <div class="pstat"><div class="pstat-val">200</div><div class="pstat-lbl">SR</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card ind-card">
+      <div class="player-avatar">
+        <div class="flag-badge"><img src="https://flagcdn.com/w40/in.png" alt="India"></div>
+        <div class="avatar-initials">AP</div>
+        <div class="jersey-num">🎯 SPn</div>
+      </div>
+      <div class="player-card-body">
+        <div class="player-card-name">Axar Patel</div>
+        <div class="player-card-role">Spin All-Rounder</div>
+        <div class="player-card-stats">
+          <div class="pstat"><div class="pstat-val">4</div><div class="pstat-lbl">Overs</div></div>
+          <div class="pstat"><div class="pstat-val">0</div><div class="pstat-lbl">Wkts</div></div>
+          <div class="pstat"><div class="pstat-val">8.75</div><div class="pstat-lbl">Econ</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card ind-card">
+      <div class="player-avatar">
+        <div class="flag-badge"><img src="https://flagcdn.com/w40/in.png" alt="India"></div>
+        <div class="avatar-initials">VC</div>
+        <div class="jersey-num">🎯 SPn</div>
+      </div>
+      <div class="player-card-body">
+        <div class="player-card-name">Varun Chakravarthy</div>
+        <div class="player-card-role">Mystery Spinner</div>
+        <div class="player-card-stats">
+          <div class="pstat"><div class="pstat-val">4</div><div class="pstat-lbl">Overs</div></div>
+          <div class="pstat"><div class="pstat-val">1</div><div class="pstat-lbl">Wkt</div></div>
+          <div class="pstat"><div class="pstat-val">10</div><div class="pstat-lbl">Econ</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card ind-card">
+      <div class="player-avatar">
+        <div class="flag-badge"><img src="https://flagcdn.com/w40/in.png" alt="India"></div>
+        <div class="avatar-initials">JB</div>
+        <div class="jersey-num">🎯 PACE</div>
+      </div>
+      <div class="player-card-body">
+        <div class="player-card-name">Jasprit Bumrah</div>
+        <div class="player-card-role">Fast Bowler</div>
+        <div class="player-card-stats">
+          <div class="pstat"><div class="pstat-val">2</div><div class="pstat-lbl">Wkts</div></div>
+          <div class="pstat"><div class="pstat-val">36</div><div class="pstat-lbl">Runs</div></div>
+          <div class="pstat"><div class="pstat-val">9.0</div><div class="pstat-lbl">Econ</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card ind-card">
+      <div class="player-avatar">
+        <div class="flag-badge"><img src="https://flagcdn.com/w40/in.png" alt="India"></div>
+        <div class="avatar-initials">ArS</div>
+        <div class="jersey-num">🎯 PACE</div>
+      </div>
+      <div class="player-card-body">
+        <div class="player-card-name">Arshdeep Singh</div>
+        <div class="player-card-role">Fast Bowler</div>
+        <div class="player-card-stats">
+          <div class="pstat"><div class="pstat-val">4</div><div class="pstat-lbl">Overs</div></div>
+          <div class="pstat"><div class="pstat-val">0</div><div class="pstat-lbl">Wkts</div></div>
+          <div class="pstat"><div class="pstat-val">10.75</div><div class="pstat-lbl">Econ</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══ WEST INDIES PLAYER CARDS ═══ -->
+<section class="reveal">
+  <div class="section-label">West Indies XI · Player Profiles</div>
+  <div class="section-title">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/1/18/WestIndiesCricketFlagPre1999.svg" alt="WI"> WEST INDIES PLAYERS
+  </div>
+  <div class="players-grid">
+
+    <div class="player-card wi-card">
+      <div class="player-avatar">
+        <div class="flag-badge"><img src="https://upload.wikimedia.org/wikipedia/commons/1/18/WestIndiesCricketFlagPre1999.svg" alt="WI"></div>
+        <div class="avatar-initials">SH</div>
+        <div class="jersey-num">🏏 WK</div>
+      </div>
+      <div class="player-card-body">
+        <div class="player-card-name">Shai Hope</div>
+        <div class="player-card-role">Wicketkeeper · Opener</div>
+        <div class="player-card-stats">
+          <div class="pstat"><div class="pstat-val">32</div><div class="pstat-lbl">Runs</div></div>
+          <div class="pstat"><div class="pstat-val">33</div><div class="pstat-lbl">Balls</div></div>
+          <div class="pstat"><div class="pstat-val">97</div><div class="pstat-lbl">SR</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card wi-card">
+      <div class="player-avatar">
+        <div class="flag-badge"><img src="https://upload.wikimedia.org/wikipedia/commons/1/18/WestIndiesCricketFlagPre1999.svg" alt="WI"></div>
+        <div class="avatar-initials">RC</div>
+        <div class="jersey-num">🏏 AR</div>
+      </div>
+      <div class="player-card-body">
+        <div class="player-card-name">Roston Chase</div>
+        <div class="player-card-role">All-Rounder</div>
+        <div class="player-card-stats">
+          <div class="pstat"><div class="pstat-val">40</div><div class="pstat-lbl">Runs</div></div>
+          <div class="pstat"><div class="pstat-val">25</div><div class="pstat-lbl">Balls</div></div>
+          <div class="pstat"><div class="pstat-val">160</div><div class="pstat-lbl">SR</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card wi-card">
+      <div class="player-avatar">
+        <div class="flag-badge"><img src="https://upload.wikimedia.org/wikipedia/commons/1/18/WestIndiesCricketFlagPre1999.svg" alt="WI"></div>
+        <div class="avatar-initials">SHe</div>
+        <div class="jersey-num">🏏 BAT</div>
+      </div>
+      <div class="player-card-body">
+        <div class="player-card-name">Shimron Hetmyer</div>
+        <div class="player-card-role">Batter</div>
+        <div class="player-card-stats">
+          <div class="pstat"><div class="pstat-val">27</div><div class="pstat-lbl">Runs</div></div>
+          <div class="pstat"><div class="pstat-val">12</div><div class="pstat-lbl">Balls</div></div>
+          <div class="pstat"><div class="pstat-val">225</div><div class="pstat-lbl">SR</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card wi-card">
+      <div class="player-avatar">
+        <div class="flag-badge"><img src="https://upload.wikimedia.org/wikipedia/commons/1/18/WestIndiesCricketFlagPre1999.svg" alt="WI"></div>
+        <div class="avatar-initials">SR</div>
+        <div class="jersey-num">🏏 BAT</div>
+      </div>
+      <div class="player-card-body">
+        <div class="player-card-name">Sherfane Rutherford</div>
+        <div class="player-card-role">Batter</div>
+        <div class="player-card-stats">
+          <div class="pstat"><div class="pstat-val">14</div><div class="pstat-lbl">Runs</div></div>
+          <div class="pstat"><div class="pstat-val">9</div><div class="pstat-lbl">Balls</div></div>
+          <div class="pstat"><div class="pstat-val">156</div><div class="pstat-lbl">SR</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card wi-card">
+      <div class="player-avatar">
+        <div class="flag-badge"><img src="https://upload.wikimedia.org/wikipedia/commons/1/18/WestIndiesCricketFlagPre1999.svg" alt="WI"></div>
+        <div class="avatar-initials">RP</div>
+        <div class="jersey-num">🏏 CAP</div>
+      </div>
+      <div class="player-card-body">
+        <div class="player-card-name">Rovman Powell</div>
+        <div class="player-card-role">Batter · Captain</div>
+        <div class="player-card-stats">
+          <div class="pstat"><div class="pstat-val">34</div><div class="pstat-lbl">Runs</div></div>
+          <div class="pstat"><div class="pstat-val">19</div><div class="pstat-lbl">Balls</div></div>
+          <div class="pstat"><div class="pstat-val">179</div><div class="pstat-lbl">SR</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card wi-card">
+      <div class="player-avatar">
+        <div class="flag-badge"><img src="https://upload.wikimedia.org/wikipedia/commons/1/18/WestIndiesCricketFlagPre1999.svg" alt="WI"></div>
+        <div class="avatar-initials">JH</div>
+        <div class="jersey-num">🏏 AR</div>
+      </div>
+      <div class="player-card-body">
+        <div class="player-card-name">Jason Holder</div>
+        <div class="player-card-role">All-Rounder</div>
+        <div class="player-card-stats">
+          <div class="pstat"><div class="pstat-val">37</div><div class="pstat-lbl">Runs</div></div>
+          <div class="pstat"><div class="pstat-val">2</div><div class="pstat-lbl">Wkts</div></div>
+          <div class="pstat"><div class="pstat-val">168</div><div class="pstat-lbl">SR</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card wi-card">
+      <div class="player-avatar">
+        <div class="flag-badge"><img src="https://upload.wikimedia.org/wikipedia/commons/1/18/WestIndiesCricketFlagPre1999.svg" alt="WI"></div>
+        <div class="avatar-initials">RS</div>
+        <div class="jersey-num">🎯 PACE</div>
+      </div>
+      <div class="player-card-body">
+        <div class="player-card-name">Romario Shepherd</div>
+        <div class="player-card-role">Fast Bowler</div>
+        <div class="player-card-stats">
+          <div class="pstat"><div class="pstat-val">2.2</div><div class="pstat-lbl">Overs</div></div>
+          <div class="pstat"><div class="pstat-val">0</div><div class="pstat-lbl">Wkts</div></div>
+          <div class="pstat"><div class="pstat-val">14.6</div><div class="pstat-lbl">Econ</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card wi-card">
+      <div class="player-avatar">
+        <div class="flag-badge"><img src="https://upload.wikimedia.org/wikipedia/commons/1/18/WestIndiesCricketFlagPre1999.svg" alt="WI"></div>
+        <div class="avatar-initials">SJ</div>
+        <div class="jersey-num">🎯 PACE</div>
+      </div>
+      <div class="player-card-body">
+        <div class="player-card-name">Shamar Joseph</div>
+        <div class="player-card-role">Fast Bowler</div>
+        <div class="player-card-stats">
+          <div class="pstat"><div class="pstat-val">2</div><div class="pstat-lbl">Wkts</div></div>
+          <div class="pstat"><div class="pstat-val">42</div><div class="pstat-lbl">Runs</div></div>
+          <div class="pstat"><div class="pstat-val">10.5</div><div class="pstat-lbl">Econ</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card wi-card">
+      <div class="player-avatar">
+        <div class="flag-badge"><img src="https://upload.wikimedia.org/wikipedia/commons/1/18/WestIndiesCricketFlagPre1999.svg" alt="WI"></div>
+        <div class="avatar-initials">AH</div>
+        <div class="jersey-num">🎯 SPn</div>
+      </div>
+      <div class="player-card-body">
+        <div class="player-card-name">Akeal Hosein</div>
+        <div class="player-card-role">Left-arm Spinner</div>
+        <div class="player-card-stats">
+          <div class="pstat"><div class="pstat-val">2</div><div class="pstat-lbl">Overs</div></div>
+          <div class="pstat"><div class="pstat-val">1</div><div class="pstat-lbl">Wkt</div></div>
+          <div class="pstat"><div class="pstat-val">11</div><div class="pstat-lbl">Econ</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card wi-card">
+      <div class="player-avatar">
+        <div class="flag-badge"><img src="https://upload.wikimedia.org/wikipedia/commons/1/18/WestIndiesCricketFlagPre1999.svg" alt="WI"></div>
+        <div class="avatar-initials">GM</div>
+        <div class="jersey-num">🎯 SPn</div>
+      </div>
+      <div class="player-card-body">
+        <div class="player-card-name">Gudakesh Motie</div>
+        <div class="player-card-role">Left-arm Spinner</div>
+        <div class="player-card-stats">
+          <div class="pstat"><div class="pstat-val">2</div><div class="pstat-lbl">Overs</div></div>
+          <div class="pstat"><div class="pstat-val">0</div><div class="pstat-lbl">Wkts</div></div>
+          <div class="pstat"><div class="pstat-val">9.0</div><div class="pstat-lbl">Econ</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card wi-card">
+      <div class="player-avatar">
+        <div class="flag-badge"><img src="https://upload.wikimedia.org/wikipedia/commons/1/18/WestIndiesCricketFlagPre1999.svg" alt="WI"></div>
+        <div class="avatar-initials">MF</div>
+        <div class="jersey-num">🎯 PACE</div>
+      </div>
+      <div class="player-card-body">
+        <div class="player-card-name">Matthew Forde</div>
+        <div class="player-card-role">Fast Bowler</div>
+        <div class="player-card-stats">
+          <div class="pstat"><div class="pstat-val">3</div><div class="pstat-lbl">Overs</div></div>
+          <div class="pstat"><div class="pstat-val">0</div><div class="pstat-lbl">Wkts</div></div>
+          <div class="pstat"><div class="pstat-val">7.33</div><div class="pstat-lbl">Econ</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<footer>
+  Live match data · <strong>T20 World Cup 2026</strong> · Eden Gardens, Kolkata · 1 March 2026 &nbsp;·&nbsp;
+  <img src="https://flagcdn.com/w40/in.png" style="height:13px;border-radius:2px;vertical-align:middle;border:1px solid rgba(255,255,255,0.2)" alt="IND">
+  <span style="color:var(--ind-orange)"> India won by 5 wickets</span>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); obs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  reveals.forEach(r => obs.observe(r));
+</script>
+</body>
+</html>

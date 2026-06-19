@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Holi 🎨</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&family=Dancing+Script:wght@700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;font-family:'Poppins',sans-serif;overflow-x:hidden;cursor:none}
+.cursor{width:18px;height:18px;border-radius:50%;background:radial-gradient(circle,#ff6b6b,#ffd93d);position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen}
+#canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;z-index:2;padding:20px}
+.holi-title{font-family:'Dancing Script',cursive;font-size:clamp(3.5rem,10vw,9rem);background:linear-gradient(135deg,#ff6b6b,#ffd93d,#6bcb77,#4d96ff,#ff6bff);background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:gs 3s ease infinite,float 3s ease-in-out infinite}
+.subtitle{font-size:clamp(.9rem,2.5vw,1.5rem);color:rgba(255,255,255,.8);margin-top:10px;letter-spacing:5px;text-transform:uppercase}
+.emojis{font-size:clamp(1.8rem,4vw,3.5rem);margin:20px 0;animation:bounce 1s ease infinite alternate}
+@keyframes gs{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+@keyframes bounce{from{transform:scale(1)}to{transform:scale(1.1)}}
+.color-ball{position:fixed;border-radius:50%;animation:fb linear infinite;opacity:.6;pointer-events:none;z-index:1;filter:blur(1px)}
+@keyframes fb{0%{transform:translateY(110vh) rotate(0deg);opacity:0}10%{opacity:.6}90%{opacity:.6}100%{transform:translateY(-20vh) rotate(720deg);opacity:0}}
+.lyrics-section{position:relative;z-index:2;padding:60px 20px;max-width:780px;margin:0 auto}
+.song-card{background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.12);border-radius:30px;padding:50px 35px;position:relative}
+.song-card::before{content:'';position:absolute;inset:-2px;border-radius:30px;background:linear-gradient(135deg,#ff6b6b,#ffd93d,#6bcb77,#4d96ff,#ff6bff,#ff6b6b);background-size:400% 400%;animation:gs 4s ease infinite;z-index:-1;opacity:.4}
+.song-title{font-family:'Dancing Script',cursive;font-size:clamp(2rem,5vw,3.2rem);text-align:center;background:linear-gradient(135deg,#ffd93d,#ff6b6b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+.movie{text-align:center;color:rgba(255,255,255,.45);font-size:.85rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:35px}
+.lb{margin:28px 0;text-align:center}
+.ll{font-size:clamp(1rem,2.4vw,1.35rem);color:white;line-height:2.2;font-weight:300;display:block;transition:all .3s;padding:3px 8px}
+.ll:hover{color:#ffd93d;text-shadow:0 0 20px rgba(255,217,61,.6);transform:scale(1.03)}
+.ll.h{font-size:clamp(1.1rem,2.8vw,1.55rem);font-weight:600;background:linear-gradient(135deg,#ff6b6b,#ffd93d,#6bcb77);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:gs 3s ease infinite}
+.div{text-align:center;font-size:1.4rem;margin:18px 0;opacity:.45}
+.cs{position:relative;z-index:2;padding:60px 20px;text-align:center}
+.sh{font-family:'Dancing Script',cursive;font-size:clamp(2rem,5vw,3rem);color:white;margin-bottom:35px}
+.circles{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;max-width:550px;margin:0 auto}
+.circle{width:75px;height:75px;border-radius:50%;cursor:pointer;transition:all .3s;animation:pulse 2s ease-in-out infinite}
+.circle:hover{transform:scale(1.35) rotate(15deg)}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.btn{display:inline-block;margin:35px auto;padding:16px 48px;font-size:1.1rem;font-weight:700;color:white;background:linear-gradient(135deg,#ff6b6b,#ffd93d,#6bcb77,#4d96ff);background-size:300% 300%;animation:gs 2s ease infinite;border:none;border-radius:50px;cursor:pointer;letter-spacing:2px;text-transform:uppercase;box-shadow:0 10px 40px rgba(255,107,107,.4);transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-4px) scale(1.05)}
+footer{position:relative;z-index:2;text-align:center;padding:40px 20px;color:rgba(255,255,255,.35);font-size:.82rem;letter-spacing:2px}
+.pop{position:fixed;font-size:2rem;pointer-events:none;z-index:9998;animation:pa 1s ease forwards;user-select:none}
+@keyframes pa{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(.4)}}
+.wish{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:28px;max-width:600px;margin:0 auto 50px;text-align:center;position:relative;z-index:2}
+.wt{font-family:'Dancing Script',cursive;font-size:clamp(1.5rem,4vw,2.4rem);background:linear-gradient(135deg,#ff6b6b,#ffd93d,#6bcb77,#4d96ff,#ff6bff);background-size:300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:gs 3s infinite}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<canvas id="canvas"></canvas>
+<section class="hero">
+  <div class="emojis">🎨 🌈 💦 🎉 🌸</div>
+  <h1 class="holi-title">Happy Holi!</h1>
+  <p class="subtitle">Festival of Colors &amp; Joy</p>
+  <button class="btn" onclick="bigSplash()">🎨 Throw Colors!</button>
+</section>
+<div style="padding:0 20px;position:relative;z-index:2">
+  <div class="wish">
+    <p class="wt">🌟 Rang Barse, Khushiyan Aaye 🌟</p>
+    <p style="color:rgba(255,255,255,.55);margin-top:10px;font-size:.95rem">Wishing you a life full of colors, love &amp; laughter!</p>
+  </div>
+</div>
+<section class="lyrics-section">
+  <div class="song-card">
+    <h2 class="song-title">🎵 Balam Pichkari 🎵</h2>
+    <p class="movie">♪ Yeh Jawaani Hai Deewani (2013) ♪</p>
+    <div class="lb"><span class="ll h">बलम पिचकारी जो तूने मुझे मारी</span><span class="ll">Balam Pichkari jo tune mujhe maari</span><span class="ll h">तो सीधी साधी छोरी शराबी हो गई</span><span class="ll">Toh seedhi saadhi chori sharaabi ho gayi</span></div>
+    <div class="div">🌈 ✦ 🌈</div>
+    <div class="lb"><span class="ll h">होली के दिन दिल खिल जाते हैं</span><span class="ll">Holi ke din dil khil jaate hain</span><span class="ll h">रंगों में रंग मिल जाते हैं</span><span class="ll">Rangon mein rang mil jaate hain</span></div>
+    <div class="div">🎨 ✦ 🎨</div>
+    <div class="lb"><span class="ll h">गुलाल उड़े लाल नीले हरे पीले</span><span class="ll">Gulaal ude laal neele hare peele</span><span class="ll h">ये मौसम है रंगीला</span><span class="ll">Yeh mausam hai rangeela</span></div>
+    <div class="div">💦 ✦ 💦</div>
+    <div class="lb"><span class="ll h">बलम पिचकारी जो तूने मुझे मारी</span><span class="ll">Balam Pichkari jo tune mujhe maari</span><span class="ll h">तो सीधी साधी छोरी शराबी हो गई</span><span class="ll">Toh seedhi saadhi chori sharaabi ho gayi</span></div>
+    <div class="div">🌸 ✦ 🌸</div>
+    <div class="lb"><span class="ll h">आजा खेले होली रे</span><span class="ll">Aaja khele holi re</span><span class="ll h">रंग दे तू मोहे लाल गुलाल से</span><span class="ll">Rang de tu mohe laal gulaal se</span></div>
+    <div class="div">🎉 ✦ 🎉</div>
+    <div class="lb"><span class="ll h">रंग बरसे भीगे चुनरवाली</span><span class="ll">Rang barse bheege chunarwali</span><span class="ll h">रंग बरसे... 🎶</span><span class="ll">Rang barse... 🎶</span></div>
+    <div class="div">💛 ✦ 💛</div>
+    <div class="lb"><span class="ll h">बलम पिचकारी जो तूने मुझे मारी</span><span class="ll">Balam Pichkari jo tune mujhe maari</span><span class="ll h">तो सीधी साधी छोरी शराबी हो गई... 🎵</span><span class="ll">Toh seedhi saadhi chori sharaabi ho gayi... 🎵</span></div>
+  </div>
+</section>
+<section class="cs">
+  <h2 class="sh">🌈 Colors of Holi 🌈</h2>
+  <div class="circles">
+    <div class="circle" style="background:#ff6b6b;box-shadow:0 0 20px #ff6b6b" onclick="splashColor('#ff6b6b')"></div>
+    <div class="circle" style="background:#ffd93d;box-shadow:0 0 20px #ffd93d;animation-delay:.2s" onclick="splashColor('#ffd93d')"></div>
+    <div class="circle" style="background:#6bcb77;box-shadow:0 0 20px #6bcb77;animation-delay:.4s" onclick="splashColor('#6bcb77')"></div>
+    <div class="circle" style="background:#4d96ff;box-shadow:0 0 20px #4d96ff;animation-delay:.6s" onclick="splashColor('#4d96ff')"></div>
+    <div class="circle" style="background:#ff6bff;box-shadow:0 0 20px #ff6bff;animation-delay:.8s" onclick="splashColor('#ff6bff')"></div>
+    <div class="circle" style="background:#ff9f43;box-shadow:0 0 20px #ff9f43;animation-delay:1s" onclick="splashColor('#ff9f43')"></div>
+  </div>
+  <p style="color:rgba(255,255,255,.4);margin-top:18px;font-size:.88rem">👆 Click circles or anywhere to throw colors!</p>
+</section>
+<footer><p>Made with 💛 | Happy Holi 2025 | रंगों भरी दुनिया में आपका स्वागत है 🎨</p></footer>
+<script>
+const cursor=document.getElementById('cursor');
+document.addEventListener('mousemove',e=>{cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px'});
+const canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d');
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight}resize();
+window.addEventListener('resize',resize);
+const C=['#ff6b6b','#ffd93d','#6bcb77','#4d96ff','#ff6bff','#ff9f43','#c0392b','#8e44ad','#1abc9c'];
+function ball(){const b=document.createElement('div');b.className='color-ball';const s=Math.random()*28+10;b.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}vw;background:${C[Math.random()*C.length|0]};animation-duration:${Math.random()*8+6}s;animation-delay:${Math.random()*3}s;box-shadow:0 0 ${s}px currentColor`;document.body.appendChild(b);setTimeout(()=>b.remove(),16000)}
+setInterval(ball,500);for(let i=0;i<15;i++)ball();
+let P=[];
+function addP(x,y,c,n=25){for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,s=Math.random()*7+2;P.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,c,r:Math.random()*10+4,a:1,d:Math.random()*.02+.015})}}
+function anim(){ctx.clearRect(0,0,canvas.width,canvas.height);P=P.filter(p=>p.a>0);P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.15;p.a-=p.d;ctx.save();ctx.globalAlpha=p.a;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.c;ctx.shadowColor=p.c;ctx.shadowBlur=12;ctx.fill();ctx.restore()});requestAnimationFrame(anim)}
+anim();
+document.addEventListener('click',e=>{addP(e.clientX,e.clientY,C[Math.random()*C.length|0],30);popE(e.clientX,e.clientY)});
+const EM=['🎨','💦','🌈','✨','🎉','🌸','💛','💖','🎊','🌺'];
+function popE(x,y){const el=document.createElement('div');el.className='pop';el.textContent=EM[Math.random()*EM.length|0];el.style.left=x+'px';el.style.top=y+'px';el.style.setProperty('--tx',(Math.random()*120-60)+'px');el.style.setProperty('--ty',(Math.random()*-100-20)+'px');document.body.appendChild(el);setTimeout(()=>el.remove(),1000)}
+function bigSplash(){for(let i=0;i<10;i++)setTimeout(()=>addP(Math.random()*innerWidth,Math.random()*innerHeight,C[Math.random()*C.length|0],45),i*100)}
+function splashColor(c){for(let i=0;i<5;i++)setTimeout(()=>addP(Math.random()*innerWidth,Math.random()*innerHeight,c,55),i*80)}
+</script>
+</body>
+</html>
